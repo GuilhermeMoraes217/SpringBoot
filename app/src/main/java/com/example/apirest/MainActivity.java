@@ -67,7 +67,6 @@ public class MainActivity extends AppCompatActivity {
                 if(response.isSuccessful()) {
                     listPersona = response.body();
                     listView.setAdapter(new PersonaAdapter(MainActivity.this,R.layout.content_main,listPersona));
-                    Toast.makeText(MainActivity.this, "Lista vazia 2", Toast.LENGTH_SHORT).show();
                 }
             }
 
