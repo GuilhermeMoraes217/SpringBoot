@@ -16,6 +16,8 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     PersonaService personaService;
     List<Persona>listPersona=new ArrayList<>();
     ListView listView;
+    TextView textListaVazia;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,8 +41,7 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        listView=(ListView)findViewById(R.id.listView);
-
+        listView=findViewById(R.id.listView);
         listPersons();
 
         FloatingActionButton fab = findViewById(R.id.fabe);
@@ -65,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
                 if(response.isSuccessful()) {
                     listPersona = response.body();
                     listView.setAdapter(new PersonaAdapter(MainActivity.this,R.layout.content_main,listPersona));
+                    Toast.makeText(MainActivity.this, "Lista vazia 2", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -73,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.e("Error:",t.getMessage());
             }
         });
+
     }
 
     @Override
