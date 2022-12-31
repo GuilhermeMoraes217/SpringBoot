@@ -31,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
     PersonaService personaService;
     List<Persona>listPersona=new ArrayList<>();
     ListView listView;
-    TextView textListaVazia;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +38,8 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        //setSupportActionBar(toolbar);
+        toolbar.setTitle("Lista de Contatos Sigatec informatica");
 
         listView=findViewById(R.id.listView);
         listPersons();
@@ -98,5 +98,13 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        listPersons();
+
     }
 }
