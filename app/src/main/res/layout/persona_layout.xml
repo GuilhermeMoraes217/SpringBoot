@@ -28,7 +28,7 @@
             android:id="@+id/nombres"
             android:layout_width="match_parent"
             android:layout_height="50px"
-            android:text="NOMBRES"/>
+            android:text="NOMES"/>
 
         <EditText
             android:id="@+id/txtNombres"
@@ -38,7 +38,7 @@
             android:id="@+id/apellidos"
             android:layout_width="match_parent"
             android:layout_height="50px"
-            android:text="APELLIDOS"/>
+            android:text="APELIDOS"/>
 
         <EditText
             android:id="@+id/txtApellidos"
@@ -49,18 +49,18 @@
             android:id="@+id/btnSave"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="SAVE" />
+            android:text="SALVAR" />
         <Button
             android:id="@+id/btnEliminar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Eliminar" />
+            android:text="EXCLUIR" />
 
         <Button
             android:id="@+id/btnVolver"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Volver" />
+            android:text="VOLTAR" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
