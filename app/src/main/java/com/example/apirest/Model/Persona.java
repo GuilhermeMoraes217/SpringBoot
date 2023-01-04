@@ -5,15 +5,15 @@ import com.google.gson.annotations.SerializedName;
 
 public class Persona {
 
-    @SerializedName("id")
+    @SerializedName("ID")
     @Expose
     private int id;
 
-    @SerializedName("nombres")
+    @SerializedName(value = "nombres", alternate = "NOMBRES")
     @Expose
     private String nombres;
 
-    @SerializedName("apellidos")
+    @SerializedName(value = "apellidos", alternate = "APELLIDOS")
     @Expose
     private String apellidos;
 

@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                Intent intent=new Intent(MainActivity.this,PersonaActivity.class);
-               intent.putExtra("ID","");
+                intent.putExtra("ID","");
                 intent.putExtra("NOMBRE","");
                 intent.putExtra("APELLIDO","");
                startActivity(intent);

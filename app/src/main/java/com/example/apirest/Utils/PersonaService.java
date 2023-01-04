@@ -13,15 +13,15 @@ import retrofit2.http.Path;
 public interface PersonaService {
 
     @GET("listar")
-    Call<List<Persona>> getPersonas();
+    Call<List<Persona>>  getPersonas();
 
     @POST("agregar")
     Call<Persona>addPersona(@Body Persona persona);
 
-    @POST("actualizar/{id}")
-    Call<Persona>updatePersona(@Body Persona persona,@Path("id") int id);
+    @POST("actualizar/{ID}")
+    Call<Persona>updatePersona(@Body Persona persona,@Path("ID") int id);
 
-    @POST("eliminar/{id}")
-    Call<Persona>deletePersona(@Path("id")int id);
+    @POST("eliminar/{ID}")
+    Call<Persona>deletePersona(@Path("ID")int id);
 
 }
