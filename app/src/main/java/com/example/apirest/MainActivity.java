@@ -1,23 +1,30 @@
 package com.example.apirest;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 
+import com.example.apirest.Adapter.PersonaAdapter;
+import com.example.apirest.Adapter.ViewPagerAdapter;
+import com.example.apirest.Empresa.PersonaActivity;
+import com.example.apirest.Fragments.PedidosEmAndamentoFragment;
 import com.example.apirest.Model.Persona;
 import com.example.apirest.Utils.Apis;
 import com.example.apirest.Utils.PersonaService;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.tabs.TabLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.viewpager.widget.ViewPager;
 
 import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,83 +35,35 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
-    PersonaService personaService;
-    List<Persona>listPersona=new ArrayList<>();
-    ListView listView;
+    private TabLayout tab_Layout;
+    private ViewPager view_Pager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
-        toolbar.setTitle("Lista de Contatos Sigatec informatica");
 
-        listView=findViewById(R.id.listView);
-        listPersons();
-
-        FloatingActionButton fab = findViewById(R.id.fabe);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-               Intent intent=new Intent(MainActivity.this,PersonaActivity.class);
-                intent.putExtra("ID","");
-                intent.putExtra("NOMBRE","");
-                intent.putExtra("APELLIDO","");
-               startActivity(intent);
-            }
-        });
+        iniciaComponets();
+        configTabsLayout();
 
     }
 
-    public void listPersons(){
-        personaService= Apis.getPersonaService();
-        Call<List<Persona>>call=personaService.getPersonas();
-        call.enqueue(new Callback<List<Persona>>() {
-            @Override
-            public void onResponse(Call<List<Persona>> call, Response<List<Persona>> response) {
-                if(response.isSuccessful()) {
-                    listPersona = response.body();
-                    listView.setAdapter(new PersonaAdapter(MainActivity.this,R.layout.content_main,listPersona));
-                }
-            }
+    private void configTabsLayout(){
+        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
+        viewPagerAdapter.addFragment(new PedidosEmAndamentoFragment(), "Pedidos andamentos");
+        viewPagerAdapter.addFragment(new PedidosEmAndamentoFragment(), "Finalizados");
 
-            @Override
-            public void onFailure(Call<List<Persona>> call, Throwable t) {
-                Log.e("Error:",t.getMessage());
-            }
-        });
-
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        view_Pager.setAdapter(viewPagerAdapter);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            tab_Layout.setElevation(0);
         }
-
-        return super.onOptionsItemSelected(item);
+        tab_Layout.setupWithViewPager(view_Pager);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
+    private void iniciaComponets( ){
 
-        listPersons();
+        view_Pager =  findViewById(R.id.view_Pager);
+        tab_Layout =  findViewById(R.id.tab_Layout);
 
     }
 }

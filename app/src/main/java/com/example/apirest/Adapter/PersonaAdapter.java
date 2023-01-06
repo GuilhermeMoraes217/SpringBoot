@@ -1,4 +1,4 @@
-package com.example.apirest;
+package com.example.apirest.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -7,15 +7,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.apirest.Model.Persona;
+import com.example.apirest.Empresa.PersonaActivity;
+import com.example.apirest.R;
 
 import java.util.List;
-import java.util.Map;
 
 public class PersonaAdapter extends ArrayAdapter<Persona> {
 

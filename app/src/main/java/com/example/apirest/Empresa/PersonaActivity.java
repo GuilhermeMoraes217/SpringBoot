@@ -1,4 +1,4 @@
-package com.example.apirest;
+package com.example.apirest.Empresa;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,7 +11,9 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.apirest.MainActivity;
 import com.example.apirest.Model.Persona;
+import com.example.apirest.R;
 import com.example.apirest.Utils.Apis;
 import com.example.apirest.Utils.PersonaService;
 
@@ -59,7 +61,7 @@ public class PersonaActivity extends AppCompatActivity {
                 p.setApellidos(txtApellidos.getText().toString());
                 if(id.trim().length()==0||id.equals("")){
                     addPersona(p);
-                    Intent intent =new Intent(PersonaActivity.this,MainActivity.class);
+                    Intent intent =new Intent(PersonaActivity.this, MainActivity.class);
                     startActivity(intent);
                 }else{
                     updatePersona(p,Integer.valueOf(id));
