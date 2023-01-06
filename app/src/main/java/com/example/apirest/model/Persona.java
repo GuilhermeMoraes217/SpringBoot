@@ -1,4 +1,4 @@
-package com.example.apirest.Model;
+package com.example.apirest.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

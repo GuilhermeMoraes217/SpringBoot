@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/homePedidosPendentes"
+        android:icon="@drawable/ic_pedidos_pendentes_24dp"
+        android:title="Pedidos pendentes"/>
+
+    <item
+        android:id="@+id/menuPedidosConfirmados"
+        android:icon="@drawable/ic_confirmar_black_24dp"
+        android:title="Pedidos confirmados"/>
+
+    <item
+        android:id="@+id/menuPedidosACaminho"
+        android:icon="@drawable/ic_encaminhar_pedido_24dp"
+        android:title="Pedidos a caminho"/>
+
+    <item
+        android:id="@+id/menuPedidosFinalizados"
+        android:icon="@drawable/ic_pedidos_finalizados_24dp"
+        android:title="Pedidos finalizados"/>
+
+
+</menu>

@@ -1,4 +1,4 @@
-package com.example.apirest.Adapter;
+package com.example.apirest.adapter;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;

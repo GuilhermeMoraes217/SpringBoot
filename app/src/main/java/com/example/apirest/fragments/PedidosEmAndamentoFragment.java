@@ -1,4 +1,4 @@
-package com.example.apirest.Fragments;
+package com.example.apirest.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,20 +8,18 @@ import androidx.fragment.app.Fragment;
 
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.example.apirest.Adapter.PersonaAdapter;
-import com.example.apirest.Empresa.PersonaActivity;
-import com.example.apirest.MainActivity;
-import com.example.apirest.Model.Persona;
+import com.example.apirest.adapter.PersonaAdapter;
+import com.example.apirest.empresa.PersonaActivity;
+import com.example.apirest.model.Persona;
 import com.example.apirest.R;
-import com.example.apirest.Utils.Apis;
-import com.example.apirest.Utils.PersonaService;
+import com.example.apirest.utils.Apis;
+import com.example.apirest.utils.PersonaService;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;

@@ -4,4 +4,33 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
     <color name="black">#000000</color>
+    <color name="dark_gray">#424242</color>
+
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="azul">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="verde">#4CAF50</color>
+    <color name="cinza_background">#F1F1EB</color>
+    <color name="verdeEscuro">#598725</color>
+    <color name="verdeClaro">#8BC34A</color>
+    <color name="verde_produto_estoque">#40C379</color>
+    <color name="amarelo">#FFEB3B</color>
+    <color name="amarelo_ofuscado">#FFF7D7</color>
+    <color name="cor_amarelo_menu">#FFAB00</color>
+    <color name="cinza_mensagens">#EDEDE7</color>
+    <color name="roxo">#9C27B0</color>
+    <color name="laranja">#FF9800</color>
+    <color name="vermelho">#BF3737</color>
+    <color name="cor_semclique">#888888</color>
+    <color name="cor_principal">#FFDE59</color>
+    <color name="cor_resumo_pedido">#212121</color>
+    <color name="amarelo_light">#FFFCDD</color>
+    <color name="transparente">#6BD1C2C2</color>
+    <color name="transparentbtn">#00D1C2C2</color>
+
+    <color name="cinza_categoria">#BFBFBA</color>
+
 </resources>

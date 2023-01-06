@@ -1,4 +1,4 @@
-package com.example.apirest.Utils;
+package com.example.apirest.utils;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;

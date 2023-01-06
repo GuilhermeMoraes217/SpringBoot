@@ -1,4 +1,4 @@
-package com.example.apirest.Utils;
+package com.example.apirest.utils;
 
 public class Apis {
 

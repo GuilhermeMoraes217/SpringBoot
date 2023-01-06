@@ -1,6 +1,6 @@
-package com.example.apirest.Utils;
+package com.example.apirest.utils;
 
-import com.example.apirest.Model.Persona;
+import com.example.apirest.model.Persona;
 
 import java.util.List;
 
