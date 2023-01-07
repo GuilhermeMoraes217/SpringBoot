@@ -32,9 +32,11 @@ public class MainActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                startActivity(new Intent(getBaseContext(), HomeActivity.class));
+                startActivity(new Intent(getBaseContext(), NavetagionActivity.class));
+                finish();
             }
         }, tempoDeEspera);
+
     }
 
 }
