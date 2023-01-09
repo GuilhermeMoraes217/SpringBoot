@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.apirest.model.Persona;
-import com.example.apirest.empresa.PersonaActivity;
+import com.example.apirest.activity.empresa.PersonaActivity;
 import com.example.apirest.R;
 
 import java.util.List;

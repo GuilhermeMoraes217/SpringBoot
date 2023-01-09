@@ -38,7 +38,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".empresa.PersonaActivity"
+            android:name=".activity.empresa.PersonaActivity"
             android:label="Nuevo Usuario">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
