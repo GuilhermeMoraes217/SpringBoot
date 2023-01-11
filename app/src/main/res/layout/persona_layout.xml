@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".empresa.PersonaActivity">
+    tools:context=".activity.empresa.PersonaActivity">
 
     <LinearLayout
         android:orientation="vertical"

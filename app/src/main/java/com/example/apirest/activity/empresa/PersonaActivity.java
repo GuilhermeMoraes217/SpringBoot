@@ -1,4 +1,4 @@
-package com.example.apirest.empresa;
+package com.example.apirest.activity.empresa;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -61,12 +61,14 @@ public class PersonaActivity extends AppCompatActivity {
                 p.setApellidos(txtApellidos.getText().toString());
                 if(id.trim().length()==0||id.equals("")){
                     addPersona(p);
-                    Intent intent =new Intent(PersonaActivity.this, MainActivity.class);
-                    startActivity(intent);
+                    finish();
+                    //Intent intent =new Intent(PersonaActivity.this, MainActivity.class);
+                    //startActivity(intent);
                 }else{
                     updatePersona(p,Integer.valueOf(id));
-                    Intent intent =new Intent(PersonaActivity.this,MainActivity.class);
-                    startActivity(intent);
+                    finish();
+                    //Intent intent =new Intent(PersonaActivity.this,MainActivity.class);
+                    //startActivity(intent);
                 }
 
             }
@@ -76,16 +78,18 @@ public class PersonaActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 deletePersona(Integer.valueOf(id));
-                Intent intent =new Intent(PersonaActivity.this,MainActivity.class);
-                startActivity(intent);
+                finish();
+                //Intent intent =new Intent(PersonaActivity.this,MainActivity.class);
+                //startActivity(intent);
             }
         });
 
         btnVolver.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent =new Intent(PersonaActivity.this,MainActivity.class);
-                startActivity(intent);
+                finish();
+                //Intent intent =new Intent(PersonaActivity.this,MainActivity.class);
+                //startActivity(intent);
             }
         });
 
@@ -105,8 +109,9 @@ public class PersonaActivity extends AppCompatActivity {
                 Log.e("Error:",t.getMessage());
             }
         });
-        Intent intent =new Intent(PersonaActivity.this,MainActivity.class);
-        startActivity(intent);
+        finish();
+        //Intent intent =new Intent(PersonaActivity.this,MainActivity.class);
+        //startActivity(intent);
     }
     public void updatePersona(Persona p,int id){
         service= Apis.getPersonaService();
@@ -123,8 +128,9 @@ public class PersonaActivity extends AppCompatActivity {
                 Log.e("Error:",t.getMessage());
             }
         });
-        Intent intent =new Intent(PersonaActivity.this,MainActivity.class);
-        startActivity(intent);
+        finish();
+        //Intent intent =new Intent(PersonaActivity.this,MainActivity.class);
+        //startActivity(intent);
     }
     public void deletePersona(int id){
         service=Apis.getPersonaService();
@@ -142,7 +148,8 @@ public class PersonaActivity extends AppCompatActivity {
                 Log.e("Error:",t.getMessage());
             }
         });
-        Intent intent =new Intent(PersonaActivity.this,MainActivity.class);
-        startActivity(intent);
+        finish();
+        //Intent intent =new Intent(PersonaActivity.this,MainActivity.class);
+        //startActivity(intent);
     }
 }

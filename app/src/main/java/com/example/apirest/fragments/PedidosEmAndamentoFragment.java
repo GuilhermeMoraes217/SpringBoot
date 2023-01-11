@@ -12,10 +12,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.apirest.adapter.PersonaAdapter;
-import com.example.apirest.empresa.PersonaActivity;
+import com.example.apirest.activity.empresa.PersonaActivity;
 import com.example.apirest.model.Persona;
 import com.example.apirest.R;
 import com.example.apirest.utils.Apis;
@@ -36,6 +38,7 @@ public class PedidosEmAndamentoFragment extends Fragment {
     List<Persona> listPersona=new ArrayList<>();
     ListView listView;
     TextView textListaVazia;
+    ProgressBar progressBar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -49,6 +52,7 @@ public class PedidosEmAndamentoFragment extends Fragment {
 
         listView=view.findViewById(R.id.listView);
         textListaVazia=view.findViewById(R.id.textListaVazia);
+        progressBar=view.findViewById(R.id.progressBar);
         listPersons();
 
         FloatingActionButton fab = view.findViewById(R.id.fabe);
@@ -76,14 +80,16 @@ public class PedidosEmAndamentoFragment extends Fragment {
                 if(response.isSuccessful()) {
                     listPersona = response.body();
                     listView.setAdapter(new PersonaAdapter(getActivity(),R.layout.content_main,listPersona));
-                } else {
-                    textListaVazia.setVisibility(View.VISIBLE);
+                    textListaVazia.setVisibility(View.GONE);
+                    progressBar.setVisibility(View.GONE);
                 }
             }
 
             @Override
             public void onFailure(Call<List<Persona>> call, Throwable t) {
                 Log.e("Error:",t.getMessage());
+                progressBar.setVisibility(View.GONE);
+                textListaVazia.setVisibility(View.VISIBLE);
             }
         });
 
@@ -104,4 +110,9 @@ public class PedidosEmAndamentoFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onResume() {
+        listPersons();
+        super.onResume();
+    }
 }
