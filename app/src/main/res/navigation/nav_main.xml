@@ -3,25 +3,32 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_main"
-    app:startDestination="@id/item_home">
+    app:startDestination="@id/item_vendas">
     <fragment
-        android:id="@+id/item_home"
-        android:name="com.example.apirest.fragments.PedidosFragment"
-        android:label="fragment_pedidos"
-        tools:layout="@layout/fragment_pedidos" />
+        android:id="@+id/item_vendas"
+        android:name="com.example.apirest.fragments.VendasFragment"
+        android:label="fragment_vendas"
+        tools:layout="@layout/fragment_vendas" />
     <fragment
-        android:id="@+id/item_busca"
-        android:name="com.example.apirest.fragments.BuscaFragment"
-        android:label="fragment_busca"
-        tools:layout="@layout/fragment_busca" />
+        android:id="@+id/item_produtos"
+        android:name="com.example.apirest.fragments.ProdutosFragment"
+        android:label="fragment_produtos"
+        tools:layout="@layout/fragment_produtos" />
     <fragment
-        android:id="@+id/item_pedidos"
-        android:name="com.example.apirest.fragments.PedidoFragment"
-        android:label="fragment_pedido"
-        tools:layout="@layout/fragment_pedido" />
+        android:id="@+id/item_contas"
+        android:name="com.example.apirest.fragments.ContasFragment"
+        android:label="fragment_contas"
+        tools:layout="@layout/fragment_contas" />
+
     <fragment
-        android:id="@+id/item_perfil"
-        android:name="com.example.apirest.fragments.PerfilFragment"
-        android:label="fragment_perfil"
-        tools:layout="@layout/fragment_perfil" />
+        android:id="@+id/item_checkout"
+        android:name="com.example.apirest.fragments.CheckoutFragment"
+        android:label="fragment_checkout"
+        tools:layout="@layout/fragment_checkout" />
+    <fragment
+        android:id="@+id/item_ponto"
+        android:name="com.example.apirest.fragments.PontoFragment"
+        android:label="fragment_ponto"
+        tools:layout="@layout/fragment_ponto" />
+    
 </navigation>

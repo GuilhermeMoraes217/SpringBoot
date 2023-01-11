@@ -5,6 +5,7 @@
     <color name="colorAccent">#D81B60</color>
     <color name="black">#000000</color>
     <color name="dark_gray">#424242</color>
+    <color name="toobarNavegation">#2c6a9d</color>
 
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>
@@ -32,5 +33,6 @@
     <color name="transparentbtn">#00D1C2C2</color>
 
     <color name="cinza_categoria">#BFBFBA</color>
+    <color name="navegationselect">#2c6a9b</color>
 
 </resources>

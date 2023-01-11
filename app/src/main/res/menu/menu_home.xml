@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/item_home"
+        android:id="@+id/item_vendas"
         android:title="Home"
         android:icon="@drawable/ic_home_24dp"
         />
     <item
-        android:id="@+id/item_busca"
+        android:id="@+id/item_produtos"
         android:title="Buscar produto"
         android:icon="@drawable/ic_pesquisar_24dp"
         />
     <item
-        android:id="@+id/item_pedidos"
+        android:id="@+id/item_contas"
         android:title="Pedido"
         android:icon="@drawable/ic_pedidos_24dp"
         />
     <item
-        android:id="@+id/item_perfil"
+        android:id="@+id/item_checkout"
         android:title="Perfil"
         android:icon="@drawable/ic_perfil_24dp"
         />

@@ -4,12 +4,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".fragments.PedidosFragment">
+    tools:context=".fragments.VendasFragment">
 
     <include
         android:id="@+id/include17"
-        layout="@layout/toobar"
-        android:visibility="gone"
+        layout="@layout/toobar2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -28,12 +27,11 @@
             android:id="@+id/tab_Layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/white"
-            app:tabIndicatorColor="@color/cor_principal"
+            android:background="@color/toobarNavegation"
+            app:tabTextColor="@color/white"
+            app:tabIndicatorColor="@color/white"
             app:tabInlineLabel="true"
-
             app:tabMode="fixed"
-            android:textStyle="bold"
             tools:ignore="SpeakableTextPresentCheck" />
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -45,6 +43,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appbar" />
+        app:layout_constraintTop_toBottomOf="@+id/appbar"
+        tools:ignore="SpeakableTextPresentCheck" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

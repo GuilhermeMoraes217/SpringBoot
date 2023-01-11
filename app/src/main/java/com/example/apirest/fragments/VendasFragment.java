@@ -1,6 +1,5 @@
 package com.example.apirest.fragments;
 
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -10,14 +9,13 @@ import androidx.viewpager.widget.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.example.apirest.R;
 import com.example.apirest.adapter.ViewPagerAdapter;
 import com.google.android.material.tabs.TabLayout;
 
 
-public class PedidosFragment extends Fragment {
+public class VendasFragment extends Fragment {
 
     private TabLayout tab_Layout;
     private ViewPager view_Pager;
@@ -26,7 +24,7 @@ public class PedidosFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_pedidos, container, false);
+        View view = inflater.inflate(R.layout.fragment_vendas, container, false);
 
         inicializarComponentes(view);
         configTabsLayout();
@@ -43,8 +41,10 @@ public class PedidosFragment extends Fragment {
 
     private void configTabsLayout(){
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getChildFragmentManager());
-        viewPagerAdapter.addFragment(new PedidosEmAndamentoFragment(), "Acompanhar Pedidos");
-        viewPagerAdapter.addFragment(new PedidosEmAndamentoFragment(), "Finalizados");
+        viewPagerAdapter.addFragment(new PedidosEmAndamentoFragment(), "Dia");
+        viewPagerAdapter.addFragment(new PedidosEmAndamentoFragment(), "Semana");
+        viewPagerAdapter.addFragment(new PedidosEmAndamentoFragment(), "Mes");
+        viewPagerAdapter.addFragment(new PedidosEmAndamentoFragment(), "Ano");
 
         view_Pager.setAdapter(viewPagerAdapter);
         view_Pager.setSaveEnabled(false);

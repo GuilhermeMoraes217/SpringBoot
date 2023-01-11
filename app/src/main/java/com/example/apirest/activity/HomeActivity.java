@@ -7,9 +7,8 @@ import androidx.fragment.app.FragmentTransaction;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import com.example.apirest.fragments.PedidosEmAndamentoFragment;
 import com.example.apirest.R;
-import com.example.apirest.fragments.PedidosFragment;
+import com.example.apirest.fragments.VendasFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class HomeActivity extends AppCompatActivity {
@@ -18,10 +17,10 @@ public class HomeActivity extends AppCompatActivity {
     private BottomNavigationView bottomMenuHome;
 
     private final Fragment
-            fragmentHome = new PedidosFragment(),
-            fragmentPesquisa = new PedidosFragment(),
-            fragmentPedidos = new PedidosFragment(),
-            fragmentPerfil = new PedidosFragment();
+            fragmentHome = new VendasFragment(),
+            fragmentPesquisa = new VendasFragment(),
+            fragmentPedidos = new VendasFragment(),
+            fragmentPerfil = new VendasFragment();
 
     public BottomNavigationView getBottomMenuHome() {
         return bottomMenuHome;
@@ -41,16 +40,16 @@ public class HomeActivity extends AppCompatActivity {
         bottomMenuHome.setOnNavigationItemSelectedListener(item -> {
 
             switch (item.getItemId()) {
-                case R.id.item_home:
+                case R.id.item_vendas:
                     showFragment(fragmentHome);
                     return true;
-                case R.id.item_busca:
+                case R.id.item_produtos:
                     showFragment(fragmentPesquisa);
                     return true;
-                case R.id.item_pedidos:
+                case R.id.item_contas:
                     showFragment(fragmentPedidos);
                     return true;
-                case R.id.item_perfil:
+                case R.id.item_checkout:
                     showFragment(fragmentPerfil);
                     return true;
             }
@@ -66,7 +65,7 @@ public class HomeActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if(bottomMenuHome.getSelectedItemId() == R.id.item_home){
+        if(bottomMenuHome.getSelectedItemId() == R.id.item_vendas){
             if (contTime + 2000 > System.currentTimeMillis()){
                 super.onBackPressed();
                 return;
@@ -76,7 +75,7 @@ public class HomeActivity extends AppCompatActivity {
 
             contTime = System.currentTimeMillis();
         } else {
-            bottomMenuHome.setSelectedItemId(R.id.item_home);
+            bottomMenuHome.setSelectedItemId(R.id.item_vendas);
         }
 
     }
