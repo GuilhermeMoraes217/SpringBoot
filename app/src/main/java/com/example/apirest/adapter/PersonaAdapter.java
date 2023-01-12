@@ -37,9 +37,9 @@ public class PersonaAdapter extends ArrayAdapter<Persona> {
         TextView txtNombre=(TextView)rowView.findViewById(R.id.Nombre);
         TextView txtApellidos=(TextView)rowView.findViewById(R.id.Apellidos);
 
-        txtidPersona.setText(String.format("ID:%d",personas.get(position).getId()));
-        txtNombre.setText(String.format("NOME:%s",personas.get(position).getNombres()));
-        txtApellidos.setText(String.format("APELIDO: %s",personas.get(position).getApellidos()));
+        txtidPersona.setText(String.format("#%d",personas.get(position).getId()));
+        txtNombre.setText(String.format("%s",personas.get(position).getNombres()));
+        txtApellidos.setText(String.format("Vendas R$ %s",personas.get(position).getApellidos()));
 
         rowView.setOnClickListener(new View.OnClickListener() {
             @Override
