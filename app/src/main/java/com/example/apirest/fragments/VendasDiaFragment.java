@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.apirest.adapter.PersonaAdapter;
 import com.example.apirest.activity.empresa.PersonaActivity;
@@ -32,7 +31,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class PedidosEmAndamentoFragment extends Fragment {
+public class VendasDiaFragment extends Fragment {
 
     PersonaService personaService;
     List<Persona> listPersona=new ArrayList<>();
