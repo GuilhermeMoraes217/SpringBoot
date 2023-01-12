@@ -10,7 +10,7 @@
     android:paddingTop="50px"
     tools:showIn="@layout/activity_main">
 
-              <TextView
+            <TextView
                 android:id="@+id/IdPersona"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />

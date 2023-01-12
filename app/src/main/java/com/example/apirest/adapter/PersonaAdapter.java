@@ -34,8 +34,8 @@ public class PersonaAdapter extends ArrayAdapter<Persona> {
         View rowView=layoutInflater.inflate(R.layout.content_main,parent,false);
 
         TextView txtidPersona=(TextView)rowView.findViewById(R.id.IdPersona);
-        TextView txtNombre=(TextView)rowView.findViewById(R.id.Nombre);;
-        TextView txtApellidos=(TextView)rowView.findViewById(R.id.Apellidos);;
+        TextView txtNombre=(TextView)rowView.findViewById(R.id.Nombre);
+        TextView txtApellidos=(TextView)rowView.findViewById(R.id.Apellidos);
 
         txtidPersona.setText(String.format("ID:%d",personas.get(position).getId()));
         txtNombre.setText(String.format("NOME:%s",personas.get(position).getNombres()));

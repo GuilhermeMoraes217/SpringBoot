@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 
 import com.example.apirest.R;
 import com.example.apirest.adapter.ViewPagerAdapter;
+import com.example.apirest.fragments.vendas.VendasDiaFragment;
 import com.google.android.material.tabs.TabLayout;
 
 

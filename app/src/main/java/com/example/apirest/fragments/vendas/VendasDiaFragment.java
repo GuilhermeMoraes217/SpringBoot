@@ -1,4 +1,4 @@
-package com.example.apirest.fragments;
+package com.example.apirest.fragments.vendas;
 
 import android.content.Intent;
 import android.os.Bundle;
