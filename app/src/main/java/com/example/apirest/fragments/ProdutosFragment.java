@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 
 import com.example.apirest.R;
 import com.example.apirest.adapter.ViewPagerAdapter;
+import com.example.apirest.fragments.produtos.ProdutosDiaFragment;
 import com.example.apirest.fragments.vendas.VendasDiaFragment;
 import com.google.android.material.tabs.TabLayout;
 
@@ -42,10 +43,10 @@ public class ProdutosFragment extends Fragment {
 
     private void configTabsLayout(){
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getChildFragmentManager());
-        viewPagerAdapter.addFragment(new ProdutosFragment(), "Dia");
-        viewPagerAdapter.addFragment(new ProdutosFragment(), "Semana");
-        viewPagerAdapter.addFragment(new ProdutosFragment(), "Mes");
-        viewPagerAdapter.addFragment(new ProdutosFragment(), "Ano");
+        viewPagerAdapter.addFragment(new ProdutosDiaFragment(), "Dia");
+        viewPagerAdapter.addFragment(new ProdutosDiaFragment(), "Semana");
+        viewPagerAdapter.addFragment(new ProdutosDiaFragment(), "Mes");
+        viewPagerAdapter.addFragment(new ProdutosDiaFragment(), "Ano");
 
         view_Pager.setAdapter(viewPagerAdapter);
         view_Pager.setSaveEnabled(false);
@@ -56,7 +57,7 @@ public class ProdutosFragment extends Fragment {
     }
 
     private void inicializarComponentes(View view){
-        view_Pager =  view.findViewById(R.id.view_Pager);
+        view_Pager =  view.findViewById(R.id.view_pager);
         tab_Layout =  view.findViewById(R.id.tab_Layout);
 
     }

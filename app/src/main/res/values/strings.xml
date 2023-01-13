@@ -10,4 +10,5 @@
     <string name="ponto">Ponto</string>
     <string name="perfil">Perfil</string>
     <string name="RelatorioVendas">Relatório de Vendas</string>
+    <string name="RelatorioProduto">Relatório de Produtos</string>
 </resources>

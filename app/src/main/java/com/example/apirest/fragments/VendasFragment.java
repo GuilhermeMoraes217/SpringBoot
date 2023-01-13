@@ -44,7 +44,7 @@ public class VendasFragment extends Fragment {
     private void configTabsLayout(){
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getChildFragmentManager());
         viewPagerAdapter.addFragment(new VendasDiaFragment(), "Dia");
-        viewPagerAdapter.addFragment(new ProdutosDiaFragment(), "Semana");
+        viewPagerAdapter.addFragment(new VendasDiaFragment(), "Semana");
         viewPagerAdapter.addFragment(new VendasDiaFragment(), "Mes");
         viewPagerAdapter.addFragment(new VendasDiaFragment(), "Ano");
 
