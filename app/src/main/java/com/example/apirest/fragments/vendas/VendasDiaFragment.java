@@ -43,11 +43,11 @@ public class VendasDiaFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_pedidos_em_andamento, container, false);
+        View view = inflater.inflate(R.layout.fragment_vendas_dia, container, false);
 
-        Toolbar toolbar = view.findViewById(R.id.toolbar);
+        //Toolbar toolbar = view.findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
-        toolbar.setTitle("Lista de Contatos Sigatec informatica");
+        //toolbar.setTitle("Lista de Contatos Sigatec informatica");
 
         listView=view.findViewById(R.id.listView);
         textListaVazia=view.findViewById(R.id.textListaVazia);
