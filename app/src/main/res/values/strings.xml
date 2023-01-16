@@ -9,7 +9,9 @@
     <string name="checkout">Checkout</string>
     <string name="ponto">Ponto</string>
     <string name="perfil">Perfil</string>
+
     <string name="RelatorioVendas">Relatório de Vendas</string>
     <string name="RelatorioProduto">Relatório de Produtos</string>
     <string name="RelatorioContas">Relatório de Contas</string>
+    <string name="RelatorioCheckout">Relatório de Checkout</string>
 </resources>
