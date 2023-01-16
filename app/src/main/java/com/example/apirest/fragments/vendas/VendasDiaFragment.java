@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -15,6 +16,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.example.apirest.activity.produtos.VerProdutosVendasActivity;
 import com.example.apirest.adapter.PersonaAdapter;
 import com.example.apirest.activity.empresa.PersonaActivity;
 import com.example.apirest.model.Persona;
@@ -38,35 +40,34 @@ public class VendasDiaFragment extends Fragment {
     ListView listView;
     TextView textListaVazia;
     ProgressBar progressBar;
+    ConstraintLayout VerProdutosVendas;
+    FloatingActionButton fab;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_vendas_dia, container, false);
+        InitComponentes(view);
+        InitCliques(view);
 
-        //Toolbar toolbar = view.findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
-        //toolbar.setTitle("Lista de Contatos Sigatec informatica");
-
-        listView=view.findViewById(R.id.listView);
-        textListaVazia=view.findViewById(R.id.textListaVazia);
-        progressBar=view.findViewById(R.id.progressBar);
         listPersons();
 
-        FloatingActionButton fab = view.findViewById(R.id.fabe);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent=new Intent(getActivity(), PersonaActivity.class);
-                intent.putExtra("ID","");
-                intent.putExtra("NOMBRE","");
-                intent.putExtra("APELLIDO","");
-                startActivity(intent);
-            }
+        return view;
+    }
+
+    public void InitCliques (View view) {
+        fab.setOnClickListener(view1 -> {
+            Intent intent=new Intent(getActivity(), PersonaActivity.class);
+            intent.putExtra("ID","");
+            intent.putExtra("NOMBRE","");
+            intent.putExtra("APELLIDO","");
+            startActivity(intent);
+        });
+        VerProdutosVendas.setOnClickListener(view1 -> {
+            Intent intent=new Intent(getActivity(), VerProdutosVendasActivity.class);
+            startActivity(intent);
         });
 
-        return view;
     }
 
 
@@ -113,5 +114,14 @@ public class VendasDiaFragment extends Fragment {
     public void onResume() {
         listPersons();
         super.onResume();
+    }
+
+    public void InitComponentes (View view) {
+        listView=view.findViewById(R.id.listView);
+        textListaVazia=view.findViewById(R.id.textListaVazia);
+        progressBar=view.findViewById(R.id.progressBar);
+        fab = view.findViewById(R.id.fabe);
+        VerProdutosVendas = view.findViewById(R.id.VerProdutosVendas);
+
     }
 }
