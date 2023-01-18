@@ -3,7 +3,6 @@ package com.example.apirest.fragments.vendas;
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
@@ -16,7 +15,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.example.apirest.activity.produtos.VerProdutosVendasActivity;
+import com.example.apirest.activity.vendas.VerProdutosVendasActivity;
 import com.example.apirest.adapter.PersonaAdapter;
 import com.example.apirest.activity.empresa.PersonaActivity;
 import com.example.apirest.model.Persona;

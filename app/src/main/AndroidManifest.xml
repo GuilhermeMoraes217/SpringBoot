@@ -13,7 +13,14 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".activity.produtos.VerProdutosVendasActivity"
+            android:name=".activity.produtos.VerProdutosProdutosActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".activity.vendas.VerProdutosVendasActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
