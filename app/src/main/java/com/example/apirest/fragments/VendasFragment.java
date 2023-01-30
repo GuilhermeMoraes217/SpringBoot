@@ -36,12 +36,12 @@ public class VendasFragment extends Fragment {
         return view;
     }
 
-    private void configCliques(View view){
+    private void configCliques(View view) {
         //view.findViewById(R.id.ib_Voltar).setOnClickListener(view1 ->startActivity(new Intent(getContext(), HomeActivity.class)));
     }
 
 
-    private void configTabsLayout(){
+    private void configTabsLayout() {
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getChildFragmentManager());
         viewPagerAdapter.addFragment(new VendasDiaFragment(), "Dia");
         viewPagerAdapter.addFragment(new VendasDiaFragment(), "Semana");
@@ -56,9 +56,9 @@ public class VendasFragment extends Fragment {
         tab_Layout.setupWithViewPager(view_Pager);
     }
 
-    private void inicializarComponentes(View view){
-        view_Pager =  view.findViewById(R.id.view_pager);
-        tab_Layout =  view.findViewById(R.id.tab_Layout);
+    private void inicializarComponentes(View view) {
+        view_Pager = view.findViewById(R.id.view_pager);
+        tab_Layout = view.findViewById(R.id.tab_Layout);
 
     }
 }

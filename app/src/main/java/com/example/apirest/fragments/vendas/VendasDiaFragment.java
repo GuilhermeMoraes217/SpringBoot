@@ -15,7 +15,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.example.apirest.activity.vendas.VerProdutosVendasActivity;
+import com.example.apirest.activity.produtos.RelatorioDeVendasActivity;
 import com.example.apirest.adapter.PersonaAdapter;
 import com.example.apirest.activity.empresa.PersonaActivity;
 import com.example.apirest.model.Persona;
@@ -63,7 +63,7 @@ public class VendasDiaFragment extends Fragment {
             startActivity(intent);
         });
         VerProdutosVendas.setOnClickListener(view1 -> {
-            Intent intent=new Intent(getActivity(), VerProdutosVendasActivity.class);
+            Intent intent=new Intent(getActivity(), RelatorioDeVendasActivity.class);
             startActivity(intent);
         });
 

@@ -6,11 +6,15 @@ import android.os.Bundle;
 
 import com.example.apirest.R;
 
-public class VerProdutosProdutosActivity extends AppCompatActivity {
+public class RelatorioDeVendasActivity extends AppCompatActivity {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ver_produtos_produtos);
+        setContentView(R.layout.activity_relatorio_de_vendas);
+
     }
+
+
 }
