@@ -15,7 +15,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.example.apirest.activity.produtos.RelatorioDeVendasActivity;
+import com.example.apirest.activity.vendas.RelatorioDeVendasActivity;
 import com.example.apirest.adapter.PersonaAdapter;
 import com.example.apirest.activity.empresa.PersonaActivity;
 import com.example.apirest.model.Persona;

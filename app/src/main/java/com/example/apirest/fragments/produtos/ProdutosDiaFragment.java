@@ -17,7 +17,7 @@ import android.widget.TextView;
 
 import com.example.apirest.R;
 import com.example.apirest.activity.empresa.PersonaActivity;
-import com.example.apirest.activity.vendas.RelatorioDeProdutosVendasActivity;
+import com.example.apirest.activity.produtos.RelatorioDeProdutosVendasActivity;
 import com.example.apirest.adapter.PersonaAdapter;
 import com.example.apirest.model.Persona;
 import com.example.apirest.utils.Apis;

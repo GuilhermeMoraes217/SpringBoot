@@ -1,4 +1,4 @@
-package com.example.apirest.activity.produtos;
+package com.example.apirest.activity.vendas;
 
 import androidx.appcompat.app.AppCompatActivity;
 

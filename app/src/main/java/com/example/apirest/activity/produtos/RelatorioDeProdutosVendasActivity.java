@@ -1,4 +1,4 @@
-package com.example.apirest.activity.vendas;
+package com.example.apirest.activity.produtos;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
@@ -8,6 +8,7 @@ import android.os.Bundle;
 
 import com.example.apirest.R;
 import com.example.apirest.adapter.ViewPagerAdapter;
+import com.example.apirest.fragments.produtos.RelatorioGruposVendasFragment;
 import com.example.apirest.fragments.produtos.RelatorioProdutosVendasFragment;
 import com.google.android.material.tabs.TabLayout;
 
@@ -37,7 +38,7 @@ public class RelatorioDeProdutosVendasActivity extends AppCompatActivity {
     private void configTabsLayout(){
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
         viewPagerAdapter.addFragment(new RelatorioProdutosVendasFragment(), "Produtos");
-        viewPagerAdapter.addFragment(new RelatorioProdutosVendasFragment(), "Grupos");
+        viewPagerAdapter.addFragment(new RelatorioGruposVendasFragment(), "Grupos");
 
         view_Pager.setAdapter(viewPagerAdapter);
         view_Pager.setSaveEnabled(false);
