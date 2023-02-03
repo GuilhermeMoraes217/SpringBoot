@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.apirest.R;
+import com.example.apirest.activity.contas.RelatorioContasActivity;
 
 
 public class ContasDiaFragment extends Fragment {
@@ -32,7 +33,7 @@ public class ContasDiaFragment extends Fragment {
     private void iniciaCliques(View view) {
 
         textRelatorioContas.setOnClickListener(view1 -> {
-            Intent intent = new Intent(getActivity(), RelatorioContasFragment.class);
+            Intent intent = new Intent(getActivity(), RelatorioContasActivity.class);
             startActivity(intent);
         });
     }

@@ -144,9 +144,9 @@
                 android:layout_height="15dp"
                 android:layout_marginStart="16dp"
                 android:src="@drawable/setadireita"
-                app:layout_constraintBottom_toBottomOf="@+id/textView7"
-                app:layout_constraintStart_toEndOf="@+id/textView7"
-                app:layout_constraintTop_toTopOf="@+id/textView7" />
+                app:layout_constraintBottom_toBottomOf="@+id/textView"
+                app:layout_constraintStart_toEndOf="@+id/textView"
+                app:layout_constraintTop_toTopOf="@+id/textView" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

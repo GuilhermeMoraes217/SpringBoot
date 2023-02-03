@@ -13,7 +13,13 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".MovimentacaoCaixaActivity"
+            android:name=".activity.checkout.RelatorioCheckoutActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.contas.RelatorioContasActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.checkout.MovimentacaoCaixaActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
