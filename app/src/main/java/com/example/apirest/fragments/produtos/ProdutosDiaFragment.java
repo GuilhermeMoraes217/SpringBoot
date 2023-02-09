@@ -57,15 +57,12 @@ public class ProdutosDiaFragment extends Fragment {
         listPersons();
 
         FloatingActionButton fab = view.findViewById(R.id.fabe);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent=new Intent(getActivity(), PersonaActivity.class);
-                intent.putExtra("ID","");
-                intent.putExtra("NOMBRE","");
-                intent.putExtra("APELLIDO","");
-                startActivity(intent);
-            }
+        fab.setOnClickListener(view1 -> {
+            Intent intent=new Intent(getActivity(), PersonaActivity.class);
+            intent.putExtra("ID","");
+            intent.putExtra("NOMBRE","");
+            intent.putExtra("APELLIDO","");
+            startActivity(intent);
         });
 
         return view;
