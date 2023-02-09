@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class Persona {
 
-    @SerializedName("ID")
+    @SerializedName(value = "id", alternate = "ID")
     @Expose
     private int id;
 
