@@ -21,16 +21,19 @@ import java.util.List;
 public class AdapterRelatorioVendas extends RecyclerView.Adapter<AdapterRelatorioVendas.MyViewHolder> {
 
     private List<RelatorioVendas> relatorioVendas;
-    private List<RelatorioVendas> bairrosSelecionados = new ArrayList<>();
     private Context context;
 
-    public AdapterRelatorioVendas(List<RelatorioVendas> bairrelatorioVendasros, Context context) {
+    ItemClickListener itemClickListener;
+
+
+    public AdapterRelatorioVendas(List<RelatorioVendas> relatorioVendas, Context context, ItemClickListener onClickListener) {
         this.relatorioVendas = relatorioVendas;
         this.context = context;
+        this.itemClickListener = onClickListener;
     }
 
-    public List<RelatorioVendas> getBairrosSelecionados() {
-        return bairrosSelecionados;
+    public List<RelatorioVendas> getRelatorioVendas() {
+        return relatorioVendas;
     }
 
     @NonNull
@@ -47,7 +50,9 @@ public class AdapterRelatorioVendas extends RecyclerView.Adapter<AdapterRelatori
         holder.textConsumidor.setText(relatorioVendasLoja.getTextConsumidor());
         holder.textEmpresa.setText(relatorioVendasLoja.getTextEmpresa());
         holder.textValorFaturado.setText("R$" + GetMask.getValor(relatorioVendasLoja.getTextValorFaturado()));
-        holder.textFatura.setText(relatorioVendasLoja.getTextFatura());
+        holder.textFatura.setText(relatorioVendasLoja.getTextStatusFatura());
+
+        holder.itemView.setOnClickListener(view -> itemClickListener.onClick(relatorioVendasLoja));
 
         //holder.imagemStatus.setChecked(bairroEntregaLoja.isSelected());
 
@@ -56,6 +61,10 @@ public class AdapterRelatorioVendas extends RecyclerView.Adapter<AdapterRelatori
     @Override
     public int getItemCount() {
         return relatorioVendas.size();
+    }
+
+    public interface ItemClickListener {
+        void onClick ( RelatorioVendas relatorioVendas );
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
@@ -70,7 +79,7 @@ public class AdapterRelatorioVendas extends RecyclerView.Adapter<AdapterRelatori
             textConsumidor = itemView.findViewById(R.id.textConsumidor);
             textEmpresa = itemView.findViewById(R.id.textEmpresa);
             textValorFaturado = itemView.findViewById(R.id.textValorFaturado);
-            textFatura = itemView.findViewById(R.id.textFatura);
+            textFatura = itemView.findViewById(R.id.textStatusFatura);
             imagemStatus = itemView.findViewById(R.id.imagemStatus);
 
         }

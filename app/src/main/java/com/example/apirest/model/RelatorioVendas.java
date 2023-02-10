@@ -7,9 +7,31 @@ import java.io.Serializable;
 public class RelatorioVendas implements Serializable {
 
     private ImageView imagemStatus;
-    private String idRelatorio, textConsumidor, textEmpresa, textFatura;
-    private Double textValorFaturado;
+    private String idRelatorio, textConsumidor, textEmpresa, textStatusFatura,
+            textTabelaPreco, textTabelaPedido, textDataEmissao, textDataPrevisao,
+            textDataSaida, textHorarioVenda, textPagamentoPVD, textUsuario;
+    private Double textValorFaturado, textDinheiro;
 
+    public RelatorioVendas( ) {
+
+    }
+
+    public RelatorioVendas(String idRelatorio, String textConsumidor, String textEmpresa, String textStatusFatura, String textTabelaPreco, String textTabelaPedido, String textDataEmissao, String textDataPrevisao, String textDataSaida, String textHorarioVenda, String textPagamentoPVD, String textUsuario, Double textValorFaturado, Double textDinheiro) {
+        this.idRelatorio = idRelatorio;
+        this.textConsumidor = textConsumidor;
+        this.textEmpresa = textEmpresa;
+        this.textStatusFatura = textStatusFatura;
+        this.textTabelaPreco = textTabelaPreco;
+        this.textTabelaPedido = textTabelaPedido;
+        this.textDataEmissao = textDataEmissao;
+        this.textDataPrevisao = textDataPrevisao;
+        this.textDataSaida = textDataSaida;
+        this.textHorarioVenda = textHorarioVenda;
+        this.textPagamentoPVD = textPagamentoPVD;
+        this.textUsuario = textUsuario;
+        this.textValorFaturado = textValorFaturado;
+        this.textDinheiro = textDinheiro;
+    }
 
     public ImageView getImagemStatus() {
         return imagemStatus;
@@ -43,12 +65,68 @@ public class RelatorioVendas implements Serializable {
         this.textEmpresa = textEmpresa;
     }
 
-    public String getTextFatura() {
-        return textFatura;
+    public String getTextStatusFatura() {
+        return textStatusFatura;
     }
 
-    public void setTextFatura(String textFatura) {
-        this.textFatura = textFatura;
+    public void setTextStatusFatura(String textStatusFatura) {
+        this.textStatusFatura = textStatusFatura;
+    }
+
+    public String getTextTabelaPreco() {
+        return textTabelaPreco;
+    }
+
+    public void setTextTabelaPreco(String textTabelaPreco) {
+        this.textTabelaPreco = textTabelaPreco;
+    }
+
+    public String getTextTabelaPedido() {
+        return textTabelaPedido;
+    }
+
+    public void setTextTabelaPedido(String textTabelaPedido) {
+        this.textTabelaPedido = textTabelaPedido;
+    }
+
+    public String getTextDataEmissao() {
+        return textDataEmissao;
+    }
+
+    public void setTextDataEmissao(String textDataEmissao) {
+        this.textDataEmissao = textDataEmissao;
+    }
+
+    public String getTextDataPrevisao() {
+        return textDataPrevisao;
+    }
+
+    public void setTextDataPrevisao(String textDataPrevisao) {
+        this.textDataPrevisao = textDataPrevisao;
+    }
+
+    public String getTextDataSaida() {
+        return textDataSaida;
+    }
+
+    public void setTextDataSaida(String textDataSaida) {
+        this.textDataSaida = textDataSaida;
+    }
+
+    public String getTextHorarioVenda() {
+        return textHorarioVenda;
+    }
+
+    public void setTextHorarioVenda(String textHorarioVenda) {
+        this.textHorarioVenda = textHorarioVenda;
+    }
+
+    public String getTextPagamentoPVD() {
+        return textPagamentoPVD;
+    }
+
+    public void setTextPagamentoPVD(String textPagamentoPVD) {
+        this.textPagamentoPVD = textPagamentoPVD;
     }
 
     public Double getTextValorFaturado() {
@@ -57,5 +135,21 @@ public class RelatorioVendas implements Serializable {
 
     public void setTextValorFaturado(Double textValorFaturado) {
         this.textValorFaturado = textValorFaturado;
+    }
+
+    public Double getTextDinheiro() {
+        return textDinheiro;
+    }
+
+    public void setTextDinheiro(Double textDinheiro) {
+        this.textDinheiro = textDinheiro;
+    }
+
+    public String getTextUsuario() {
+        return textUsuario;
+    }
+
+    public void setTextUsuario(String textUsuario) {
+        this.textUsuario = textUsuario;
     }
 }

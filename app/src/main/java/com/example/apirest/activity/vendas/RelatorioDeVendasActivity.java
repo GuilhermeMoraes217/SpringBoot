@@ -4,25 +4,29 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
 import com.example.apirest.R;
 import com.example.apirest.adapter.AdapterRelatorioVendas;
+import com.example.apirest.fragments.vendas.InformacaoPedidoFragment;
+import com.example.apirest.fragments.vendas.RelatorioVendasFragment;
 import com.example.apirest.model.RelatorioVendas;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class RelatorioDeVendasActivity extends AppCompatActivity {
+public class RelatorioDeVendasActivity extends AppCompatActivity implements AdapterRelatorioVendas.ItemClickListener {
     /**
      * Atributos da inicialização do recyclerView do relatorio de vendas
      */
     private RecyclerView recyclerViewRelatorioProdutos;
     private AdapterRelatorioVendas adapterRelatorioVendas;
-    ArrayList<RelatorioVendas> relatorioVendas;
+    ArrayList<RelatorioVendas> relatorioVendas = new ArrayList<>();
 
     /**
      * Atributos dos textView da activity relatorio_de_vendas
@@ -45,30 +49,28 @@ public class RelatorioDeVendasActivity extends AppCompatActivity {
     private void inicializaRecyclerView() {
         recyclerViewRelatorioProdutos.setLayoutManager(new LinearLayoutManager(this));
         recyclerViewRelatorioProdutos.setHasFixedSize(true);
-        adapterRelatorioVendas = new AdapterRelatorioVendas(relatorioVendas, this);
+        adapterRelatorioVendas = new AdapterRelatorioVendas(relatorioVendas, this, this);
         recyclerViewRelatorioProdutos.setAdapter(adapterRelatorioVendas);
     }
 
     private void recuperaRelatoriosVendas () {
-        /*List<String> dynamicText2Elements;
-        dynamicText2Elements = new ArrayList<String>();
-        dynamicText2Elements.add("element1 of text2");
-        dynamicText2Elements.add("element2 of text2");
-        dynamicText2Elements.add("element3 of text2");
-        dynamicText2Elements.add("element4 of text2");
-        dynamicText2Elements.add("element5 of text2");
+        RelatorioVendas relatorioVendas1 = new RelatorioVendas();
+        relatorioVendas1.setIdRelatorio("12345678");
+        relatorioVendas1.setTextConsumidor("CONSUMIDOR");
+        relatorioVendas1.setTextEmpresa("Sigatec Sistemas");
+        relatorioVendas1.setTextStatusFatura("Faturado");
+        relatorioVendas1.setTextValorFaturado(100.0);
+        relatorioVendas1.setTextTabelaPreco("#1 TABELA DE PREÇOS");
+        relatorioVendas1.setTextTabelaPedido("#1 TABELA DE PEDIDOS");
+        relatorioVendas1.setTextUsuario("Guilherme Moraes");
+        relatorioVendas1.setTextDataEmissao("10/02/2023");
+        relatorioVendas1.setTextDataPrevisao("10/02/2023");
+        relatorioVendas1.setTextDataSaida("10/02/2023");
+        relatorioVendas1.setTextHorarioVenda("10/02/2023, 10:26");
+        relatorioVendas1.setTextPagamentoPVD("########");
+        relatorioVendas1.setTextDinheiro(100.0);
 
-        List<HashMap<String, String>> dataList = new ArrayList<HashMap<String, String>>();
-        HashMap<String, String> element;
-
-        int length = getResources().getStringArray(staticText1Elements).length;
-
-        for (int i = 0; i < length; i++) {
-            element = new HashMap<String, String>();
-            element.put("text1", getResources().getStringArray(staticText1Elements)[i]);
-            element.put("text2", dynamicText2Elements.get(i));
-            dataList.add(element);
-        }*/
+        relatorioVendas.add(relatorioVendas1);
     }
 
     private void inicializaComponentes() {
@@ -79,4 +81,10 @@ public class RelatorioDeVendasActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onClick(RelatorioVendas relatorioVendas) {
+        Intent intent = new Intent(RelatorioDeVendasActivity.this, InformacoesPedidoActivity.class);
+        intent.putExtra("relatorioVendasSelecionados", relatorioVendas);
+        startActivity(intent);
+    }
 }
