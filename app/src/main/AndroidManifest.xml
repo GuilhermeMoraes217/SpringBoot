@@ -13,6 +13,9 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".activity.produtos.InformacoesProdutosRelatorioActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.checkout.RelatorioCheckoutActivity"
             android:exported="false" />
         <activity

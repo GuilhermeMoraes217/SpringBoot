@@ -46,6 +46,9 @@ public class RelatorioDeVendasActivity extends AppCompatActivity implements Adap
 
     }
 
+    /**
+     * Método que inicializa o recycler view do relatorio de vendas
+     */
     private void inicializaRecyclerView() {
         recyclerViewRelatorioProdutos.setLayoutManager(new LinearLayoutManager(this));
         recyclerViewRelatorioProdutos.setHasFixedSize(true);
@@ -53,6 +56,9 @@ public class RelatorioDeVendasActivity extends AppCompatActivity implements Adap
         recyclerViewRelatorioProdutos.setAdapter(adapterRelatorioVendas);
     }
 
+    /**
+     * Método que recupera do banco de dados MySQl os dados que iram ser preenchidos na classe RelatorioVendas.
+     */
     private void recuperaRelatoriosVendas () {
         RelatorioVendas relatorioVendas1 = new RelatorioVendas();
         relatorioVendas1.setIdRelatorio("12345678");

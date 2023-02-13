@@ -30,9 +30,10 @@
 
 
         <TextView
+            android:id="@+id/text2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="25dp"
             android:padding="10dp"
             android:text="99.99%"
             android:textSize="16dp"
@@ -65,6 +66,7 @@
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout5">
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewRelatorioProdutos"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             tools:listitem="@layout/lista_de_produtos_adapter"
