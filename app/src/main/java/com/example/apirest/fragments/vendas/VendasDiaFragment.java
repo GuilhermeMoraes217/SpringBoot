@@ -72,8 +72,11 @@ public class VendasDiaFragment extends Fragment {
     ConstraintLayout verProdutosVendas;
     FloatingActionButton fab;
 
-    private TextView valorGeralVendas;
+    private TextView valorGeralVendas, totaldePedidos, totalPedidosCancelados;
     Double valorVendasDia = 0.0;
+
+    int pedidosCancelados = 0;
+    String totalNumeroPedidos;
 
 
     @Override
@@ -91,7 +94,11 @@ public class VendasDiaFragment extends Fragment {
 
     private void ExibirComponentes() {
 
+        totalNumeroPedidos=Integer.toString(listVendasMaster.size());
         for (VendasMaster vendasMaster : listVendasMaster) {
+            if (vendasMaster.getSituacao().equals("C")) {
+                pedidosCancelados++;
+            }
             for (Vendasfpg vendasfpg : listvendasfpg) {
                 for (FormaPagamento formaPagamento : listformaPagamento) {
                     if ( vendasfpg.getVendas_master() == vendasMaster.getCodigo()) {
@@ -99,13 +106,16 @@ public class VendasDiaFragment extends Fragment {
                             if (vendasMaster.getSituacao().equals("F") && !formaPagamento.getGeracr().equals("R")){
                                 valorVendasDia += vendasfpg.getValor();
                             }
+
                         }
                     }
                 }
             }
         }
 
-        valorGeralVendas.setText( "R$" + GetMask.getValor(valorVendasDia));
+        totaldePedidos.setText(totalNumeroPedidos);
+        totalPedidosCancelados.setText(Integer.toString(pedidosCancelados));
+        valorGeralVendas.setText( "R$ " + GetMask.getValor(valorVendasDia));
 
     }
 
@@ -238,6 +248,8 @@ public class VendasDiaFragment extends Fragment {
         fab = view.findViewById(R.id.fabe);
         verProdutosVendas = view.findViewById(R.id.VerProdutosVendas);
         valorGeralVendas = view.findViewById(R.id.textView2);
+        totaldePedidos = view.findViewById(R.id.textView4);
+        totalPedidosCancelados = view.findViewById(R.id.textView6);
 
     }
 }
