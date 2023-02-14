@@ -13,7 +13,7 @@ import retrofit2.http.Path;
 public interface PersonaService {
 
     @GET("listar")
-    Call<List<Persona>>  getPersonas();
+    Call<List<Persona>> getPersonas();
 
     @POST("agregar")
     Call<Persona>addPersona(@Body Persona persona);
