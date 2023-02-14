@@ -13,8 +13,8 @@ import retrofit2.http.Path;
 
 public interface VendasMasterService {
 
-    @GET("listar")
-    Call<List<VendasMaster>>  getPersonas();
+    @GET("listarVendas")
+    Call<List<VendasMaster>>  getVendasMaster();
 
     @POST("agregar")
     Call<VendasMaster>addPersona(@Body VendasMaster vendasMaster);

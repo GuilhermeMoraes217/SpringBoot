@@ -20,8 +20,15 @@ import com.example.apirest.adapter.PersonaAdapter;
 import com.example.apirest.activity.empresa.PersonaActivity;
 import com.example.apirest.model.Persona;
 import com.example.apirest.R;
+import com.example.apirest.model.vendas.FormaPagamento;
+import com.example.apirest.model.vendas.VendasMaster;
+import com.example.apirest.model.vendas.Vendasfpg;
 import com.example.apirest.utils.Apis;
+import com.example.apirest.utils.FormaPagamentoService;
+import com.example.apirest.utils.GetMask;
 import com.example.apirest.utils.PersonaService;
+import com.example.apirest.utils.VendasMasterService;
+import com.example.apirest.utils.VendasfpgService;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -34,13 +41,40 @@ import retrofit2.Response;
 
 public class VendasDiaFragment extends Fragment {
 
+    /**
+     * Atributos que irao receber o popular as classes Personas
+     */
     PersonaService personaService;
     List<Persona> listPersona=new ArrayList<>();
+
+    /**
+     * Atributos que irao receber o popular as classes VendasMaster
+     */
+    VendasMasterService vendasMasterService;
+    List<VendasMaster> listVendasMaster = new ArrayList<>();
+
+    /**
+     * Atributos que irao receber o popular as classes Vendasfpg
+     */
+    VendasfpgService vendasfpgService;
+    List<Vendasfpg> listvendasfpg=new ArrayList<>();
+
+    /**
+     * Atributos que irao receber o popular as classes FormaPagamento
+     */
+    FormaPagamentoService formaPagamentoService;
+    List<FormaPagamento> listformaPagamento=new ArrayList<>();
+
+
     ListView listView;
     TextView textListaVazia;
     ProgressBar progressBar;
-    ConstraintLayout VerProdutosVendas;
+    ConstraintLayout verProdutosVendas;
     FloatingActionButton fab;
+
+    private TextView valorGeralVendas;
+    Double valorVendasDia = 0.0;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -50,8 +84,29 @@ public class VendasDiaFragment extends Fragment {
         InitCliques(view);
 
         listPersons();
+        RecuperaListVendasMaster();
 
         return view;
+    }
+
+    private void ExibirComponentes() {
+
+        for (VendasMaster vendasMaster : listVendasMaster) {
+            for (Vendasfpg vendasfpg : listvendasfpg) {
+                for (FormaPagamento formaPagamento : listformaPagamento) {
+                    if ( vendasfpg.getVendas_master() == vendasMaster.getCodigo()) {
+                        if (vendasfpg.getId_forma() == formaPagamento.getCodigo()){
+                            if (vendasMaster.getSituacao().equals("F") && !formaPagamento.getGeracr().equals("R")){
+                                valorVendasDia += vendasfpg.getValor();
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        valorGeralVendas.setText( "R$" + GetMask.getValor(valorVendasDia));
+
     }
 
     public void InitCliques (View view) {
@@ -62,14 +117,12 @@ public class VendasDiaFragment extends Fragment {
             intent.putExtra("APELLIDO","");
             startActivity(intent);
         });
-        VerProdutosVendas.setOnClickListener(view1 -> {
+        verProdutosVendas.setOnClickListener(view1 -> {
             Intent intent=new Intent(getActivity(), RelatorioDeVendasActivity.class);
             startActivity(intent);
         });
 
     }
-
-
     public void listPersons(){
         personaService= Apis.getPersonaService();
         Call<List<Persona>> call=personaService.getPersonas();
@@ -93,6 +146,69 @@ public class VendasDiaFragment extends Fragment {
         });
 
     }
+    public void RecuperaListVendasMaster(){
+        vendasMasterService= Apis.getVendasMasterService();
+        Call<List<VendasMaster>> call=vendasMasterService.getVendasMaster();
+        call.enqueue(new Callback<List<VendasMaster>>() {
+            @Override
+            public void onResponse(Call<List<VendasMaster>> call, Response<List<VendasMaster>> response) {
+                if(response.isSuccessful()) {
+                    listVendasMaster = response.body();
+                }
+                RecuperalistVendasfpg();
+
+            }
+
+            @Override
+            public void onFailure(Call<List<VendasMaster>> call, Throwable t) {
+                Log.e("Error:",t.getMessage());
+
+            }
+        });
+
+    }
+    public void RecuperalistVendasfpg(){
+        vendasfpgService= Apis.getVendasfpgService();
+        Call<List<Vendasfpg>> call=vendasfpgService.getVendasfpg();
+        call.enqueue(new Callback<List<Vendasfpg>>() {
+            @Override
+            public void onResponse(Call<List<Vendasfpg>> call, Response<List<Vendasfpg>> response) {
+                if(response.isSuccessful()) {
+                    listvendasfpg = response.body();
+                }
+                RecuperalistFormaPagamento();
+
+            }
+
+            @Override
+            public void onFailure(Call<List<Vendasfpg>> call, Throwable t) {
+                Log.e("Error:",t.getMessage());
+
+            }
+        });
+
+    }
+    public void RecuperalistFormaPagamento(){
+        formaPagamentoService= Apis.getFormaPagamentoService();
+        Call<List<FormaPagamento>> call= formaPagamentoService.getFormaPagamento();
+        call.enqueue(new Callback<List<FormaPagamento>>() {
+            @Override
+            public void onResponse(Call<List<FormaPagamento>> call, Response<List<FormaPagamento>> response) {
+                if(response.isSuccessful()) {
+                    listformaPagamento = response.body();
+                }
+                ExibirComponentes();
+            }
+
+            @Override
+            public void onFailure(Call<List<FormaPagamento>> call, Throwable t) {
+                Log.e("Error:",t.getMessage());
+
+            }
+        });
+
+    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -120,7 +236,8 @@ public class VendasDiaFragment extends Fragment {
         textListaVazia=view.findViewById(R.id.textListaVazia);
         progressBar=view.findViewById(R.id.progressBar);
         fab = view.findViewById(R.id.fabe);
-        VerProdutosVendas = view.findViewById(R.id.VerProdutosVendas);
+        verProdutosVendas = view.findViewById(R.id.VerProdutosVendas);
+        valorGeralVendas = view.findViewById(R.id.textView2);
 
     }
 }

@@ -4,8 +4,10 @@ import com.example.apirest.model.vendas.VendasMaster;
 
 public class Apis {
 
-    public static final String URL_001="http://192.168.1.110:8080/personas/"; // Notebook
-    public static final String URL_002="http://192.168.1.110:8080/vendasMaster/"; // Notebook
+    public static final String URL_001="http://192.168.1.104:8080/personas/"; // Notebook
+    public static final String URL_002="http://192.168.1.104:8080/vendasmaster/"; // Notebook
+    public static final String URL_003="http://192.168.1.104:8080/vendasformapagamento/"; // Notebook
+    public static final String URL_004="http://192.168.1.104:8080/formapagamento/"; // Notebook
 
     public static PersonaService getPersonaService(){
         return  Cliente.getClient(URL_001).create(PersonaService.class);
@@ -14,5 +16,14 @@ public class Apis {
     public static VendasMasterService getVendasMasterService(){
         return  Cliente.getClient(URL_002).create(VendasMasterService.class);
     }
+
+    public static VendasfpgService getVendasfpgService(){
+        return  Cliente.getClient(URL_003).create(VendasfpgService.class);
+    }
+
+    public static FormaPagamentoService getFormaPagamentoService(){
+        return  Cliente.getClient(URL_004).create(FormaPagamentoService.class);
+    }
+
 
 }
