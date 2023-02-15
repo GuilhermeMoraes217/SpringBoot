@@ -49,21 +49,19 @@ public class AdapterRelatorioVendas extends RecyclerView.Adapter<AdapterRelatori
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         VendasMaster relatorioVendasLoja = relatorioVendas.get(position);
 
-        if (relatorioVendasLoja.getFlag_nfce() == null && relatorioVendasLoja.getTotal() > 0 && relatorioVendasLoja.getSituacao().equals("F")) {
+        if (relatorioVendasLoja.getFlag_nfce() == null) {
             holder.idRelatorio.setText( "#" + Integer.toString(relatorioVendasLoja.getCodigo()));
-            holder.textConsumidor.setText(relatorioVendasLoja.getNome());
-            holder.textEmpresa.setText( Integer.toString(relatorioVendasLoja.getFkempresa()));
+            holder.textConsumidor.setText(relatorioVendasLoja.getNome() );
+            holder.textEmpresa.setText( Integer.toString(relatorioVendasLoja.getFkempresa()) );
             holder.textValorFaturado.setText("R$" + GetMask.getValor(relatorioVendasLoja.getTotal()));
             holder.textFatura.setText("Baixado");
 
-        } else if (relatorioVendasLoja.getTotal() > 0 && relatorioVendasLoja.getSituacao().equals("F")) {
+        } else {
             holder.idRelatorio.setText( "#" + Integer.toString(relatorioVendasLoja.getCodigo()));
             holder.textConsumidor.setText(relatorioVendasLoja.getNome());
             holder.textEmpresa.setText( Integer.toString(relatorioVendasLoja.getFkempresa()));
             holder.textValorFaturado.setText("R$" + GetMask.getValor(relatorioVendasLoja.getTotal()));
             holder.textFatura.setText("faturado");
-        } else {
-            holder.constraintLayout.setVisibility(View.GONE);
         }
 
         holder.itemView.setOnClickListener(view -> itemClickListener.onClick(relatorioVendasLoja));

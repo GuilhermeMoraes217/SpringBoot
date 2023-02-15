@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.apirest.R;
@@ -17,6 +18,7 @@ import com.example.apirest.fragments.vendas.RelatorioVendasFragment;
 import com.example.apirest.model.RelatorioVendas;
 import com.example.apirest.model.vendas.VendasMaster;
 import com.example.apirest.utils.Apis;
+import com.example.apirest.utils.GetMask;
 import com.example.apirest.utils.VendasMasterService;
 
 import java.io.Serializable;
@@ -49,8 +51,12 @@ public class RelatorioDeVendasActivity extends AppCompatActivity implements Adap
     VendasMasterService vendasMasterService;
     List<VendasMaster> listVendasMaster = new ArrayList<>();
 
-
-
+    /**
+     * Atributos variddos do layout
+     */
+    private Double valorVendas = 0.0;
+    private ProgressBar progressBar, progressBarPedidos, progressBarValorPedidos;
+    private TextView textViewListaVazia;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,22 +89,37 @@ public class RelatorioDeVendasActivity extends AppCompatActivity implements Adap
             @Override
             public void onResponse(Call<List<VendasMaster>> call, Response<List<VendasMaster>> response) {
                 if(response.isSuccessful()) {
-
                     List <VendasMaster> vendasMaster = response.body();
-
                     for (VendasMaster vendasMaster1 : vendasMaster) {
                         if (vendasMaster1.getTotal() > 0 && vendasMaster1.getSituacao().equals("F")) {
                             listVendasMaster.add(vendasMaster1);
+                            valorVendas+=vendasMaster1.getTotal();
                         }
                     }
-                    adapterRelatorioVendas.notifyDataSetChanged();
 
+                    progressBar.setVisibility(View.GONE);
+                    progressBarPedidos.setVisibility(View.GONE);
+                    progressBarValorPedidos.setVisibility(View.GONE);
+
+                    adapterRelatorioVendas.notifyDataSetChanged();
+                    textviewNumeroPedidos.setText(Integer.toString(listVendasMaster.size()) + " pedidos");
+                    textViewValorVendas.setText("R$ " + GetMask.getValor(valorVendas));
                 }
             }
 
             @Override
             public void onFailure(Call<List<VendasMaster>> call, Throwable t) {
                 Log.e("Error:",t.getMessage());
+
+                progressBar.setVisibility(View.GONE);
+                progressBarPedidos.setVisibility(View.GONE);
+                progressBarValorPedidos.setVisibility(View.GONE);
+
+                textViewListaVazia.setVisibility(View.VISIBLE);
+                textViewListaVazia.setText("Nenhuma venda realizada");
+
+                textviewNumeroPedidos.setText(Integer.toString(0) + " pedidos");
+                textViewValorVendas.setText("R$ " + GetMask.getValor(0.0));
 
             }
         });
@@ -111,6 +132,12 @@ public class RelatorioDeVendasActivity extends AppCompatActivity implements Adap
         textViewDataRelatorio = findViewById(R.id.textViewDataRelatorio);
         textviewNumeroPedidos = findViewById(R.id.textviewNumeroPedidos);
         textViewValorVendas = findViewById(R.id.textViewValorVendas);
+
+        progressBar = findViewById(R.id.progressBar);
+        progressBarPedidos = findViewById(R.id.progressBarPedidos);
+        progressBarValorPedidos = findViewById(R.id.progressBarValorPedidos);
+
+        textViewListaVazia = findViewById(R.id.textListaVazia);
 
     }
 
