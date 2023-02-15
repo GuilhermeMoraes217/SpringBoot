@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -47,7 +48,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                android:text="R$ 150,00"
+                android:text="R$ 0,00"
                 android:textSize="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -58,7 +59,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                android:text="#12345678"
+                android:text="#00000000"
                 android:textColor="@color/black"
                 android:textSize="16dp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -71,7 +72,7 @@
                 android:layout_marginTop="4dp"
                 android:text="CONSUMIDOR"
                 android:textColor="@color/black"
-                android:textSize="16dp"
+                android:textSize="14dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/idRelatorio" />
 

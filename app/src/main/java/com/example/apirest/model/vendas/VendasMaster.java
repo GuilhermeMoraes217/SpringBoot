@@ -3,7 +3,10 @@ package com.example.apirest.model.vendas;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class VendasMaster {
+import java.io.Serializable;
+import java.util.Comparator;
+
+public class VendasMaster implements Serializable {
 
     @SerializedName(value = "codigo", alternate = "CODIGO")
     @Expose
@@ -192,6 +195,13 @@ public class VendasMaster {
         this.nome = nome;
         this.tela = tela;
     }
+
+    public static Comparator<VendasMaster> listEmpresa = new Comparator<VendasMaster>() {
+        @Override
+        public int compare(VendasMaster vendasMaster, VendasMaster vendasMaster2) {
+            return vendasMaster.getSituacao().compareTo(vendasMaster2.getSituacao());
+        }
+    };
 
     public int getCodigo() {
         return codigo;

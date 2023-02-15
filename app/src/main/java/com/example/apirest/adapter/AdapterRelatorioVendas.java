@@ -8,11 +8,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 
 import com.example.apirest.R;
 import com.example.apirest.model.RelatorioVendas;
+import com.example.apirest.model.vendas.VendasMaster;
 import com.example.apirest.utils.GetMask;
 
 import java.util.ArrayList;
@@ -20,19 +22,19 @@ import java.util.List;
 
 public class AdapterRelatorioVendas extends RecyclerView.Adapter<AdapterRelatorioVendas.MyViewHolder> {
 
-    private List<RelatorioVendas> relatorioVendas;
+    private List<VendasMaster> relatorioVendas;
     private Context context;
 
     ItemClickListener itemClickListener;
 
 
-    public AdapterRelatorioVendas(List<RelatorioVendas> relatorioVendas, Context context, ItemClickListener onClickListener) {
+    public AdapterRelatorioVendas(List<VendasMaster> relatorioVendas, Context context, ItemClickListener onClickListener) {
         this.relatorioVendas = relatorioVendas;
         this.context = context;
         this.itemClickListener = onClickListener;
     }
 
-    public List<RelatorioVendas> getRelatorioVendas() {
+    public List<VendasMaster> getRelatorioVendas() {
         return relatorioVendas;
     }
 
@@ -45,15 +47,26 @@ public class AdapterRelatorioVendas extends RecyclerView.Adapter<AdapterRelatori
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        RelatorioVendas relatorioVendasLoja = relatorioVendas.get(position);
-        holder.idRelatorio.setText(relatorioVendasLoja.getIdRelatorio());
-        holder.textConsumidor.setText(relatorioVendasLoja.getTextConsumidor());
-        holder.textEmpresa.setText(relatorioVendasLoja.getTextEmpresa());
-        holder.textValorFaturado.setText("R$" + GetMask.getValor(relatorioVendasLoja.getTextValorFaturado()));
-        holder.textFatura.setText(relatorioVendasLoja.getTextStatusFatura());
+        VendasMaster relatorioVendasLoja = relatorioVendas.get(position);
+
+        if (relatorioVendasLoja.getFlag_nfce() == null && relatorioVendasLoja.getTotal() > 0 && relatorioVendasLoja.getSituacao().equals("F")) {
+            holder.idRelatorio.setText( "#" + Integer.toString(relatorioVendasLoja.getCodigo()));
+            holder.textConsumidor.setText(relatorioVendasLoja.getNome());
+            holder.textEmpresa.setText( Integer.toString(relatorioVendasLoja.getFkempresa()));
+            holder.textValorFaturado.setText("R$" + GetMask.getValor(relatorioVendasLoja.getTotal()));
+            holder.textFatura.setText("Baixado");
+
+        } else if (relatorioVendasLoja.getTotal() > 0 && relatorioVendasLoja.getSituacao().equals("F")) {
+            holder.idRelatorio.setText( "#" + Integer.toString(relatorioVendasLoja.getCodigo()));
+            holder.textConsumidor.setText(relatorioVendasLoja.getNome());
+            holder.textEmpresa.setText( Integer.toString(relatorioVendasLoja.getFkempresa()));
+            holder.textValorFaturado.setText("R$" + GetMask.getValor(relatorioVendasLoja.getTotal()));
+            holder.textFatura.setText("faturado");
+        } else {
+            holder.constraintLayout.setVisibility(View.GONE);
+        }
 
         holder.itemView.setOnClickListener(view -> itemClickListener.onClick(relatorioVendasLoja));
-
         //holder.imagemStatus.setChecked(bairroEntregaLoja.isSelected());
 
     }
@@ -64,13 +77,15 @@ public class AdapterRelatorioVendas extends RecyclerView.Adapter<AdapterRelatori
     }
 
     public interface ItemClickListener {
-        void onClick ( RelatorioVendas relatorioVendas );
+        void onClick ( VendasMaster relatorioVendas );
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
         TextView idRelatorio, textConsumidor, textEmpresa, textValorFaturado, textFatura;
         ImageView imagemStatus;
+
+        ConstraintLayout constraintLayout;
 
         public MyViewHolder(View itemView) {
             super(itemView);
@@ -81,6 +96,7 @@ public class AdapterRelatorioVendas extends RecyclerView.Adapter<AdapterRelatori
             textValorFaturado = itemView.findViewById(R.id.textValorFaturado);
             textFatura = itemView.findViewById(R.id.textStatusFatura);
             imagemStatus = itemView.findViewById(R.id.imagemStatus);
+            constraintLayout = itemView.findViewById(R.id.constraintLayout);
 
         }
     }

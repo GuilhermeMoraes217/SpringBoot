@@ -10,13 +10,14 @@ import android.view.ViewGroup;
 
 import com.example.apirest.R;
 import com.example.apirest.model.RelatorioVendas;
+import com.example.apirest.model.vendas.VendasMaster;
 
 import java.util.ArrayList;
 
 
 public class InformacaoPedidoFragment extends Fragment {
 
-    RelatorioVendas relatorioVendas;
+    VendasMaster relatorioVendas;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -24,7 +25,7 @@ public class InformacaoPedidoFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_informacao_pedido, container, false);
         Bundle bundle = getActivity().getIntent().getExtras();
-        relatorioVendas = (RelatorioVendas) bundle.getSerializable("relatorioVendasSelecionados");
+        relatorioVendas = (VendasMaster) bundle.getSerializable("relatorioVendasSelecionados");
 
 
         return view;

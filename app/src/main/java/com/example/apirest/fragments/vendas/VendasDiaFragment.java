@@ -31,6 +31,7 @@ import com.example.apirest.utils.VendasMasterService;
 import com.example.apirest.utils.VendasfpgService;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -78,6 +79,8 @@ public class VendasDiaFragment extends Fragment {
     int pedidosCancelados = 0;
     String totalNumeroPedidos;
 
+    private ProgressBar progressBarValorGeral, progressBarTotalPedido, progressBarTotalPedidoCancelados;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -113,6 +116,10 @@ public class VendasDiaFragment extends Fragment {
             }
         }
 
+        progressBarValorGeral.setVisibility(View.GONE);
+        progressBarTotalPedido.setVisibility(View.GONE);
+        progressBarTotalPedidoCancelados.setVisibility(View.GONE);
+
         totaldePedidos.setText(totalNumeroPedidos);
         totalPedidosCancelados.setText(Integer.toString(pedidosCancelados));
         valorGeralVendas.setText( "R$ " + GetMask.getValor(valorVendasDia));
@@ -129,6 +136,7 @@ public class VendasDiaFragment extends Fragment {
         });
         verProdutosVendas.setOnClickListener(view1 -> {
             Intent intent=new Intent(getActivity(), RelatorioDeVendasActivity.class);
+            intent.putExtra("listVendasMaster", (Serializable) listVendasMaster);
             startActivity(intent);
         });
 
@@ -250,6 +258,9 @@ public class VendasDiaFragment extends Fragment {
         valorGeralVendas = view.findViewById(R.id.textView2);
         totaldePedidos = view.findViewById(R.id.textView4);
         totalPedidosCancelados = view.findViewById(R.id.textView6);
+        progressBarValorGeral = view.findViewById(R.id.progressBarValorGeral);
+        progressBarTotalPedido = view.findViewById(R.id.progressBarTotalPedido);
+        progressBarTotalPedidoCancelados = view.findViewById(R.id.progressBarTotalPedidoCancelados);
 
     }
 }
