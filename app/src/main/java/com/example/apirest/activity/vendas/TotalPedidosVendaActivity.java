@@ -13,9 +13,11 @@ import android.widget.TextView;
 
 import com.example.apirest.R;
 import com.example.apirest.adapter.vendas.AdapterTotalPedidoVenda;
+import com.example.apirest.model.Empresas;
 import com.example.apirest.model.RelatorioVendas;
 import com.example.apirest.model.vendas.VendasMaster;
 import com.example.apirest.utils.Apis;
+import com.example.apirest.utils.EmpresasService;
 import com.example.apirest.utils.GetMask;
 import com.example.apirest.utils.VendasMasterService;
 
@@ -49,6 +51,12 @@ public class TotalPedidosVendaActivity extends AppCompatActivity implements Adap
     List<VendasMaster> listTotalPedidos = new ArrayList<>();
 
     /**
+     * Atributos que irao receber o popular as classes Empresas
+     */
+    EmpresasService empresasService;
+    List<Empresas> empresasList = new ArrayList<>();
+
+    /**
      * Atributos variddos do layout totalPedidosVendas
      */
     private Double valorTotalPedido = 0.0;
@@ -60,7 +68,7 @@ public class TotalPedidosVendaActivity extends AppCompatActivity implements Adap
         setContentView(R.layout.activity_total_pedidos_venda);
 
         inicializaComponentes();
-        RecuperaListVendasMaster();
+        RecuperaListEmpresas();
         inicializaRecyclerView();
     }
 
@@ -77,18 +85,21 @@ public class TotalPedidosVendaActivity extends AppCompatActivity implements Adap
     /**
      * Método que recupera do banco de dados MySQl os dados que iram ser preenchidos na classe vendas_master.
      */
-    public void RecuperaListVendasMaster(){
-        vendasMasterService= Apis.getVendasMasterService();
-        Call<List<VendasMaster>> call=vendasMasterService.getVendasMaster();
+    public void RecuperaListVendasMaster() {
+        vendasMasterService = Apis.getVendasMasterService();
+        Call<List<VendasMaster>> call = vendasMasterService.getVendasMaster();
         call.enqueue(new Callback<List<VendasMaster>>() {
             @Override
             public void onResponse(Call<List<VendasMaster>> call, Response<List<VendasMaster>> response) {
-                if(response.isSuccessful()) {
-                    List <VendasMaster> vendasMaster = response.body();
+                if (response.isSuccessful()) {
+                    List<VendasMaster> vendasMaster = response.body();
                     for (VendasMaster vendasMaster1 : vendasMaster) {
-                        if (vendasMaster1.getTotal() > 0 && vendasMaster1.getNome() != null) {
-                            listTotalPedidos.add(vendasMaster1);
-                            valorTotalPedido +=vendasMaster1.getTotal();
+                        for (Empresas empresas : empresasList) {
+                            if (vendasMaster1.getTotal() > 0 && vendasMaster1.getNome() != null && empresas.getCodigo() == vendasMaster1.getFkempresa()) {
+                                vendasMaster1.setNomeEmpresa(empresas.getRazao());
+                                listTotalPedidos.add(vendasMaster1);
+                                valorTotalPedido += vendasMaster1.getTotal();
+                            }
                         }
                     }
 
@@ -104,7 +115,7 @@ public class TotalPedidosVendaActivity extends AppCompatActivity implements Adap
 
             @Override
             public void onFailure(Call<List<VendasMaster>> call, Throwable t) {
-                Log.e("Error:",t.getMessage());
+                Log.e("Error:", t.getMessage());
 
                 progressBar.setVisibility(View.GONE);
                 progressBarPedidos.setVisibility(View.GONE);
@@ -121,6 +132,29 @@ public class TotalPedidosVendaActivity extends AppCompatActivity implements Adap
 
     }
 
+    /**
+     * Método que recupera do banco de dados MySQl os dados que iram ser preenchidos na classe empresas.
+     */
+    public void RecuperaListEmpresas() {
+        empresasService = Apis.getEmpresasService();
+        Call<List<Empresas>> call = empresasService.getEmpresas();
+        call.enqueue(new Callback<List<Empresas>>() {
+            @Override
+            public void onResponse(Call<List<Empresas>> call, Response<List<Empresas>> response) {
+                if (response.isSuccessful()) {
+                    empresasList = response.body();
+                }
+                RecuperaListVendasMaster();
+            }
+
+            @Override
+            public void onFailure(Call<List<Empresas>> call, Throwable t) {
+                Log.e("Error:", t.getMessage());
+
+            }
+        });
+
+    }
 
     private void inicializaComponentes() {
         recyclerViewRelatorioProdutos = findViewById(R.id.recyclerViewRelatorioProdutos);

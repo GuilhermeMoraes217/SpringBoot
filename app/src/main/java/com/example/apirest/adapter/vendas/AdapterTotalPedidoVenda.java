@@ -44,15 +44,15 @@ public class AdapterTotalPedidoVenda extends RecyclerView.Adapter<AdapterTotalPe
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        VendasMaster relatorioVendasLoja = relatorioVendas.get(position);
+        VendasMaster relatorioTotalPedidos = relatorioVendas.get(position);
 
-        holder.idRelatorio.setText( "#" + Integer.toString(relatorioVendasLoja.getCodigo()));
-        holder.textConsumidor.setText(relatorioVendasLoja.getNome());
-        holder.textEmpresa.setText( Integer.toString(relatorioVendasLoja.getFkempresa()));
-        holder.textValorFaturado.setText("R$" + GetMask.getValor(relatorioVendasLoja.getTotal()));
+        holder.idRelatorio.setText( "#" + Integer.toString(relatorioTotalPedidos.getCodigo()));
+        holder.textConsumidor.setText(relatorioTotalPedidos.getNome());
+        holder.textEmpresa.setText(relatorioTotalPedidos.getNomeEmpresa());
+        holder.textValorFaturado.setText("R$" + GetMask.getValor(relatorioTotalPedidos.getTotal()));
         holder.textFatura.setText("DESCONHECIDO");
 
-        holder.itemView.setOnClickListener(view -> itemClickListener.onClick(relatorioVendasLoja));
+        holder.itemView.setOnClickListener(view -> itemClickListener.onClick(relatorioTotalPedidos));
         //holder.imagemStatus.setChecked(bairroEntregaLoja.isSelected());
 
     }

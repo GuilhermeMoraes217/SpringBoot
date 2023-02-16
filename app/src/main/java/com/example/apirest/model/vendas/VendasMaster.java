@@ -152,6 +152,8 @@ public class VendasMaster implements Serializable {
     @Expose
     private String tela;
 
+    private String nomeEmpresa;
+
 
     public VendasMaster() {
 
@@ -196,12 +198,13 @@ public class VendasMaster implements Serializable {
         this.tela = tela;
     }
 
-    public static Comparator<VendasMaster> listEmpresa = new Comparator<VendasMaster>() {
-        @Override
-        public int compare(VendasMaster vendasMaster, VendasMaster vendasMaster2) {
-            return vendasMaster.getSituacao().compareTo(vendasMaster2.getSituacao());
-        }
-    };
+    public String getNomeEmpresa() {
+        return nomeEmpresa;
+    }
+
+    public void setNomeEmpresa(String nomeEmpresa) {
+        this.nomeEmpresa = nomeEmpresa;
+    }
 
     public int getCodigo() {
         return codigo;

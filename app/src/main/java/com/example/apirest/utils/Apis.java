@@ -6,10 +6,12 @@ public class Apis {
 
     // 10.0.0.132 LABEX
     // 192.168.1.104 SIGATEC
-    public static final String URL_001="http://192.168.1.104:8080/personas/"; // Notebook
-    public static final String URL_002="http://192.168.1.104:8080/vendasmaster/"; // Notebook
-    public static final String URL_003="http://192.168.1.104:8080/vendasformapagamento/"; // Notebook
-    public static final String URL_004="http://192.168.1.104:8080/formapagamento/"; // Notebook
+    // 10.0.0.126 Casa
+    public static final String URL_001="http://10.0.0.126:8080/personas/"; // Notebook
+    public static final String URL_002="http://10.0.0.126:8080/vendasmaster/"; // Notebook
+    public static final String URL_003="http://10.0.0.126:8080/vendasformapagamento/"; // Notebook
+    public static final String URL_004="http://10.0.0.126:8080/formapagamento/"; // Notebook
+    public static final String URL_005="http://10.0.0.126:8080/empresas/"; // Notebook
 
     public static PersonaService getPersonaService(){
         return  Cliente.getClient(URL_001).create(PersonaService.class);
@@ -25,6 +27,10 @@ public class Apis {
 
     public static FormaPagamentoService getFormaPagamentoService(){
         return  Cliente.getClient(URL_004).create(FormaPagamentoService.class);
+    }
+
+    public static EmpresasService getEmpresasService(){
+        return  Cliente.getClient(URL_005).create(EmpresasService.class);
     }
 
 

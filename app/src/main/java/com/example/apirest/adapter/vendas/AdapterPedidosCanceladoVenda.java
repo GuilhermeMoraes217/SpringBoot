@@ -44,15 +44,16 @@ public class AdapterPedidosCanceladoVenda extends RecyclerView.Adapter<AdapterPe
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        VendasMaster relatorioVendasLoja = relatorioVendas.get(position);
+        VendasMaster relatorioPedidosCancelados = relatorioVendas.get(position);
 
-        holder.idRelatorio.setText( "#" + Integer.toString(relatorioVendasLoja.getCodigo()));
-        holder.textConsumidor.setText(relatorioVendasLoja.getNome());
-        holder.textEmpresa.setText( Integer.toString(relatorioVendasLoja.getFkempresa()));
-        holder.textValorFaturado.setText("R$" + GetMask.getValor(relatorioVendasLoja.getTotal()));
+        holder.imagemStatus.setBackgroundResource(R.drawable.status_vermelho);
+        holder.idRelatorio.setText( "#" + Integer.toString(relatorioPedidosCancelados.getCodigo()));
+        holder.textConsumidor.setText(relatorioPedidosCancelados.getNome());
+        holder.textEmpresa.setText(relatorioPedidosCancelados.getNomeEmpresa());
+        holder.textValorFaturado.setText("R$" + GetMask.getValor(relatorioPedidosCancelados.getTotal()));
         holder.textFatura.setText("cancelado");
 
-        holder.itemView.setOnClickListener(view -> itemClickListener.onClick(relatorioVendasLoja));
+        holder.itemView.setOnClickListener(view -> itemClickListener.onClick(relatorioPedidosCancelados));
         //holder.imagemStatus.setChecked(bairroEntregaLoja.isSelected());
 
     }

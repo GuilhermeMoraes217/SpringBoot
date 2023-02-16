@@ -134,7 +134,7 @@ public class VendasDiaFragment extends Fragment {
                                  * recupera o valor de vendas
                                  */
                                 valorVendasDia += vendasfpg.getValor();
-                                if (vendasMaster.getFlag_nfce().equals("S")) {
+                                if (vendasMaster.getNecf() > 0) {
                                     /**
                                      * recupera o valor da fatura
                                      */

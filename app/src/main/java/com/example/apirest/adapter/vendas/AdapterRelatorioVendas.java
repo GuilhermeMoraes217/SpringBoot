@@ -47,17 +47,19 @@ public class AdapterRelatorioVendas extends RecyclerView.Adapter<AdapterRelatori
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         VendasMaster relatorioVendasLoja = relatorioVendas.get(position);
 
-        if (relatorioVendasLoja.getFlag_nfce() == null) {
+        if (relatorioVendasLoja.getNecf() == 0) {
+            holder.imagemStatus.setBackgroundResource(R.drawable.status_azul);
             holder.idRelatorio.setText( "#" + Integer.toString(relatorioVendasLoja.getCodigo()));
             holder.textConsumidor.setText(relatorioVendasLoja.getNome() );
-            holder.textEmpresa.setText( Integer.toString(relatorioVendasLoja.getFkempresa()) );
+            holder.textEmpresa.setText((relatorioVendasLoja.getNomeEmpresa()));
             holder.textValorFaturado.setText("R$" + GetMask.getValor(relatorioVendasLoja.getTotal()));
             holder.textFatura.setText("Baixado");
 
         } else {
+            holder.imagemStatus.setBackgroundResource(R.drawable.status_verde);
             holder.idRelatorio.setText( "#" + Integer.toString(relatorioVendasLoja.getCodigo()));
             holder.textConsumidor.setText(relatorioVendasLoja.getNome());
-            holder.textEmpresa.setText( Integer.toString(relatorioVendasLoja.getFkempresa()));
+            holder.textEmpresa.setText(relatorioVendasLoja.getNomeEmpresa());
             holder.textValorFaturado.setText("R$" + GetMask.getValor(relatorioVendasLoja.getTotal()));
             holder.textFatura.setText("faturado");
         }
