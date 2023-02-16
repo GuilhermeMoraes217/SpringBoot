@@ -112,7 +112,7 @@ public class PedidosCanceladosVendaActivity extends AppCompatActivity implements
                 progressBarValorPedidos.setVisibility(View.GONE);
 
                 textViewListaVazia.setVisibility(View.VISIBLE);
-                textViewListaVazia.setText("Nenhuma venda realizada");
+                textViewListaVazia.setText("Nenhum pedido cancelado");
 
                 textviewNumeroPedidosCancelados.setText(Integer.toString(0) + " pedidos");
                 textViewValorPedidoCancelado.setText("R$ " + GetMask.getValor(0.0));
@@ -125,15 +125,17 @@ public class PedidosCanceladosVendaActivity extends AppCompatActivity implements
 
     private void inicializaComponentes() {
         recyclerViewRelatorioProdutos = findViewById(R.id.recyclerViewRelatorioProdutos);
+
+        //TEXTVIEW
         textViewDataRelatorio = findViewById(R.id.textViewDataRelatorio);
         textviewNumeroPedidosCancelados = findViewById(R.id.textviewNumeroPedidos);
         textViewValorPedidoCancelado = findViewById(R.id.textViewValorVendas);
+        textViewListaVazia = findViewById(R.id.textListaVazia);
 
+        //PROGRESS BAR
         progressBar = findViewById(R.id.progressBar);
         progressBarPedidos = findViewById(R.id.progressBarPedidos);
         progressBarValorPedidos = findViewById(R.id.progressBarValorPedidos);
-
-        textViewListaVazia = findViewById(R.id.textListaVazia);
 
     }
 

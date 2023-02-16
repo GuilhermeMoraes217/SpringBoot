@@ -113,7 +113,7 @@
             android:id="@+id/textListaVazia"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:text="Nenhuma venda realizada"
+            tools:text="Nenhum pedido feito"
             android:textAlignment="center"
             android:textSize="16dp"
             app:layout_constraintBottom_toBottomOf="parent"

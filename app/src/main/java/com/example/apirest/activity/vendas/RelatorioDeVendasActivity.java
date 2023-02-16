@@ -124,15 +124,17 @@ public class RelatorioDeVendasActivity extends AppCompatActivity implements Adap
 
     private void inicializaComponentes() {
         recyclerViewRelatorioProdutos = findViewById(R.id.recyclerViewRelatorioProdutos);
+
+        //TEXTEVIEW
         textViewDataRelatorio = findViewById(R.id.textViewDataRelatorio);
         textviewNumeroPedidos = findViewById(R.id.textviewNumeroPedidos);
         textViewValorVendas = findViewById(R.id.textViewValorVendas);
+        textViewListaVazia = findViewById(R.id.textListaVazia);
 
+        //PROGRESS BAR
         progressBar = findViewById(R.id.progressBar);
         progressBarPedidos = findViewById(R.id.progressBarPedidos);
         progressBarValorPedidos = findViewById(R.id.progressBarValorPedidos);
-
-        textViewListaVazia = findViewById(R.id.textListaVazia);
 
     }
 

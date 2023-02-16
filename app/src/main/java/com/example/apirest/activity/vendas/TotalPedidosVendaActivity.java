@@ -111,7 +111,7 @@ public class TotalPedidosVendaActivity extends AppCompatActivity implements Adap
                 progressBarValorPedidos.setVisibility(View.GONE);
 
                 textViewListaVazia.setVisibility(View.VISIBLE);
-                textViewListaVazia.setText("Nenhuma venda realizada");
+                textViewListaVazia.setText("Nenhum pedido feito");
 
                 textviewNumeroPedidos.setText(Integer.toString(0) + " pedidos");
                 textViewValorVendas.setText("R$ " + GetMask.getValor(0.0));
@@ -124,15 +124,18 @@ public class TotalPedidosVendaActivity extends AppCompatActivity implements Adap
 
     private void inicializaComponentes() {
         recyclerViewRelatorioProdutos = findViewById(R.id.recyclerViewRelatorioProdutos);
+
+        //TEXTVIEW
         textViewDataRelatorio = findViewById(R.id.textViewDataRelatorio);
         textviewNumeroPedidos = findViewById(R.id.textviewNumeroPedidos);
         textViewValorVendas = findViewById(R.id.textViewValorVendas);
+        textViewListaVazia = findViewById(R.id.textListaVazia);
 
+        //PROGRESS BAR
         progressBar = findViewById(R.id.progressBar);
         progressBarPedidos = findViewById(R.id.progressBarPedidos);
         progressBarValorPedidos = findViewById(R.id.progressBarValorPedidos);
 
-        textViewListaVazia = findViewById(R.id.textListaVazia);
 
     }
 
