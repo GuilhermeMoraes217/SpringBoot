@@ -15,7 +15,9 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.example.apirest.activity.vendas.PedidosCanceladosVendaActivity;
 import com.example.apirest.activity.vendas.RelatorioDeVendasActivity;
+import com.example.apirest.activity.vendas.TotalPedidosVendaActivity;
 import com.example.apirest.adapter.PersonaAdapter;
 import com.example.apirest.activity.empresa.PersonaActivity;
 import com.example.apirest.model.Persona;
@@ -53,6 +55,7 @@ public class VendasDiaFragment extends Fragment {
      */
     VendasMasterService vendasMasterService;
     List<VendasMaster> listVendasMaster = new ArrayList<>();
+    List<VendasMaster> listTotalDePedidos = new ArrayList<>();
 
     /**
      * Atributos que irao receber o popular as classes Vendasfpg
@@ -66,20 +69,26 @@ public class VendasDiaFragment extends Fragment {
     FormaPagamentoService formaPagamentoService;
     List<FormaPagamento> listformaPagamento=new ArrayList<>();
 
-
+    /**
+     * Atributos variados do layout vendas dia fragment
+     */
     ListView listView;
     TextView textListaVazia;
     ProgressBar progressBar;
     ConstraintLayout verProdutosVendas;
     FloatingActionButton fab;
 
-    private TextView valorGeralVendas, totaldePedidos, totalPedidosCancelados;
+    private TextView valorGeralVendas, totaldePedidos, totalPedidosCancelados, ticketMedio, totalFaturado;
     Double valorVendasDia = 0.0;
+    Double valorFaturadoDia = 0.0;
 
     int pedidosCancelados = 0;
-    String totalNumeroPedidos;
+    int pedidosFaturadosBaixados = 0;
+    int totalNumeroPedidos;
 
     private ProgressBar progressBarValorGeral, progressBarTotalPedido, progressBarTotalPedidoCancelados;
+
+    private ConstraintLayout totalDePedisoConstrant, pedidosCanceladosContrant;
 
 
     @Override
@@ -96,20 +105,36 @@ public class VendasDiaFragment extends Fragment {
     }
 
     private void ExibirComponentes() {
-
-        totalNumeroPedidos=Integer.toString(listVendasMaster.size());
         for (VendasMaster vendasMaster : listVendasMaster) {
+            /**
+             * recupera o total do numero de pedidos
+             */
+            if (vendasMaster.getTotal() > 0 && vendasMaster.getNome() != null) {
+                totalNumeroPedidos++;
+            }
+            /**
+             * recupera o total de pedidos cancelados
+             */
             if (vendasMaster.getSituacao().equals("C")) {
                 pedidosCancelados++;
+            }
+
+            /**
+             * recupera o total de pedidos faturados e baixados
+             */
+            if (vendasMaster.getTotal() > 0 && vendasMaster.getSituacao().equals("F")) {
+                pedidosFaturadosBaixados++;
             }
             for (Vendasfpg vendasfpg : listvendasfpg) {
                 for (FormaPagamento formaPagamento : listformaPagamento) {
                     if ( vendasfpg.getVendas_master() == vendasMaster.getCodigo()) {
                         if (vendasfpg.getId_forma() == formaPagamento.getCodigo()){
-                            if (vendasMaster.getSituacao().equals("F") && !formaPagamento.getGeracr().equals("R")){
+                            if (vendasMaster.getTotal() > 0 && vendasMaster.getSituacao().equals("F")){
                                 valorVendasDia += vendasfpg.getValor();
+                                if (vendasMaster.getFlag_nfce().equals("S")) {
+                                    valorFaturadoDia += vendasfpg.getValor();
+                                }
                             }
-
                         }
                     }
                 }
@@ -120,9 +145,11 @@ public class VendasDiaFragment extends Fragment {
         progressBarTotalPedido.setVisibility(View.GONE);
         progressBarTotalPedidoCancelados.setVisibility(View.GONE);
 
-        totaldePedidos.setText(totalNumeroPedidos);
+        totaldePedidos.setText( Integer.toString(totalNumeroPedidos));
         totalPedidosCancelados.setText(Integer.toString(pedidosCancelados));
         valorGeralVendas.setText( "R$ " + GetMask.getValor(valorVendasDia));
+        totalFaturado.setText("Faturado " + "R$ " + GetMask.getValor(valorFaturadoDia));
+        ticketMedio.setText( "R$ "  + GetMask.getValor(valorVendasDia / pedidosFaturadosBaixados));
 
     }
 
@@ -136,7 +163,16 @@ public class VendasDiaFragment extends Fragment {
         });
         verProdutosVendas.setOnClickListener(view1 -> {
             Intent intent=new Intent(getActivity(), RelatorioDeVendasActivity.class);
-            intent.putExtra("listVendasMaster", (Serializable) listVendasMaster);
+            startActivity(intent);
+        });
+
+        totalDePedisoConstrant.setOnClickListener(view1 -> {
+            Intent intent=new Intent(getActivity(), TotalPedidosVendaActivity.class);
+            startActivity(intent);
+        });
+
+        pedidosCanceladosContrant.setOnClickListener(view1 -> {
+            Intent intent=new Intent(getActivity(), PedidosCanceladosVendaActivity.class);
             startActivity(intent);
         });
 
@@ -171,7 +207,8 @@ public class VendasDiaFragment extends Fragment {
             @Override
             public void onResponse(Call<List<VendasMaster>> call, Response<List<VendasMaster>> response) {
                 if(response.isSuccessful()) {
-                    listVendasMaster = response.body();
+                    listVendasMaster = response.body(); // PARA SER UMA LISTA PARA LISTAR AS VENDAS FATURADAS E BAIXADAS
+                    listTotalDePedidos = response.body(); // PARA SER UMA LISTA QUE RETORNE O NUMERO DE PEDIDOS FEITOS
                 }
                 RecuperalistVendasfpg();
 
@@ -257,10 +294,14 @@ public class VendasDiaFragment extends Fragment {
         verProdutosVendas = view.findViewById(R.id.VerProdutosVendas);
         valorGeralVendas = view.findViewById(R.id.textView2);
         totaldePedidos = view.findViewById(R.id.textView4);
+        ticketMedio = view.findViewById(R.id.textView5);
+        totalFaturado = view.findViewById(R.id.textView3);
         totalPedidosCancelados = view.findViewById(R.id.textView6);
         progressBarValorGeral = view.findViewById(R.id.progressBarValorGeral);
         progressBarTotalPedido = view.findViewById(R.id.progressBarTotalPedido);
         progressBarTotalPedidoCancelados = view.findViewById(R.id.progressBarTotalPedidoCancelados);
+        totalDePedisoConstrant = view.findViewById(R.id.constraintLayout2);
+        pedidosCanceladosContrant = view.findViewById(R.id.constraintLayout);
 
     }
 }

@@ -12,7 +12,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.apirest.R;
-import com.example.apirest.adapter.vendas.AdapterRelatorioVendas;
+import com.example.apirest.adapter.vendas.AdapterPedidosCanceladoVenda;
 import com.example.apirest.model.RelatorioVendas;
 import com.example.apirest.model.vendas.VendasMaster;
 import com.example.apirest.utils.Apis;
@@ -26,18 +26,19 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class RelatorioDeVendasActivity extends AppCompatActivity implements AdapterRelatorioVendas.ItemClickListener {
+public class PedidosCanceladosVendaActivity extends AppCompatActivity implements AdapterPedidosCanceladoVenda.ItemClickListener {
+
     /**
-     * Atributos da inicialização do recyclerView do relatorio de vendas
+     * Atributos da inicialização do recyclerView do PedidosCanceladosVendaActivity
      */
     private RecyclerView recyclerViewRelatorioProdutos;
-    private AdapterRelatorioVendas adapterRelatorioVendas;
+    private AdapterPedidosCanceladoVenda adapterPedidosCanceladoVenda;
     ArrayList<RelatorioVendas> relatorioVendas = new ArrayList<>();
 
     /**
-     * Atributos dos textView da activity relatorio_de_vendas
+     * Atributos dos textView da activity PedidosCanceladosVendaActivity
      */
-    private TextView textViewDataRelatorio, textviewNumeroPedidos, textViewValorVendas;
+    private TextView textViewDataRelatorio, textviewNumeroPedidosCancelados, textViewValorPedidoCancelado;
     private TextView textViewListaVazia;
 
 
@@ -45,37 +46,37 @@ public class RelatorioDeVendasActivity extends AppCompatActivity implements Adap
      * Atributos que irao receber o popular as classes VendasMaster
      */
     VendasMasterService vendasMasterService;
-    List<VendasMaster> listVendasMaster = new ArrayList<>();
+    List<VendasMaster> listPedidosCancelados = new ArrayList<>();
 
     /**
-     * Atributos variddos do layout
+     * Atributos variddos do layout PedidosCanceladosVendaActivity
      */
-    private Double valorVendas = 0.0;
+    private Double valorTotalPedido = 0.0;
+
     private ProgressBar progressBar, progressBarPedidos, progressBarValorPedidos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_relatorio_de_vendas);
+        setContentView(R.layout.activity_pedidos_cancelados_venda);
 
         inicializaComponentes();
         RecuperaListVendasMaster();
         inicializaRecyclerView();
-
     }
 
     /**
-     * Método que inicializa o recycler view do relatorio de vendas
+     * Método que inicializa o recycler view do totalPedidosVendas
      */
     private void inicializaRecyclerView() {
         recyclerViewRelatorioProdutos.setLayoutManager(new LinearLayoutManager(this));
         recyclerViewRelatorioProdutos.setHasFixedSize(true);
-        adapterRelatorioVendas = new AdapterRelatorioVendas(listVendasMaster, this, this);
-        recyclerViewRelatorioProdutos.setAdapter(adapterRelatorioVendas);
+        adapterPedidosCanceladoVenda = new AdapterPedidosCanceladoVenda(listPedidosCancelados, this, this);
+        recyclerViewRelatorioProdutos.setAdapter(adapterPedidosCanceladoVenda);
     }
 
     /**
-     * Método que recupera do banco de dados MySQl os dados que iram ser preenchidos na classe RelatorioVendas.
+     * Método que recupera do banco de dados MySQl os dados que iram ser preenchidos na classe vendas_master.
      */
     public void RecuperaListVendasMaster(){
         vendasMasterService= Apis.getVendasMasterService();
@@ -86,9 +87,9 @@ public class RelatorioDeVendasActivity extends AppCompatActivity implements Adap
                 if(response.isSuccessful()) {
                     List <VendasMaster> vendasMaster = response.body();
                     for (VendasMaster vendasMaster1 : vendasMaster) {
-                        if (vendasMaster1.getTotal() > 0 && vendasMaster1.getSituacao().equals("F")) {
-                            listVendasMaster.add(vendasMaster1);
-                            valorVendas+=vendasMaster1.getTotal();
+                        if (vendasMaster1.getSituacao().equals("C")) {
+                            listPedidosCancelados.add(vendasMaster1);
+                            valorTotalPedido +=vendasMaster1.getTotal();
                         }
                     }
 
@@ -96,9 +97,9 @@ public class RelatorioDeVendasActivity extends AppCompatActivity implements Adap
                     progressBarPedidos.setVisibility(View.GONE);
                     progressBarValorPedidos.setVisibility(View.GONE);
 
-                    adapterRelatorioVendas.notifyDataSetChanged();
-                    textviewNumeroPedidos.setText(Integer.toString(listVendasMaster.size()) + " pedidos");
-                    textViewValorVendas.setText("R$ " + GetMask.getValor(valorVendas));
+                    adapterPedidosCanceladoVenda.notifyDataSetChanged();
+                    textviewNumeroPedidosCancelados.setText(Integer.toString(listPedidosCancelados.size()) + " pedidos");
+                    textViewValorPedidoCancelado.setText("R$ " + GetMask.getValor(valorTotalPedido));
                 }
             }
 
@@ -113,8 +114,8 @@ public class RelatorioDeVendasActivity extends AppCompatActivity implements Adap
                 textViewListaVazia.setVisibility(View.VISIBLE);
                 textViewListaVazia.setText("Nenhuma venda realizada");
 
-                textviewNumeroPedidos.setText(Integer.toString(0) + " pedidos");
-                textViewValorVendas.setText("R$ " + GetMask.getValor(0.0));
+                textviewNumeroPedidosCancelados.setText(Integer.toString(0) + " pedidos");
+                textViewValorPedidoCancelado.setText("R$ " + GetMask.getValor(0.0));
 
             }
         });
@@ -125,8 +126,8 @@ public class RelatorioDeVendasActivity extends AppCompatActivity implements Adap
     private void inicializaComponentes() {
         recyclerViewRelatorioProdutos = findViewById(R.id.recyclerViewRelatorioProdutos);
         textViewDataRelatorio = findViewById(R.id.textViewDataRelatorio);
-        textviewNumeroPedidos = findViewById(R.id.textviewNumeroPedidos);
-        textViewValorVendas = findViewById(R.id.textViewValorVendas);
+        textviewNumeroPedidosCancelados = findViewById(R.id.textviewNumeroPedidos);
+        textViewValorPedidoCancelado = findViewById(R.id.textViewValorVendas);
 
         progressBar = findViewById(R.id.progressBar);
         progressBarPedidos = findViewById(R.id.progressBarPedidos);
@@ -138,8 +139,8 @@ public class RelatorioDeVendasActivity extends AppCompatActivity implements Adap
 
     @Override
     public void onClick(VendasMaster relatorioVendas) {
-        Intent intent = new Intent(RelatorioDeVendasActivity.this, InformacoesPedidoActivity.class);
-        intent.putExtra("relatorioVendasSelecionados", relatorioVendas);
+        Intent intent = new Intent(PedidosCanceladosVendaActivity.this, InformacoesPedidoActivity.class);
+        intent.putExtra("relatorioPedidoCancelado", relatorioVendas);
         startActivity(intent);
     }
 }

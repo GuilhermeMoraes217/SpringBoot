@@ -12,7 +12,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.apirest.R;
-import com.example.apirest.adapter.vendas.AdapterRelatorioVendas;
+import com.example.apirest.adapter.vendas.AdapterTotalPedidoVenda;
 import com.example.apirest.model.RelatorioVendas;
 import com.example.apirest.model.vendas.VendasMaster;
 import com.example.apirest.utils.Apis;
@@ -26,16 +26,17 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class RelatorioDeVendasActivity extends AppCompatActivity implements AdapterRelatorioVendas.ItemClickListener {
+public class TotalPedidosVendaActivity extends AppCompatActivity implements AdapterTotalPedidoVenda.ItemClickListener {
+
     /**
-     * Atributos da inicialização do recyclerView do relatorio de vendas
+     * Atributos da inicialização do recyclerView do totalPedidosVendas
      */
     private RecyclerView recyclerViewRelatorioProdutos;
-    private AdapterRelatorioVendas adapterRelatorioVendas;
+    private AdapterTotalPedidoVenda adapterTotalPedidoVenda;
     ArrayList<RelatorioVendas> relatorioVendas = new ArrayList<>();
 
     /**
-     * Atributos dos textView da activity relatorio_de_vendas
+     * Atributos dos textView da activity totalPedidosVendas
      */
     private TextView textViewDataRelatorio, textviewNumeroPedidos, textViewValorVendas;
     private TextView textViewListaVazia;
@@ -45,37 +46,36 @@ public class RelatorioDeVendasActivity extends AppCompatActivity implements Adap
      * Atributos que irao receber o popular as classes VendasMaster
      */
     VendasMasterService vendasMasterService;
-    List<VendasMaster> listVendasMaster = new ArrayList<>();
+    List<VendasMaster> listTotalPedidos = new ArrayList<>();
 
     /**
-     * Atributos variddos do layout
+     * Atributos variddos do layout totalPedidosVendas
      */
-    private Double valorVendas = 0.0;
+    private Double valorTotalPedido = 0.0;
     private ProgressBar progressBar, progressBarPedidos, progressBarValorPedidos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_relatorio_de_vendas);
+        setContentView(R.layout.activity_total_pedidos_venda);
 
         inicializaComponentes();
         RecuperaListVendasMaster();
         inicializaRecyclerView();
-
     }
 
     /**
-     * Método que inicializa o recycler view do relatorio de vendas
+     * Método que inicializa o recycler view do totalPedidosVendas
      */
     private void inicializaRecyclerView() {
         recyclerViewRelatorioProdutos.setLayoutManager(new LinearLayoutManager(this));
         recyclerViewRelatorioProdutos.setHasFixedSize(true);
-        adapterRelatorioVendas = new AdapterRelatorioVendas(listVendasMaster, this, this);
-        recyclerViewRelatorioProdutos.setAdapter(adapterRelatorioVendas);
+        adapterTotalPedidoVenda = new AdapterTotalPedidoVenda(listTotalPedidos, this, this);
+        recyclerViewRelatorioProdutos.setAdapter(adapterTotalPedidoVenda);
     }
 
     /**
-     * Método que recupera do banco de dados MySQl os dados que iram ser preenchidos na classe RelatorioVendas.
+     * Método que recupera do banco de dados MySQl os dados que iram ser preenchidos na classe vendas_master.
      */
     public void RecuperaListVendasMaster(){
         vendasMasterService= Apis.getVendasMasterService();
@@ -86,9 +86,9 @@ public class RelatorioDeVendasActivity extends AppCompatActivity implements Adap
                 if(response.isSuccessful()) {
                     List <VendasMaster> vendasMaster = response.body();
                     for (VendasMaster vendasMaster1 : vendasMaster) {
-                        if (vendasMaster1.getTotal() > 0 && vendasMaster1.getSituacao().equals("F")) {
-                            listVendasMaster.add(vendasMaster1);
-                            valorVendas+=vendasMaster1.getTotal();
+                        if (vendasMaster1.getTotal() > 0 && vendasMaster1.getNome() != null) {
+                            listTotalPedidos.add(vendasMaster1);
+                            valorTotalPedido +=vendasMaster1.getTotal();
                         }
                     }
 
@@ -96,9 +96,9 @@ public class RelatorioDeVendasActivity extends AppCompatActivity implements Adap
                     progressBarPedidos.setVisibility(View.GONE);
                     progressBarValorPedidos.setVisibility(View.GONE);
 
-                    adapterRelatorioVendas.notifyDataSetChanged();
-                    textviewNumeroPedidos.setText(Integer.toString(listVendasMaster.size()) + " pedidos");
-                    textViewValorVendas.setText("R$ " + GetMask.getValor(valorVendas));
+                    adapterTotalPedidoVenda.notifyDataSetChanged();
+                    textviewNumeroPedidos.setText(Integer.toString(listTotalPedidos.size()) + " pedidos");
+                    textViewValorVendas.setText("R$ " + GetMask.getValor(valorTotalPedido));
                 }
             }
 
@@ -138,8 +138,8 @@ public class RelatorioDeVendasActivity extends AppCompatActivity implements Adap
 
     @Override
     public void onClick(VendasMaster relatorioVendas) {
-        Intent intent = new Intent(RelatorioDeVendasActivity.this, InformacoesPedidoActivity.class);
-        intent.putExtra("relatorioVendasSelecionados", relatorioVendas);
+        Intent intent = new Intent(TotalPedidosVendaActivity.this, InformacoesPedidoActivity.class);
+        intent.putExtra("relatorioTotalPedido", relatorioVendas);
         startActivity(intent);
     }
 }

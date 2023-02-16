@@ -14,12 +14,8 @@ import android.widget.TextView;
 
 import com.example.apirest.R;
 import com.example.apirest.activity.produtos.InformacoesProdutosRelatorioActivity;
-import com.example.apirest.activity.vendas.InformacoesPedidoActivity;
-import com.example.apirest.activity.vendas.RelatorioDeVendasActivity;
 import com.example.apirest.adapter.AdapterRelatorioProdutos;
-import com.example.apirest.adapter.AdapterRelatorioVendas;
 import com.example.apirest.model.RelatorioProdutos;
-import com.example.apirest.model.RelatorioVendas;
 
 import java.util.ArrayList;
 

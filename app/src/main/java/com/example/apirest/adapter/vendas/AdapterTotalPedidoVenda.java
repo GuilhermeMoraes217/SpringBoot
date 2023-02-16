@@ -1,4 +1,4 @@
-package com.example.apirest.adapter;
+package com.example.apirest.adapter.vendas;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,16 +11,13 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
-
 import com.example.apirest.R;
-import com.example.apirest.model.RelatorioVendas;
 import com.example.apirest.model.vendas.VendasMaster;
 import com.example.apirest.utils.GetMask;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class AdapterRelatorioVendas extends RecyclerView.Adapter<AdapterRelatorioVendas.MyViewHolder> {
+public class AdapterTotalPedidoVenda extends RecyclerView.Adapter<AdapterTotalPedidoVenda.MyViewHolder> {
 
     private List<VendasMaster> relatorioVendas;
     private Context context;
@@ -28,7 +25,7 @@ public class AdapterRelatorioVendas extends RecyclerView.Adapter<AdapterRelatori
     ItemClickListener itemClickListener;
 
 
-    public AdapterRelatorioVendas(List<VendasMaster> relatorioVendas, Context context, ItemClickListener onClickListener) {
+    public AdapterTotalPedidoVenda(List<VendasMaster> relatorioVendas, Context context, ItemClickListener onClickListener) {
         this.relatorioVendas = relatorioVendas;
         this.context = context;
         this.itemClickListener = onClickListener;
@@ -49,20 +46,11 @@ public class AdapterRelatorioVendas extends RecyclerView.Adapter<AdapterRelatori
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         VendasMaster relatorioVendasLoja = relatorioVendas.get(position);
 
-        if (relatorioVendasLoja.getFlag_nfce() == null) {
-            holder.idRelatorio.setText( "#" + Integer.toString(relatorioVendasLoja.getCodigo()));
-            holder.textConsumidor.setText(relatorioVendasLoja.getNome() );
-            holder.textEmpresa.setText( Integer.toString(relatorioVendasLoja.getFkempresa()) );
-            holder.textValorFaturado.setText("R$" + GetMask.getValor(relatorioVendasLoja.getTotal()));
-            holder.textFatura.setText("Baixado");
-
-        } else {
-            holder.idRelatorio.setText( "#" + Integer.toString(relatorioVendasLoja.getCodigo()));
-            holder.textConsumidor.setText(relatorioVendasLoja.getNome());
-            holder.textEmpresa.setText( Integer.toString(relatorioVendasLoja.getFkempresa()));
-            holder.textValorFaturado.setText("R$" + GetMask.getValor(relatorioVendasLoja.getTotal()));
-            holder.textFatura.setText("faturado");
-        }
+        holder.idRelatorio.setText( "#" + Integer.toString(relatorioVendasLoja.getCodigo()));
+        holder.textConsumidor.setText(relatorioVendasLoja.getNome());
+        holder.textEmpresa.setText( Integer.toString(relatorioVendasLoja.getFkempresa()));
+        holder.textValorFaturado.setText("R$" + GetMask.getValor(relatorioVendasLoja.getTotal()));
+        holder.textFatura.setText("DESCONHECIDO");
 
         holder.itemView.setOnClickListener(view -> itemClickListener.onClick(relatorioVendasLoja));
         //holder.imagemStatus.setChecked(bairroEntregaLoja.isSelected());

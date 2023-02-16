@@ -1,4 +1,4 @@
-package com.example.apirest.adapter;
+package com.example.apirest.adapter.vendas;
 
 import android.content.Context;
 import android.content.Intent;

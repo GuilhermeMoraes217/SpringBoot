@@ -11,6 +11,8 @@
     <string name="perfil">Perfil</string>
 
     <string name="RelatorioVendas">Relatório de Vendas</string>
+    <string name="TotalPedidosVendas">Total de pedidos</string>
+    <string name="PedidosCancelados">Pedidos cancelados</string>
     <string name="RelatorioProduto">Relatório de Produtos</string>
     <string name="RelatorioContas">Relatório de Contas</string>
     <string name="RelatorioCheckout">Relatório de Checkout</string>
