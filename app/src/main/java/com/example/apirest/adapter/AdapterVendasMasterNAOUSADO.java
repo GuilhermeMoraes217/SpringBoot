@@ -1,4 +1,4 @@
-package com.example.apirest.adapter.vendas;
+package com.example.apirest.adapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,18 +15,17 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.example.apirest.R;
 import com.example.apirest.activity.empresa.PersonaActivity;
-import com.example.apirest.model.Persona;
 import com.example.apirest.model.vendas.VendasMaster;
 import com.example.apirest.utils.GetMask;
 
 import java.util.List;
 
-public class AdapterVendasMaster extends ArrayAdapter<VendasMaster> {
+public class AdapterVendasMasterNAOUSADO extends ArrayAdapter<VendasMaster> {
 
     private Context context;
     private  List<VendasMaster> vendasMasterList;
 
-    public AdapterVendasMaster(@NonNull Context context, int resource, @NonNull List<VendasMaster> objects) {
+    public AdapterVendasMasterNAOUSADO(@NonNull Context context, int resource, @NonNull List<VendasMaster> objects) {
         super(context, resource, objects);
         this.context = context;
         this.vendasMasterList = objects;

@@ -98,7 +98,9 @@ public class TotalPedidosVendaActivity extends AppCompatActivity implements Adap
                             if (vendasMaster1.getTotal() > 0 && vendasMaster1.getNome() != null && empresas.getCodigo() == vendasMaster1.getFkempresa()) {
                                 vendasMaster1.setNomeEmpresa(empresas.getRazao());
                                 listTotalPedidos.add(vendasMaster1);
-                                valorTotalPedido += vendasMaster1.getTotal();
+                                if (vendasMaster1.getSituacao().equals("F")) {
+                                    valorTotalPedido += vendasMaster1.getTotal();
+                                }
                             }
                         }
                     }

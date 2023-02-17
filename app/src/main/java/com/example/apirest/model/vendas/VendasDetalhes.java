@@ -95,6 +95,10 @@ public class VendasDetalhes implements Serializable {
     @Expose
     private String observacao;
 
+    private String nomeProduto;
+
+    private String referenciaProduto;
+
 
     public VendasDetalhes() {
 
@@ -123,6 +127,22 @@ public class VendasDetalhes implements Serializable {
         this.fk_mesa = fk_mesa;
         this.qtd_restante = qtd_restante;
         this.observacao = observacao;
+    }
+
+    public String getReferenciaProduto() {
+        return referenciaProduto;
+    }
+
+    public void setReferenciaProduto(String referenciaProduto) {
+        this.referenciaProduto = referenciaProduto;
+    }
+
+    public String getNomeProduto() {
+        return nomeProduto;
+    }
+
+    public void setNomeProduto(String nomeProduto) {
+        this.nomeProduto = nomeProduto;
     }
 
     public int getCodigo() {

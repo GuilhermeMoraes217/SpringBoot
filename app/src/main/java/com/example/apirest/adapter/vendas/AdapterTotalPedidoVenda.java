@@ -69,6 +69,13 @@ public class AdapterTotalPedidoVenda extends RecyclerView.Adapter<AdapterTotalPe
             holder.textEmpresa.setText(relatorioTotalPedidos.getNomeEmpresa());
             holder.textValorFaturado.setText("R$" + GetMask.getValor(relatorioTotalPedidos.getTotal()));
             holder.textFatura.setText("Cancelado");
+        } else if (relatorioTotalPedidos.getSituacao().equals("A")) {
+            holder.imagemStatus.setBackgroundResource(R.drawable.status_amarelo);
+            holder.idRelatorio.setText( "#" + Integer.toString(relatorioTotalPedidos.getCodigo()));
+            holder.textConsumidor.setText(relatorioTotalPedidos.getNome());
+            holder.textEmpresa.setText(relatorioTotalPedidos.getNomeEmpresa());
+            holder.textValorFaturado.setText("R$" + GetMask.getValor(relatorioTotalPedidos.getTotal()));
+            holder.textFatura.setText("Aberto");
         }
 
 
