@@ -3,7 +3,9 @@ package com.example.apirest.model.vendas;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Vendasfpg {
+import java.io.Serializable;
+
+public class Vendasfpg implements Serializable {
 
     @SerializedName(value = "codigo", alternate = "CODIGO")
     @Expose

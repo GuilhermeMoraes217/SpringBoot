@@ -46,14 +46,34 @@ public class AdapterTotalPedidoVenda extends RecyclerView.Adapter<AdapterTotalPe
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         VendasMaster relatorioTotalPedidos = relatorioVendas.get(position);
 
-        holder.idRelatorio.setText( "#" + Integer.toString(relatorioTotalPedidos.getCodigo()));
-        holder.textConsumidor.setText(relatorioTotalPedidos.getNome());
-        holder.textEmpresa.setText(relatorioTotalPedidos.getNomeEmpresa());
-        holder.textValorFaturado.setText("R$" + GetMask.getValor(relatorioTotalPedidos.getTotal()));
-        holder.textFatura.setText("DESCONHECIDO");
+        if (relatorioTotalPedidos.getSituacao().equals("F")) {
+            if (relatorioTotalPedidos.getNecf() == 0) {
+                holder.imagemStatus.setBackgroundResource(R.drawable.status_azul);
+                holder.idRelatorio.setText( "#" + Integer.toString(relatorioTotalPedidos.getCodigo()));
+                holder.textConsumidor.setText(relatorioTotalPedidos.getNome());
+                holder.textEmpresa.setText(relatorioTotalPedidos.getNomeEmpresa());
+                holder.textValorFaturado.setText("R$" + GetMask.getValor(relatorioTotalPedidos.getTotal()));
+                holder.textFatura.setText("Baixado");
+            } else {
+                holder.imagemStatus.setBackgroundResource(R.drawable.status_verde);
+                holder.idRelatorio.setText( "#" + Integer.toString(relatorioTotalPedidos.getCodigo()));
+                holder.textConsumidor.setText(relatorioTotalPedidos.getNome());
+                holder.textEmpresa.setText(relatorioTotalPedidos.getNomeEmpresa());
+                holder.textValorFaturado.setText("R$" + GetMask.getValor(relatorioTotalPedidos.getTotal()));
+                holder.textFatura.setText("Faturado");
+            }
+        } else if (relatorioTotalPedidos.getSituacao().equals("C")) {
+            holder.imagemStatus.setBackgroundResource(R.drawable.status_vermelho);
+            holder.idRelatorio.setText( "#" + Integer.toString(relatorioTotalPedidos.getCodigo()));
+            holder.textConsumidor.setText(relatorioTotalPedidos.getNome());
+            holder.textEmpresa.setText(relatorioTotalPedidos.getNomeEmpresa());
+            holder.textValorFaturado.setText("R$" + GetMask.getValor(relatorioTotalPedidos.getTotal()));
+            holder.textFatura.setText("Cancelado");
+        }
+
 
         holder.itemView.setOnClickListener(view -> itemClickListener.onClick(relatorioTotalPedidos));
-        //holder.imagemStatus.setChecked(bairroEntregaLoja.isSelected());
+
 
     }
 

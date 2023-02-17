@@ -3,7 +3,9 @@ package com.example.apirest.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Empresas {
+import java.io.Serializable;
+
+public class Empresas implements Serializable {
 
     @SerializedName(value = "codigo", alternate = "CODIGO")
     @Expose

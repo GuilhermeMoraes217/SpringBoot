@@ -21,7 +21,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingVertical="4dp"
-            android:text="#13 consumidor"
+            tools:text="#13 consumidor"
             android:textAllCaps="true"
             android:textColor="@color/black"
             android:textSize="20dp"
@@ -32,7 +32,7 @@
             android:id="@+id/textView24"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="#1 Armazem curimã"
+            tools:text="#1 Armazem curimã"
             android:paddingVertical="4dp"
             android:textAllCaps="true"
             android:textSize="18dp"
@@ -50,10 +50,12 @@
             app:layout_constraintTop_toBottomOf="@+id/textView24" />
 
         <TextView
+            android:id="@+id/textviewStatus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingVertical="4dp"
-            android:text="Baixado"
+            tools:text="Baixado"
+            android:textAllCaps="true"
             android:textColor="@color/black"
             android:textSize="17dp"
             app:layout_constraintBottom_toBottomOf="@+id/textView25"
@@ -87,7 +89,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingVertical="4dp"
-            android:text="#1 Tabela"
+            tools:text="#1 Tabela"
             android:textAllCaps="true"
             android:textColor="@color/black"
             android:textSize="17dp"
@@ -96,6 +98,7 @@
             app:layout_constraintTop_toTopOf="@+id/textView26" />
 
         <TextView
+            android:visibility="gone"
             android:id="@+id/textView28"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -106,10 +109,12 @@
             app:layout_constraintTop_toBottomOf="@+id/textView26" />
 
         <TextView
+            android:visibility="gone"
+            android:id="@+id/text2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingVertical="4dp"
-            android:text="#1 Tabela"
+            tools:text="#1 Tabela"
             android:textAllCaps="true"
             android:textColor="@color/black"
             android:textSize="17dp"
@@ -128,10 +133,11 @@
             app:layout_constraintTop_toBottomOf="@+id/textView28" />
 
         <TextView
+            android:id="@+id/textViewUsuario"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingVertical="4dp"
-            android:text="#777 Tabela"
+            tools:text="#777 Tabela"
             android:textAllCaps="true"
             android:textColor="@color/black"
             android:textSize="17dp"
@@ -166,7 +172,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingVertical="4dp"
-            android:text="31/01/2023"
+            tools:text="31/01/2023"
             android:textAllCaps="true"
             android:textColor="@color/black"
             android:textSize="17dp"
@@ -175,6 +181,7 @@
             app:layout_constraintTop_toTopOf="@+id/textView50" />
 
         <TextView
+            android:visibility="gone"
             android:id="@+id/textView52"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -185,10 +192,12 @@
             app:layout_constraintTop_toBottomOf="@+id/textView50" />
 
         <TextView
+            android:visibility="gone"
+            android:id="@+id/textViewDataPrevissao"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingVertical="4dp"
-            android:text="01/02/2023"
+            tools:text="01/02/2023"
             android:textAllCaps="true"
             android:textColor="@color/black"
             android:textSize="17dp"
@@ -197,6 +206,7 @@
             app:layout_constraintTop_toTopOf="@+id/textView52" />
 
         <TextView
+
             android:id="@+id/textView53"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -207,10 +217,11 @@
             app:layout_constraintTop_toBottomOf="@+id/textView52" />
 
         <TextView
+            android:id="@+id/textViewDataSaida"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingVertical="4dp"
-            android:text="02/01/2023"
+            tools:text="02/01/2023"
             android:textAllCaps="true"
             android:textColor="@color/black"
             android:textSize="17dp"
@@ -219,6 +230,7 @@
             app:layout_constraintTop_toTopOf="@+id/textView53" />
 
         <TextView
+            android:visibility="gone"
             android:id="@+id/textView54"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -229,10 +241,12 @@
             app:layout_constraintTop_toBottomOf="@+id/textView53" />
 
         <TextView
+            android:visibility="gone"
+            android:id="@+id/textViewHorarioVenda"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingVertical="4dp"
-            android:text="02/01/2023, 10:04"
+            tools:text="02/01/2023, 10:04"
             android:textAllCaps="true"
             android:textColor="@color/black"
             android:textSize="17dp"
@@ -348,7 +362,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingVertical="4dp"
-            android:text="#102030"
+            tools:text="#102030"
             android:textAllCaps="true"
             android:textColor="@color/black"
             android:textSize="17dp"
@@ -368,18 +382,18 @@
             app:layout_constraintTop_toBottomOf="@+id/textView70" />
 
         <TextView
-            android:layout_width="0dp"
+            android:id="@+id/textViewDinheiro"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="1"
             android:paddingVertical="4dp"
-            android:text="R$ 100,00"
             android:textColor="@color/black"
             android:textSize="17dp"
             app:layout_constraintBottom_toBottomOf="@+id/textView72"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/textView72"
-            app:layout_constraintTop_toTopOf="@+id/textView72" />
+            app:layout_constraintTop_toTopOf="@+id/textView72"
+            tools:text="R$ 100,00" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

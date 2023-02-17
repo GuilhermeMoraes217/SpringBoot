@@ -3,7 +3,9 @@ package com.example.apirest.model.vendas;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class FormaPagamento {
+import java.io.Serializable;
+
+public class FormaPagamento implements Serializable {
     /*
 
 FK_BANDEIRA

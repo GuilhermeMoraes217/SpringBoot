@@ -65,7 +65,6 @@ public class AdapterRelatorioVendas extends RecyclerView.Adapter<AdapterRelatori
         }
 
         holder.itemView.setOnClickListener(view -> itemClickListener.onClick(relatorioVendasLoja));
-        //holder.imagemStatus.setChecked(bairroEntregaLoja.isSelected());
 
     }
 

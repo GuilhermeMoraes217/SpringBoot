@@ -53,9 +53,12 @@ public class AdapterVendasMaster extends ArrayAdapter<VendasMaster> {
 
         /**
          * Setando os componentes para serem visualizados
+         *
          */
 
-        if (vendasMasterList.get(position).getFlag_nfce() == null && vendasMasterList.get(position).getTotal() > 0) {
+        if (vendasMasterList.get(position).getNecf() == 0) {
+            imagemStatus.setBackgroundResource(R.drawable.status_azul);
+
             idRelatorio.setText((Integer.toString(vendasMasterList.get(position).getCodigo())));
             textConsumidor.setText((vendasMasterList.get(position).getNome()));
             textEmpresa.setText((Integer.toString(vendasMasterList.get(position).getFkempresa())));
@@ -64,6 +67,7 @@ public class AdapterVendasMaster extends ArrayAdapter<VendasMaster> {
             textFatura.setText(("Baixado"));
 
         } else if (vendasMasterList.get(position).getTotal() > 0) {
+            imagemStatus.setBackgroundResource(R.drawable.status_verde);
             idRelatorio.setText((Integer.toString(vendasMasterList.get(position).getCodigo())));
             textConsumidor.setText((vendasMasterList.get(position).getNome()));
             textEmpresa.setText((Integer.toString(vendasMasterList.get(position).getFkempresa())));
