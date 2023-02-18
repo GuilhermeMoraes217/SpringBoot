@@ -12,7 +12,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.apirest.R;
-import com.example.apirest.adapter.vendas.AdapterPedidosCanceladoVenda;
+import com.example.apirest.adapter.vendas.totalcancelado.AdapterPedidosCanceladoVenda;
 import com.example.apirest.model.Empresas;
 import com.example.apirest.model.RelatorioVendas;
 import com.example.apirest.model.vendas.VendasMaster;
@@ -175,7 +175,7 @@ public class PedidosCanceladosVendaActivity extends AppCompatActivity implements
 
     @Override
     public void onClick(VendasMaster relatorioVendas) {
-        Intent intent = new Intent(PedidosCanceladosVendaActivity.this, InformacoesPedidoActivity.class);
+        Intent intent = new Intent(PedidosCanceladosVendaActivity.this, InformacoesPedidosCanceladoActivity.class);
         intent.putExtra("relatorioPedidoCancelado", relatorioVendas);
         startActivity(intent);
     }

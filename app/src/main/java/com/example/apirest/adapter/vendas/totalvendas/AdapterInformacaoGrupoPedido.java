@@ -1,4 +1,4 @@
-package com.example.apirest.adapter.vendas;
+package com.example.apirest.adapter.vendas.totalvendas;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.apirest.R;
 import com.example.apirest.model.vendas.VendasDetalhes;
-import com.example.apirest.model.vendas.VendasMaster;
 import com.example.apirest.utils.GetMask;
 
 import java.util.List;

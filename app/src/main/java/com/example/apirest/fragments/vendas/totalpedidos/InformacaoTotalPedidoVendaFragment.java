@@ -1,4 +1,4 @@
-package com.example.apirest.fragments.vendas;
+package com.example.apirest.fragments.vendas.totalpedidos;
 
 import android.os.Bundle;
 
@@ -10,14 +10,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.apirest.R;
-import com.example.apirest.model.RelatorioVendas;
 import com.example.apirest.model.vendas.VendasMaster;
 import com.example.apirest.utils.GetMask;
 
-import java.util.ArrayList;
-
-
-public class InformacaoPedidoFragment extends Fragment {
+public class InformacaoTotalPedidoVendaFragment extends Fragment {
 
     VendasMaster relatorioVendas;
 
@@ -27,13 +23,15 @@ public class InformacaoPedidoFragment extends Fragment {
 
     private TextView nomeConsumidorFinal, nomeEmpresa, statusVenda, tabelaPreco, tipoPedido, usuario, dataEmissao, dataPrevissao, dataSaida, pdv, dinheiro;
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_informacao_pedido, container, false);
+        View view = inflater.inflate(R.layout.fragment_informacao_total_pedido_venda, container, false);
+
         Bundle bundle = getActivity().getIntent().getExtras();
-        relatorioVendas = (VendasMaster) bundle.getSerializable("relatorioVendasSelecionados");
+        relatorioVendas = (VendasMaster) bundle.getSerializable("relatorioTotalPedido");
         inicializaComponentes(view);
 
         exibirComponentes();
@@ -44,7 +42,18 @@ public class InformacaoPedidoFragment extends Fragment {
     private void exibirComponentes() {
         nomeConsumidorFinal.setText("#" + relatorioVendas.getNome());
         nomeEmpresa.setText(relatorioVendas.getNomeEmpresa());
-        if (relatorioVendas.getNecf() > 0){statusVenda.setText("Faturado");} else {statusVenda.setText("Baixado");}
+        if (relatorioVendas.getSituacao().equals("F")) {
+            if (relatorioVendas.getNecf() == 0) {
+                statusVenda.setText("Baixado");
+            } else {
+                statusVenda.setText("Faturado");
+            }
+
+        } else if (relatorioVendas.getSituacao().equals("C")) {
+            statusVenda.setText("Cancelado");
+        } else if (relatorioVendas.getSituacao().equals("A")) {
+            statusVenda.setText("Aberto");
+        }
         tabelaPreco.setText("#" + relatorioVendas.getFk_tabela() + " Tabela");
         usuario.setText("#" + relatorioVendas.getFk_usuario() + " Tabela");
         dataEmissao.setText(relatorioVendas.getData_emissao());

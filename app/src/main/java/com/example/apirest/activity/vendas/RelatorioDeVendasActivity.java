@@ -12,7 +12,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.apirest.R;
-import com.example.apirest.adapter.vendas.AdapterRelatorioVendas;
+import com.example.apirest.adapter.vendas.totalvendas.AdapterRelatorioVendas;
 import com.example.apirest.model.Empresas;
 import com.example.apirest.model.RelatorioVendas;
 import com.example.apirest.model.vendas.VendasMaster;

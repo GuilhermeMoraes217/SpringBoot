@@ -8,19 +8,20 @@ import android.os.Bundle;
 
 import com.example.apirest.R;
 import com.example.apirest.adapter.ViewPagerAdapter;
+import com.example.apirest.fragments.vendas.totalpedidos.InformacaoTotalGrupoPedidoVendaFragment;
+import com.example.apirest.fragments.vendas.totalpedidos.InformacaoTotalPedidoVendaFragment;
 import com.example.apirest.fragments.vendas.totalvendas.InformacaoGrupoPedidoFragment;
 import com.example.apirest.fragments.vendas.totalvendas.InformacaoPedidoFragment;
 import com.google.android.material.tabs.TabLayout;
 
-public class InformacoesPedidoActivity extends AppCompatActivity {
+public class InformacoesTotalPedidosVendaActivity extends AppCompatActivity {
 
     private TabLayout tab_Layout;
     private ViewPager view_Pager;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_informacoes_pedido);
+        setContentView(R.layout.activity_informacoes_total_pedidos_venda);
 
         initializerComponent();
         configTabsLayout();
@@ -34,8 +35,8 @@ public class InformacoesPedidoActivity extends AppCompatActivity {
 
     private void configTabsLayout(){
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
-        viewPagerAdapter.addFragment(new InformacaoPedidoFragment(), "Informações");
-        viewPagerAdapter.addFragment(new InformacaoGrupoPedidoFragment(), "Produtos");
+        viewPagerAdapter.addFragment(new InformacaoTotalPedidoVendaFragment(), "Informações");
+        viewPagerAdapter.addFragment(new InformacaoTotalGrupoPedidoVendaFragment(), "Produtos");
 
         view_Pager.setAdapter(viewPagerAdapter);
         view_Pager.setSaveEnabled(false);

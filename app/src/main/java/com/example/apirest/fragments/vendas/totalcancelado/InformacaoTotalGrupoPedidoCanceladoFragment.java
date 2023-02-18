@@ -1,4 +1,4 @@
-package com.example.apirest.fragments.vendas;
+package com.example.apirest.fragments.vendas.totalcancelado;
 
 import android.os.Bundle;
 
@@ -13,9 +13,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.apirest.R;
-import com.example.apirest.adapter.vendas.AdapterInformacaoGrupoPedido;
-import com.example.apirest.adapter.vendas.AdapterRelatorioVendas;
-import com.example.apirest.model.Empresas;
+import com.example.apirest.adapter.vendas.totalcancelado.AdapterInformacaoTotalGrupoPedidoCancelado;
+import com.example.apirest.adapter.vendas.totalpedidos.AdapterInformacaoTotalGrupoPedidoVenda;
 import com.example.apirest.model.Produtos;
 import com.example.apirest.model.vendas.VendasDetalhes;
 import com.example.apirest.model.vendas.VendasMaster;
@@ -32,7 +31,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class InformacaoGrupoPedidoFragment extends Fragment implements AdapterInformacaoGrupoPedido.ItemClickListener {
+public class InformacaoTotalGrupoPedidoCanceladoFragment extends Fragment implements AdapterInformacaoTotalGrupoPedidoCancelado.ItemClickListener {
 
     /**
      * Atributos que irao receber o popular as classes Empresas
@@ -51,7 +50,7 @@ public class InformacaoGrupoPedidoFragment extends Fragment implements AdapterIn
      */
 
     private RecyclerView recyclerViewListProdutos;
-    private AdapterInformacaoGrupoPedido adapterInformacaoGrupoPedido;
+    private AdapterInformacaoTotalGrupoPedidoCancelado adapterInformacaoGrupoPedido;
 
     private TextView textViewValorTotal, textViewValorTotalProduto, textViewValorTotalAcrescimo, textViewValorTotalDesconto, textViewTotalPedido,
             textViewValorTotalSeguro, textViewValorTotalFrete, textViewValorTotalIPI, textViewValorTotalIcmsSt,
@@ -59,18 +58,18 @@ public class InformacaoGrupoPedidoFragment extends Fragment implements AdapterIn
 
 
     VendasMaster relatorioVendas;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_informacao_grupo_pedido, container, false);
+        View view = inflater.inflate(R.layout.fragment_informacao_total_grupo_pedido_cancelado, container, false);
         Bundle bundle = getActivity().getIntent().getExtras();
-        relatorioVendas = (VendasMaster) bundle.getSerializable("relatorioVendasSelecionados");
+        relatorioVendas = (VendasMaster) bundle.getSerializable("relatorioPedidoCancelado");
         inicializaComponentes(view);
         exibeComponentes();
         RecuperaListProdutos();
         inicializaRecyclerView();
+
 
         return view;
     }
@@ -90,7 +89,7 @@ public class InformacaoGrupoPedidoFragment extends Fragment implements AdapterIn
     private void inicializaRecyclerView() {
         recyclerViewListProdutos.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerViewListProdutos.setHasFixedSize(true);
-        adapterInformacaoGrupoPedido = new AdapterInformacaoGrupoPedido(vendasDetalhesList, getContext(), this);
+        adapterInformacaoGrupoPedido = new AdapterInformacaoTotalGrupoPedidoCancelado(vendasDetalhesList, getContext(), this);
         recyclerViewListProdutos.setAdapter(adapterInformacaoGrupoPedido);
     }
 
@@ -154,7 +153,7 @@ public class InformacaoGrupoPedidoFragment extends Fragment implements AdapterIn
         recyclerViewListProdutos = view.findViewById(R.id.recyclerView);
 
 
-       //TEXTVIEW
+        //TEXTVIEW
         textViewValorTotal = view.findViewById(R.id.textViewValorTotal);
         textViewValorTotalProduto = view.findViewById(R.id.textView37);
         textViewValorTotalAcrescimo = view.findViewById(R.id.textView38);

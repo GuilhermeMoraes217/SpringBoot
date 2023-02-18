@@ -12,7 +12,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        
+        <activity
+            android:name=".activity.vendas.InformacoesPedidosCanceladoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.vendas.InformacoesTotalPedidosVendaActivity"
+            android:exported="false" />
         <activity
             android:name=".activity.vendas.PedidosCanceladosVendaActivity"
             android:exported="false" />

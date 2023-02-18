@@ -1,4 +1,4 @@
-package com.example.apirest.adapter.vendas;
+package com.example.apirest.adapter.vendas.totalpedidos;
 
 import android.content.Context;
 import android.view.LayoutInflater;

@@ -12,7 +12,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.apirest.R;
-import com.example.apirest.adapter.vendas.AdapterTotalPedidoVenda;
+import com.example.apirest.adapter.vendas.totalpedidos.AdapterTotalPedidoVenda;
 import com.example.apirest.model.Empresas;
 import com.example.apirest.model.RelatorioVendas;
 import com.example.apirest.model.vendas.VendasMaster;
@@ -177,7 +177,7 @@ public class TotalPedidosVendaActivity extends AppCompatActivity implements Adap
 
     @Override
     public void onClick(VendasMaster relatorioVendas) {
-        Intent intent = new Intent(TotalPedidosVendaActivity.this, InformacoesPedidoActivity.class);
+        Intent intent = new Intent(TotalPedidosVendaActivity.this, InformacoesTotalPedidosVendaActivity.class);
         intent.putExtra("relatorioTotalPedido", relatorioVendas);
         startActivity(intent);
     }
