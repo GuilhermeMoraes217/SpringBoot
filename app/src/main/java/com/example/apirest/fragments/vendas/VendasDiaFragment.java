@@ -28,13 +28,16 @@ import com.example.apirest.model.vendas.Vendasfpg;
 import com.example.apirest.utils.Apis;
 import com.example.apirest.utils.FormaPagamentoService;
 import com.example.apirest.utils.GetMask;
+import com.example.apirest.utils.HoraUtils;
 import com.example.apirest.utils.PersonaService;
 import com.example.apirest.utils.VendasMasterService;
 import com.example.apirest.utils.VendasfpgService;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import retrofit2.Call;
@@ -109,9 +112,17 @@ public class VendasDiaFragment extends Fragment {
             /**
              * recupera o total do numero de pedidos
              */
+            Date d = new Date();
+            SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
+            String formattedDateAtual = df.format(d);
+
+            if(vendasMaster.getData_emissao() == formattedDateAtual){
+
+            }
             if (vendasMaster.getTotal() > 0 && vendasMaster.getNome() != null) {
                 totalNumeroPedidos++;
             }
+
             /**
              * recupera o total de pedidos cancelados
              */

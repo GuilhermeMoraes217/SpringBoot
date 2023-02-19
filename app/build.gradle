@@ -36,5 +36,8 @@ dependencies {
     implementation 'androidx.navigation:navigation-fragment:2.5.1'
     implementation 'androidx.navigation:navigation-ui:2.5.1'
 
+    //JODATIME LIB - PARA TRABALHAR DATE TIME
+    implementation 'joda-time:joda-time:2.11.1'
+
 
 }
