@@ -1,6 +1,7 @@
 package com.example.apirest.fragments.vendas;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -37,9 +38,14 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import retrofit2.Call;
@@ -110,17 +116,16 @@ public class VendasDiaFragment extends Fragment {
     }
 
 
-    public static String getCalculatedDate(String date, String dateFormat, int days) {
-        Calendar cal = Calendar.getInstance();
-        SimpleDateFormat s = new SimpleDateFormat(dateFormat);
-        cal.add(Calendar.DAY_OF_YEAR, days);
-        try {
-            return s.format(new Date(s.parse(date).getTime()));
-        } catch (ParseException e) {
-            // TODO Auto-generated catch block
-            Log.e("TAG", "Error in Parsing Date : " + e.getMessage());
+    private static List<LocalDate> weekStarting(LocalDate date) {
+        // Might want to validate that date.getDayOfWeek() == DayOfWeek.SUNDAY
+        List<LocalDate> week = new ArrayList<>(7);
+        for (int day = 0; day <= 7; day++) {
+            week.add(date);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                date = date.plusDays(1);
+            }
         }
-        return null;
+        return week;
     }
 
     private void ExibirComponentes() {
@@ -132,7 +137,28 @@ public class VendasDiaFragment extends Fragment {
             Date d = new Date();
             SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
             String formattedDateAtual = df.format(d);
-            getCalculatedDate(vendasMaster.getData_emissao(), "yyyy-MM-dd", -7);
+
+            LocalDate today = null;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                today = LocalDate.now(ZoneId.of("America/Sao_Paulo"));
+            }
+            LocalDate weekStart = null;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                weekStart = today.with(TemporalAdjusters.previousOrSame(DayOfWeek.SUNDAY));
+            }
+            List<LocalDate> thisWeek = weekStarting(weekStart);
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                List<LocalDate> lastWeek = weekStarting(weekStart.minusWeeks(1));
+                System.out.println("This week:   " + lastWeek);
+
+            }
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                List<LocalDate> twoWeeksAgo = weekStarting(weekStart.minusWeeks(2));
+            }
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                List<LocalDate> threeWeeksAgo = weekStarting(weekStart.minusWeeks(3));
+            }
+
 
             if (vendasMaster.getData_emissao().equals(formattedDateAtual)) {
 
