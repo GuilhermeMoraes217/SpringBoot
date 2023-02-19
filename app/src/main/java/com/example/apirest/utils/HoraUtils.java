@@ -27,11 +27,11 @@ public class HoraUtils {
 
     public static boolean isIn(String abertura, String fechamento){
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            LocalTime horaAtual = LocalTime.now();
-            LocalTime horaInicio = LocalTime.parse(abertura);
-            LocalTime horaFim = LocalTime.parse(fechamento);
+            LocalDate diaAtual = LocalDate.now();
+            LocalDate diaInicio = LocalDate.now();
+            LocalDate diaFim = LocalDate.parse(fechamento);
 
-            return (horaAtual.isAfter(horaInicio) && horaAtual.isBefore(horaFim));
+            return (diaAtual.isAfter(diaInicio) && diaAtual.isBefore(diaFim));
         } else {
             org.joda.time.LocalTime horaAtual = org.joda.time.LocalTime.now();
             org.joda.time.LocalTime aberturaTime = org.joda.time.LocalTime.parse(abertura);

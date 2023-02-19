@@ -51,7 +51,7 @@ public class VendasDiaFragment extends Fragment {
      * Atributos que irao receber o popular as classes Personas
      */
     PersonaService personaService;
-    List<Persona> listPersona=new ArrayList<>();
+    List<Persona> listPersona = new ArrayList<>();
 
     /**
      * Atributos que irao receber o popular as classes VendasMaster
@@ -64,13 +64,13 @@ public class VendasDiaFragment extends Fragment {
      * Atributos que irao receber o popular as classes Vendasfpg
      */
     VendasfpgService vendasfpgService;
-    List<Vendasfpg> listvendasfpg=new ArrayList<>();
+    List<Vendasfpg> listvendasfpg = new ArrayList<>();
 
     /**
      * Atributos que irao receber o popular as classes FormaPagamento
      */
     FormaPagamentoService formaPagamentoService;
-    List<FormaPagamento> listformaPagamento=new ArrayList<>();
+    List<FormaPagamento> listformaPagamento = new ArrayList<>();
 
     /**
      * Atributos variados do layout vendas dia fragment
@@ -112,100 +112,117 @@ public class VendasDiaFragment extends Fragment {
             /**
              * recupera o total do numero de pedidos
              */
+
             Date d = new Date();
-            SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
             String formattedDateAtual = df.format(d);
 
-            if(vendasMaster.getData_emissao() == formattedDateAtual){
+            if (vendasMaster.getData_emissao().equals(formattedDateAtual)) {
 
-            }
-            if (vendasMaster.getTotal() > 0 && vendasMaster.getNome() != null) {
-                totalNumeroPedidos++;
-            }
+                if (vendasMaster.getTotal() > 0 && vendasMaster.getNome() != null) {
+                    totalNumeroPedidos++;
+                }
 
-            /**
-             * recupera o total de pedidos cancelados
-             */
-            if (vendasMaster.getSituacao().equals("C")) {
-                pedidosCancelados++;
-            }
+                /**
+                 * recupera o total de pedidos cancelados
+                 */
+                if (vendasMaster.getSituacao().equals("C")) {
+                    pedidosCancelados++;
+                }
 
-            /**
-             * recupera o total de pedidos faturados e baixados
-             */
-            if (vendasMaster.getTotal() > 0 && vendasMaster.getSituacao().equals("F")) {
-                pedidosFaturadosBaixados++;
-            }
-            for (Vendasfpg vendasfpg : listvendasfpg) {
-                for (FormaPagamento formaPagamento : listformaPagamento) {
-                    if ( vendasfpg.getVendas_master() == vendasMaster.getCodigo()) {
-                        if (vendasfpg.getId_forma() == formaPagamento.getCodigo()){
-                            if (vendasMaster.getTotal() > 0 && vendasMaster.getSituacao().equals("F")){
-                                /**
-                                 * recupera o valor de vendas
-                                 */
-                                valorVendasDia += vendasfpg.getValor();
-                                if (vendasMaster.getNecf() > 0) {
+                /**
+                 * recupera o total de pedidos faturados e baixados
+                 */
+                if (vendasMaster.getTotal() > 0 && vendasMaster.getSituacao().equals("F")) {
+                    pedidosFaturadosBaixados++;
+                }
+                for (Vendasfpg vendasfpg : listvendasfpg) {
+                    for (FormaPagamento formaPagamento : listformaPagamento) {
+                        if (vendasfpg.getVendas_master() == vendasMaster.getCodigo()) {
+                            if (vendasfpg.getId_forma() == formaPagamento.getCodigo()) {
+                                if (vendasMaster.getTotal() > 0 && vendasMaster.getSituacao().equals("F")) {
                                     /**
-                                     * recupera o valor da fatura
+                                     * recupera o valor de vendas
                                      */
-                                    valorFaturadoDia += vendasfpg.getValor();
+                                    valorVendasDia += vendasfpg.getValor();
+                                    if (vendasMaster.getNecf() > 0) {
+                                        /**
+                                         * recupera o valor da fatura
+                                         */
+                                        valorFaturadoDia += vendasfpg.getValor();
+                                    }
                                 }
                             }
                         }
                     }
                 }
+
+                progressBarValorGeral.setVisibility(View.GONE);
+                progressBarTotalPedido.setVisibility(View.GONE);
+                progressBarTotalPedidoCancelados.setVisibility(View.GONE);
+                progressBarTicketMedio.setVisibility(View.GONE);
+                progressBarTotalFaturado.setVisibility(View.GONE);
+
+
+                totaldePedidos.setText(Integer.toString(totalNumeroPedidos));
+                totalPedidosCancelados.setText(Integer.toString(pedidosCancelados));
+                valorGeralVendas.setText("R$ " + GetMask.getValor(valorVendasDia));
+                totalFaturado.setText("Faturado " + "R$ " + GetMask.getValor(valorFaturadoDia));
+                ticketMedio.setText("R$ " + GetMask.getValor(valorVendasDia / pedidosFaturadosBaixados));
             }
+            else {
+                progressBarValorGeral.setVisibility(View.GONE);
+                progressBarTotalPedido.setVisibility(View.GONE);
+                progressBarTotalPedidoCancelados.setVisibility(View.GONE);
+                progressBarTicketMedio.setVisibility(View.GONE);
+                progressBarTotalFaturado.setVisibility(View.GONE);
+
+
+                totaldePedidos.setText(Integer.toString(0));
+                totalPedidosCancelados.setText(Integer.toString(0));
+                valorGeralVendas.setText("R$ " + GetMask.getValor(0.0));
+                totalFaturado.setText("Faturado " + "R$ " + GetMask.getValor(0.0));
+                ticketMedio.setText("R$ 0,00");
+            }
+
         }
-
-        progressBarValorGeral.setVisibility(View.GONE);
-        progressBarTotalPedido.setVisibility(View.GONE);
-        progressBarTotalPedidoCancelados.setVisibility(View.GONE);
-        progressBarTicketMedio.setVisibility(View.GONE);
-        progressBarTotalFaturado.setVisibility(View.GONE);
-
-
-        totaldePedidos.setText( Integer.toString(totalNumeroPedidos));
-        totalPedidosCancelados.setText(Integer.toString(pedidosCancelados));
-        valorGeralVendas.setText( "R$ " + GetMask.getValor(valorVendasDia));
-        totalFaturado.setText("Faturado " + "R$ " + GetMask.getValor(valorFaturadoDia));
-        ticketMedio.setText( "R$ "  + GetMask.getValor(valorVendasDia / pedidosFaturadosBaixados));
 
     }
 
-    public void InitCliques (View view) {
+    public void InitCliques(View view) {
         fab.setOnClickListener(view1 -> {
-            Intent intent=new Intent(getActivity(), PersonaActivity.class);
-            intent.putExtra("ID","");
-            intent.putExtra("NOMBRE","");
-            intent.putExtra("APELLIDO","");
+            Intent intent = new Intent(getActivity(), PersonaActivity.class);
+            intent.putExtra("ID", "");
+            intent.putExtra("NOMBRE", "");
+            intent.putExtra("APELLIDO", "");
             startActivity(intent);
         });
         verProdutosVendas.setOnClickListener(view1 -> {
-            Intent intent=new Intent(getActivity(), RelatorioDeVendasActivity.class);
+            Intent intent = new Intent(getActivity(), RelatorioDeVendasActivity.class);
             startActivity(intent);
         });
 
         totalDePedisoConstrant.setOnClickListener(view1 -> {
-            Intent intent=new Intent(getActivity(), TotalPedidosVendaActivity.class);
+            Intent intent = new Intent(getActivity(), TotalPedidosVendaActivity.class);
             startActivity(intent);
         });
 
         pedidosCanceladosContrant.setOnClickListener(view1 -> {
-            Intent intent=new Intent(getActivity(), PedidosCanceladosVendaActivity.class);
+            Intent intent = new Intent(getActivity(), PedidosCanceladosVendaActivity.class);
             startActivity(intent);
         });
 
     }
-    public void listPersons(){
-        personaService= Apis.getPersonaService();
-        Call<List<Persona>> call=personaService.getPersonas();
+
+    public void listPersons() {
+        personaService = Apis.getPersonaService();
+        Call<List<Persona>> call = personaService.getPersonas();
         call.enqueue(new Callback<List<Persona>>() {
             @Override
             public void onResponse(Call<List<Persona>> call, Response<List<Persona>> response) {
-                if(response.isSuccessful()) {
+                if (response.isSuccessful()) {
                     listPersona = response.body();
-                    listView.setAdapter(new PersonaAdapter(getActivity(),R.layout.content_main,listPersona));
+                    listView.setAdapter(new PersonaAdapter(getActivity(), R.layout.content_main, listPersona));
                     textListaVazia.setVisibility(View.GONE);
                     progressBar.setVisibility(View.GONE);
                 }
@@ -213,20 +230,21 @@ public class VendasDiaFragment extends Fragment {
 
             @Override
             public void onFailure(Call<List<Persona>> call, Throwable t) {
-                Log.e("Error:",t.getMessage());
+                Log.e("Error:", t.getMessage());
                 progressBar.setVisibility(View.GONE);
                 textListaVazia.setVisibility(View.VISIBLE);
             }
         });
 
     }
-    public void RecuperaListVendasMaster(){
-        vendasMasterService= Apis.getVendasMasterService();
-        Call<List<VendasMaster>> call=vendasMasterService.getVendasMaster();
+
+    public void RecuperaListVendasMaster() {
+        vendasMasterService = Apis.getVendasMasterService();
+        Call<List<VendasMaster>> call = vendasMasterService.getVendasMaster();
         call.enqueue(new Callback<List<VendasMaster>>() {
             @Override
             public void onResponse(Call<List<VendasMaster>> call, Response<List<VendasMaster>> response) {
-                if(response.isSuccessful()) {
+                if (response.isSuccessful()) {
                     listVendasMaster = response.body(); // PARA SER UMA LISTA PARA LISTAR AS VENDAS FATURADAS E BAIXADAS
                     listTotalDePedidos = response.body(); // PARA SER UMA LISTA QUE RETORNE O NUMERO DE PEDIDOS FEITOS
                 }
@@ -236,19 +254,20 @@ public class VendasDiaFragment extends Fragment {
 
             @Override
             public void onFailure(Call<List<VendasMaster>> call, Throwable t) {
-                Log.e("Error:",t.getMessage());
+                Log.e("Error:", t.getMessage());
 
             }
         });
 
     }
-    public void RecuperalistVendasfpg(){
-        vendasfpgService= Apis.getVendasfpgService();
-        Call<List<Vendasfpg>> call=vendasfpgService.getVendasfpg();
+
+    public void RecuperalistVendasfpg() {
+        vendasfpgService = Apis.getVendasfpgService();
+        Call<List<Vendasfpg>> call = vendasfpgService.getVendasfpg();
         call.enqueue(new Callback<List<Vendasfpg>>() {
             @Override
             public void onResponse(Call<List<Vendasfpg>> call, Response<List<Vendasfpg>> response) {
-                if(response.isSuccessful()) {
+                if (response.isSuccessful()) {
                     listvendasfpg = response.body();
                 }
                 RecuperalistFormaPagamento();
@@ -257,19 +276,20 @@ public class VendasDiaFragment extends Fragment {
 
             @Override
             public void onFailure(Call<List<Vendasfpg>> call, Throwable t) {
-                Log.e("Error:",t.getMessage());
+                Log.e("Error:", t.getMessage());
 
             }
         });
 
     }
-    public void RecuperalistFormaPagamento(){
-        formaPagamentoService= Apis.getFormaPagamentoService();
-        Call<List<FormaPagamento>> call= formaPagamentoService.getFormaPagamento();
+
+    public void RecuperalistFormaPagamento() {
+        formaPagamentoService = Apis.getFormaPagamentoService();
+        Call<List<FormaPagamento>> call = formaPagamentoService.getFormaPagamento();
         call.enqueue(new Callback<List<FormaPagamento>>() {
             @Override
             public void onResponse(Call<List<FormaPagamento>> call, Response<List<FormaPagamento>> response) {
-                if(response.isSuccessful()) {
+                if (response.isSuccessful()) {
                     listformaPagamento = response.body();
                 }
                 ExibirComponentes();
@@ -277,7 +297,7 @@ public class VendasDiaFragment extends Fragment {
 
             @Override
             public void onFailure(Call<List<FormaPagamento>> call, Throwable t) {
-                Log.e("Error:",t.getMessage());
+                Log.e("Error:", t.getMessage());
 
             }
         });
@@ -306,9 +326,9 @@ public class VendasDiaFragment extends Fragment {
         super.onResume();
     }
 
-    public void InitComponentes (View view) {
-        listView=view.findViewById(R.id.listView);
-        textListaVazia=view.findViewById(R.id.textListaVazia);
+    public void InitComponentes(View view) {
+        listView = view.findViewById(R.id.listView);
+        textListaVazia = view.findViewById(R.id.textListaVazia);
         fab = view.findViewById(R.id.fabe);
 
         //CONSTRANTS
@@ -324,7 +344,7 @@ public class VendasDiaFragment extends Fragment {
         totalPedidosCancelados = view.findViewById(R.id.textView6);
 
         //PROGRESS BAR
-        progressBar=view.findViewById(R.id.progressBar);
+        progressBar = view.findViewById(R.id.progressBar);
         progressBarValorGeral = view.findViewById(R.id.progressBarValorGeral);
         progressBarTotalPedido = view.findViewById(R.id.progressBarTotalPedido);
         progressBarTotalPedidoCancelados = view.findViewById(R.id.progressBarTotalPedidoCancelados);
