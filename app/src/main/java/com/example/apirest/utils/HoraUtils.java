@@ -1,12 +1,20 @@
 package com.example.apirest.utils;
 
+import android.util.Log;
+import android.util.Pair;
+
+import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 import org.joda.time.Minutes;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalTime;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.regex.Pattern;
 
 public class HoraUtils {
@@ -25,21 +33,15 @@ public class HoraUtils {
         return Minutes.minutesBetween(dataHora, dataHoraAtual).getMinutes();
     }
 
-    public static boolean isIn(String abertura, String fechamento){
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            LocalDate diaAtual = LocalDate.now();
-            LocalDate diaInicio = LocalDate.now();
-            LocalDate diaFim = LocalDate.parse(fechamento);
+    public Pair<String,String> getWeekRange(int year, int week_no) {
+        DateTime startOfWeek = new DateTime().withYear(year).withWeekOfWeekyear(week_no);
 
-            return (diaAtual.isAfter(diaInicio) && diaAtual.isBefore(diaFim));
-        } else {
-            org.joda.time.LocalTime horaAtual = org.joda.time.LocalTime.now();
-            org.joda.time.LocalTime aberturaTime = org.joda.time.LocalTime.parse(abertura);
-            org.joda.time.LocalTime fechamentoTime = org.joda.time.LocalTime.parse(fechamento);
+        DateTime endOfWeek = startOfWeek.plusDays(6);
 
-            return (horaAtual.isAfter(aberturaTime) && horaAtual.isBefore(fechamentoTime));
-        }
+        return new Pair<String,String>(startOfWeek.toString(), endOfWeek.toString());
     }
+
+
 
     public static String getDiaSemana(){
         return String.format("dia_%d", LocalDate.now().getDayOfWeek());

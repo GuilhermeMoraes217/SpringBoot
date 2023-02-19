@@ -35,8 +35,10 @@ import com.example.apirest.utils.VendasfpgService;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.Serializable;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -107,6 +109,20 @@ public class VendasDiaFragment extends Fragment {
         return view;
     }
 
+
+    public static String getCalculatedDate(String date, String dateFormat, int days) {
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat s = new SimpleDateFormat(dateFormat);
+        cal.add(Calendar.DAY_OF_YEAR, days);
+        try {
+            return s.format(new Date(s.parse(date).getTime()));
+        } catch (ParseException e) {
+            // TODO Auto-generated catch block
+            Log.e("TAG", "Error in Parsing Date : " + e.getMessage());
+        }
+        return null;
+    }
+
     private void ExibirComponentes() {
         for (VendasMaster vendasMaster : listVendasMaster) {
             /**
@@ -116,6 +132,7 @@ public class VendasDiaFragment extends Fragment {
             Date d = new Date();
             SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
             String formattedDateAtual = df.format(d);
+            getCalculatedDate(vendasMaster.getData_emissao(), "yyyy-MM-dd", -7);
 
             if (vendasMaster.getData_emissao().equals(formattedDateAtual)) {
 
