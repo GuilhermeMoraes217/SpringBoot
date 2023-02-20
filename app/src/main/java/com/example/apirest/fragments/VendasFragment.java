@@ -14,6 +14,7 @@ import com.example.apirest.R;
 import com.example.apirest.adapter.ViewPagerAdapter;
 import com.example.apirest.fragments.produtos.ProdutosDiaFragment;
 import com.example.apirest.fragments.vendas.VendasDiaFragment;
+import com.example.apirest.fragments.vendas.VendasSemanaFragment;
 import com.google.android.material.tabs.TabLayout;
 
 
@@ -44,7 +45,7 @@ public class VendasFragment extends Fragment {
     private void configTabsLayout() {
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getChildFragmentManager());
         viewPagerAdapter.addFragment(new VendasDiaFragment(), "Dia");
-        viewPagerAdapter.addFragment(new VendasDiaFragment(), "Semana");
+        viewPagerAdapter.addFragment(new VendasSemanaFragment(), "Semana");
         viewPagerAdapter.addFragment(new VendasDiaFragment(), "Mes");
         viewPagerAdapter.addFragment(new VendasDiaFragment(), "Ano");
 

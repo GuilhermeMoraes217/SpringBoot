@@ -115,19 +115,6 @@ public class VendasDiaFragment extends Fragment {
         return view;
     }
 
-
-    private static List<LocalDate> weekStarting(LocalDate date) {
-        // Might want to validate that date.getDayOfWeek() == DayOfWeek.SUNDAY
-        List<LocalDate> week = new ArrayList<>(7);
-        for (int day = 0; day <= 7; day++) {
-            week.add(date);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                date = date.plusDays(1);
-            }
-        }
-        return week;
-    }
-
     private void ExibirComponentes() {
         for (VendasMaster vendasMaster : listVendasMaster) {
             /**
@@ -137,27 +124,6 @@ public class VendasDiaFragment extends Fragment {
             Date d = new Date();
             SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
             String formattedDateAtual = df.format(d);
-
-            LocalDate today = null;
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                today = LocalDate.now(ZoneId.of("America/Sao_Paulo"));
-            }
-            LocalDate weekStart = null;
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                weekStart = today.with(TemporalAdjusters.previousOrSame(DayOfWeek.SUNDAY));
-            }
-            List<LocalDate> thisWeek = weekStarting(weekStart);
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                List<LocalDate> lastWeek = weekStarting(weekStart.minusWeeks(1));
-                System.out.println("This week:   " + lastWeek);
-
-            }
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                List<LocalDate> twoWeeksAgo = weekStarting(weekStart.minusWeeks(2));
-            }
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                List<LocalDate> threeWeeksAgo = weekStarting(weekStart.minusWeeks(3));
-            }
 
 
             if (vendasMaster.getData_emissao().equals(formattedDateAtual)) {
