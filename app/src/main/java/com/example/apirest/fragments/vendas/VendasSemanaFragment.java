@@ -81,6 +81,9 @@ public class VendasSemanaFragment extends Fragment {
      * Atributos variados do layout vendas dia fragment
      */
     List<LocalDate> lastWeek = new ArrayList<>();
+    static Calendar cal;
+
+    static List<String> stringsData = new ArrayList<>();
     ListView listView;
     TextView textListaVazia;
     ProgressBar progressBar;
@@ -107,6 +110,7 @@ public class VendasSemanaFragment extends Fragment {
 
         InitComponentes(view);
         inicializaData();
+        recuperaDataSemana();
         InitCliques(view);
 
         listPersons();
@@ -153,49 +157,51 @@ public class VendasSemanaFragment extends Fragment {
     }
 
     public static void printDatesInMonth(int year, int month, int day) {
-        SimpleDateFormat fmt = new SimpleDateFormat("dd/MM/yyyy");
-        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
+        cal = Calendar.getInstance();
         cal.clear();
-        cal.set(year, month - 1, 1);
+        cal.set(year, month - 1, day - 7); // alteracao aqui para listar O PADRAO É IGUAL A (0 ZERO)
         int daysInMonth = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
-        for (int i = 0; i < day; i++) {
+        for (int i = day - 7; i < day ; i++) {
             System.out.println(fmt.format(cal.getTime()));
             cal.add(Calendar.DAY_OF_MONTH, 1);
+            stringsData.add(fmt.format(cal.getTime()));
         }
-        Log.i("", "" + cal.getTime());
+        Log.i("", "" + stringsData);
+
     }
 
+    private void recuperaDataSemana () {
+        int year= 0;
+        int month=0;
+        int day=0;
+
+        Date date = new Date();
+        LocalDate date1 = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            date1 = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        }
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            year  = date1.getYear();
+        }
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            month = date1.getMonthValue();
+        }
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            day   = date1.getDayOfMonth();
+        }
+
+        printDatesInMonth( year,  month,  day);
+    }
     private void ExibirComponentes() {
         for (VendasMaster vendasMaster : listVendasMaster) {
             /**
              * recupera o total do numero de pedidos
              */
 
-            int year= 0;
-            int month=0;
-            int day=0;
+            for (String localDate : stringsData) {
 
-            Date date = new Date();
-            LocalDate date1 = null;
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                date1 = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-            }
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                 year  = date1.getYear();
-            }
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                 month = date1.getMonthValue();
-            }
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                 day   = date1.getDayOfMonth();
-            }
-
-            printDatesInMonth( year,  month,  day);
-
-
-            for (LocalDate localDate : lastWeek) {
-
-                if (localDate.toString().equals(vendasMaster.getData_emissao())) {
+                if (localDate.equals(vendasMaster.getData_emissao())) {
 
                     if (vendasMaster.getTotal() > 0 && vendasMaster.getNome() != null) {
                         totalNumeroPedidos++;
