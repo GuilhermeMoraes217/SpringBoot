@@ -40,8 +40,10 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -117,7 +119,6 @@ public class VendasSemanaFragment extends Fragment {
         // Might want to validate that date.getDayOfWeek() == DayOfWeek.SUNDAY
         List<LocalDate> week = new ArrayList<>(7);
         for (int day = 0; day <= 7; day++) {
-
             week.add(date);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 date = date.plusDays(1);
@@ -147,6 +148,21 @@ public class VendasSemanaFragment extends Fragment {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             List<LocalDate> threeWeeksAgo = weekStarting(weekStart.minusWeeks(3));
         }
+
+
+    }
+
+    public static void printDatesInMonth(int year, int month, int day) {
+        SimpleDateFormat fmt = new SimpleDateFormat("dd/MM/yyyy");
+        Calendar cal = Calendar.getInstance();
+        cal.clear();
+        cal.set(year, month - 1, 1);
+        int daysInMonth = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
+        for (int i = 0; i < day; i++) {
+            System.out.println(fmt.format(cal.getTime()));
+            cal.add(Calendar.DAY_OF_MONTH, 1);
+        }
+        Log.i("", "" + cal.getTime());
     }
 
     private void ExibirComponentes() {
@@ -154,6 +170,28 @@ public class VendasSemanaFragment extends Fragment {
             /**
              * recupera o total do numero de pedidos
              */
+
+            int year= 0;
+            int month=0;
+            int day=0;
+
+            Date date = new Date();
+            LocalDate date1 = null;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                date1 = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            }
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                 year  = date1.getYear();
+            }
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                 month = date1.getMonthValue();
+            }
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                 day   = date1.getDayOfMonth();
+            }
+
+            printDatesInMonth( year,  month,  day);
+
 
             for (LocalDate localDate : lastWeek) {
 
