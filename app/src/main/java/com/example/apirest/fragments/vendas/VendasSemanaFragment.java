@@ -43,7 +43,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -61,21 +60,21 @@ public class VendasSemanaFragment extends Fragment {
     /**
      * Atributos que irao receber o popular as classes VendasMaster
      */
-    VendasMasterService vendasMasterService;
-    List<VendasMaster> listVendasMaster = new ArrayList<>();
-    List<VendasMaster> listTotalDePedidos = new ArrayList<>();
+    VendasMasterService vendasMasterServiceSemana;
+    List<VendasMaster> listVendasMasterSemana = new ArrayList<>();
+    List<VendasMaster> listTotalDePedidosSemana = new ArrayList<>();
 
     /**
      * Atributos que irao receber o popular as classes Vendasfpg
      */
-    VendasfpgService vendasfpgService;
-    List<Vendasfpg> listvendasfpg = new ArrayList<>();
+    VendasfpgService vendasfpgServiceSemana;
+    List<Vendasfpg> listvendasfpgSemana = new ArrayList<>();
 
     /**
      * Atributos que irao receber o popular as classes FormaPagamento
      */
-    FormaPagamentoService formaPagamentoService;
-    List<FormaPagamento> listformaPagamento = new ArrayList<>();
+    FormaPagamentoService formaPagamentoServiceSemana;
+    List<FormaPagamento> listformaPagamentoSemana = new ArrayList<>();
 
     /**
      * Atributos variados do layout vendas dia fragment
@@ -194,7 +193,7 @@ public class VendasSemanaFragment extends Fragment {
         printDatesInMonth( year,  month,  day);
     }
     private void ExibirComponentes() {
-        for (VendasMaster vendasMaster : listVendasMaster) {
+        for (VendasMaster vendasMaster : listVendasMasterSemana) {
             /**
              * recupera o total do numero de pedidos
              */
@@ -220,8 +219,8 @@ public class VendasSemanaFragment extends Fragment {
                     if (vendasMaster.getTotal() > 0 && vendasMaster.getSituacao().equals("F")) {
                         pedidosFaturadosBaixados++;
                     }
-                    for (Vendasfpg vendasfpg : listvendasfpg) {
-                        for (FormaPagamento formaPagamento : listformaPagamento) {
+                    for (Vendasfpg vendasfpg : listvendasfpgSemana) {
+                        for (FormaPagamento formaPagamento : listformaPagamentoSemana) {
                             if (vendasfpg.getVendas_master() == vendasMaster.getCodigo()) {
                                 if (vendasfpg.getId_forma() == formaPagamento.getCodigo()) {
                                     if (vendasMaster.getTotal() > 0 && vendasMaster.getSituacao().equals("F")) {
@@ -311,14 +310,14 @@ public class VendasSemanaFragment extends Fragment {
     }
 
     public void RecuperaListVendasMaster() {
-        vendasMasterService = Apis.getVendasMasterService();
-        Call<List<VendasMaster>> call = vendasMasterService.getVendasMaster();
+        vendasMasterServiceSemana = Apis.getVendasMasterService();
+        Call<List<VendasMaster>> call = vendasMasterServiceSemana.getVendasMaster();
         call.enqueue(new Callback<List<VendasMaster>>() {
             @Override
             public void onResponse(Call<List<VendasMaster>> call, Response<List<VendasMaster>> response) {
                 if (response.isSuccessful()) {
-                    listVendasMaster = response.body(); // PARA SER UMA LISTA PARA LISTAR AS VENDAS FATURADAS E BAIXADAS
-                    listTotalDePedidos = response.body(); // PARA SER UMA LISTA QUE RETORNE O NUMERO DE PEDIDOS FEITOS
+                    listVendasMasterSemana = response.body(); // PARA SER UMA LISTA PARA LISTAR AS VENDAS FATURADAS E BAIXADAS
+                    listTotalDePedidosSemana = response.body(); // PARA SER UMA LISTA QUE RETORNE O NUMERO DE PEDIDOS FEITOS
                 }
                 RecuperalistVendasfpg();
 
@@ -334,13 +333,13 @@ public class VendasSemanaFragment extends Fragment {
     }
 
     public void RecuperalistVendasfpg() {
-        vendasfpgService = Apis.getVendasfpgService();
-        Call<List<Vendasfpg>> call = vendasfpgService.getVendasfpg();
+        vendasfpgServiceSemana = Apis.getVendasfpgService();
+        Call<List<Vendasfpg>> call = vendasfpgServiceSemana.getVendasfpg();
         call.enqueue(new Callback<List<Vendasfpg>>() {
             @Override
             public void onResponse(Call<List<Vendasfpg>> call, Response<List<Vendasfpg>> response) {
                 if (response.isSuccessful()) {
-                    listvendasfpg = response.body();
+                    listvendasfpgSemana = response.body();
                 }
                 RecuperalistFormaPagamento();
 
@@ -356,13 +355,13 @@ public class VendasSemanaFragment extends Fragment {
     }
 
     public void RecuperalistFormaPagamento() {
-        formaPagamentoService = Apis.getFormaPagamentoService();
-        Call<List<FormaPagamento>> call = formaPagamentoService.getFormaPagamento();
+        formaPagamentoServiceSemana = Apis.getFormaPagamentoService();
+        Call<List<FormaPagamento>> call = formaPagamentoServiceSemana.getFormaPagamento();
         call.enqueue(new Callback<List<FormaPagamento>>() {
             @Override
             public void onResponse(Call<List<FormaPagamento>> call, Response<List<FormaPagamento>> response) {
                 if (response.isSuccessful()) {
-                    listformaPagamento = response.body();
+                    listformaPagamentoSemana = response.body();
                 }
                 ExibirComponentes();
             }
@@ -390,12 +389,6 @@ public class VendasSemanaFragment extends Fragment {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onResume() {
-        listPersons();
-        super.onResume();
     }
 
     public void InitComponentes(View view) {

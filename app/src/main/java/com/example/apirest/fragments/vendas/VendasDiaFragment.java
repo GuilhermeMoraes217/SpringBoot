@@ -1,7 +1,6 @@
 package com.example.apirest.fragments.vendas;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -29,23 +28,14 @@ import com.example.apirest.model.vendas.Vendasfpg;
 import com.example.apirest.utils.Apis;
 import com.example.apirest.utils.FormaPagamentoService;
 import com.example.apirest.utils.GetMask;
-import com.example.apirest.utils.HoraUtils;
 import com.example.apirest.utils.PersonaService;
 import com.example.apirest.utils.VendasMasterService;
 import com.example.apirest.utils.VendasfpgService;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.io.Serializable;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import retrofit2.Call;
@@ -64,21 +54,21 @@ public class VendasDiaFragment extends Fragment {
     /**
      * Atributos que irao receber o popular as classes VendasMaster
      */
-    VendasMasterService vendasMasterService;
-    List<VendasMaster> listVendasMaster = new ArrayList<>();
-    List<VendasMaster> listTotalDePedidos = new ArrayList<>();
+    VendasMasterService vendasMasterServiceDia;
+    List<VendasMaster> listVendasMasterDia = new ArrayList<>();
+    List<VendasMaster> listTotalDePedidosDia = new ArrayList<>();
 
     /**
      * Atributos que irao receber o popular as classes Vendasfpg
      */
-    VendasfpgService vendasfpgService;
-    List<Vendasfpg> listvendasfpg = new ArrayList<>();
+    VendasfpgService vendasfpgServiceDia;
+    List<Vendasfpg> listvendasfpgDia = new ArrayList<>();
 
     /**
      * Atributos que irao receber o popular as classes FormaPagamento
      */
-    FormaPagamentoService formaPagamentoService;
-    List<FormaPagamento> listformaPagamento = new ArrayList<>();
+    FormaPagamentoService formaPagamentoServiceDia;
+    List<FormaPagamento> listformaPagamentoDia = new ArrayList<>();
 
     /**
      * Atributos variados do layout vendas dia fragment
@@ -116,15 +106,15 @@ public class VendasDiaFragment extends Fragment {
     }
 
     private void ExibirComponentes() {
-        for (VendasMaster vendasMaster : listVendasMaster) {
+        Date d = new Date();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        String formattedDateAtual = df.format(d);
+
+
+        for (VendasMaster vendasMaster : listVendasMasterDia) {
             /**
              * recupera o total do numero de pedidos
              */
-
-            Date d = new Date();
-            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-            String formattedDateAtual = df.format(d);
-
 
             if (vendasMaster.getData_emissao().equals(formattedDateAtual)) {
 
@@ -145,8 +135,8 @@ public class VendasDiaFragment extends Fragment {
                 if (vendasMaster.getTotal() > 0 && vendasMaster.getSituacao().equals("F")) {
                     pedidosFaturadosBaixados++;
                 }
-                for (Vendasfpg vendasfpg : listvendasfpg) {
-                    for (FormaPagamento formaPagamento : listformaPagamento) {
+                for (Vendasfpg vendasfpg : listvendasfpgDia) {
+                    for (FormaPagamento formaPagamento : listformaPagamentoDia) {
                         if (vendasfpg.getVendas_master() == vendasMaster.getCodigo()) {
                             if (vendasfpg.getId_forma() == formaPagamento.getCodigo()) {
                                 if (vendasMaster.getTotal() > 0 && vendasMaster.getSituacao().equals("F")) {
@@ -248,14 +238,14 @@ public class VendasDiaFragment extends Fragment {
     }
 
     public void RecuperaListVendasMaster() {
-        vendasMasterService = Apis.getVendasMasterService();
-        Call<List<VendasMaster>> call = vendasMasterService.getVendasMaster();
+        vendasMasterServiceDia = Apis.getVendasMasterService();
+        Call<List<VendasMaster>> call = vendasMasterServiceDia.getVendasMaster();
         call.enqueue(new Callback<List<VendasMaster>>() {
             @Override
             public void onResponse(Call<List<VendasMaster>> call, Response<List<VendasMaster>> response) {
                 if (response.isSuccessful()) {
-                    listVendasMaster = response.body(); // PARA SER UMA LISTA PARA LISTAR AS VENDAS FATURADAS E BAIXADAS
-                    listTotalDePedidos = response.body(); // PARA SER UMA LISTA QUE RETORNE O NUMERO DE PEDIDOS FEITOS
+                    listVendasMasterDia = response.body(); // PARA SER UMA LISTA PARA LISTAR AS VENDAS FATURADAS E BAIXADAS
+                    listTotalDePedidosDia = response.body(); // PARA SER UMA LISTA QUE RETORNE O NUMERO DE PEDIDOS FEITOS
                 }
                 RecuperalistVendasfpg();
 
@@ -271,13 +261,13 @@ public class VendasDiaFragment extends Fragment {
     }
 
     public void RecuperalistVendasfpg() {
-        vendasfpgService = Apis.getVendasfpgService();
-        Call<List<Vendasfpg>> call = vendasfpgService.getVendasfpg();
+        vendasfpgServiceDia = Apis.getVendasfpgService();
+        Call<List<Vendasfpg>> call = vendasfpgServiceDia.getVendasfpg();
         call.enqueue(new Callback<List<Vendasfpg>>() {
             @Override
             public void onResponse(Call<List<Vendasfpg>> call, Response<List<Vendasfpg>> response) {
                 if (response.isSuccessful()) {
-                    listvendasfpg = response.body();
+                    listvendasfpgDia = response.body();
                 }
                 RecuperalistFormaPagamento();
 
@@ -293,13 +283,13 @@ public class VendasDiaFragment extends Fragment {
     }
 
     public void RecuperalistFormaPagamento() {
-        formaPagamentoService = Apis.getFormaPagamentoService();
-        Call<List<FormaPagamento>> call = formaPagamentoService.getFormaPagamento();
+        formaPagamentoServiceDia = Apis.getFormaPagamentoService();
+        Call<List<FormaPagamento>> call = formaPagamentoServiceDia.getFormaPagamento();
         call.enqueue(new Callback<List<FormaPagamento>>() {
             @Override
             public void onResponse(Call<List<FormaPagamento>> call, Response<List<FormaPagamento>> response) {
                 if (response.isSuccessful()) {
-                    listformaPagamento = response.body();
+                    listformaPagamentoDia = response.body();
                 }
                 ExibirComponentes();
             }
@@ -329,12 +319,6 @@ public class VendasDiaFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onResume() {
-        listPersons();
-        super.onResume();
-    }
-
     public void InitComponentes(View view) {
         listView = view.findViewById(R.id.listView);
         textListaVazia = view.findViewById(R.id.textListaVazia);
@@ -361,4 +345,5 @@ public class VendasDiaFragment extends Fragment {
         progressBarTotalFaturado = view.findViewById(R.id.progressBarTotalFaturado);
 
     }
+
 }

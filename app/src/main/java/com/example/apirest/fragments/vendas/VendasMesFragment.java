@@ -391,12 +391,6 @@ public class VendasMesFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onResume() {
-        listPersons();
-        super.onResume();
-    }
-
     public void InitComponentes(View view) {
         listView = view.findViewById(R.id.listView);
         textListaVazia = view.findViewById(R.id.textListaVazia);
