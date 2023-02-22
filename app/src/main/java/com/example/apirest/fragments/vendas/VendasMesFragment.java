@@ -43,14 +43,13 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class VendasSemanaFragment extends Fragment {
+public class VendasMesFragment extends Fragment {
 
     /**
      * Atributos que irao receber o popular as classes Personas
@@ -102,11 +101,12 @@ public class VendasSemanaFragment extends Fragment {
 
     private ConstraintLayout totalDePedisoConstrant, pedidosCanceladosContrant;
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_vendas_semana, container, false);
+        View view = inflater.inflate(R.layout.fragment_vendas_mes, container, false);
 
         InitComponentes(view);
         inicializaData();
@@ -160,10 +160,9 @@ public class VendasSemanaFragment extends Fragment {
         SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
         cal = Calendar.getInstance();
         cal.clear();
-        cal.set(year, month - 1, day - 7); // alteracao aqui para listar O PADRAO É IGUAL A (0 ZERO)
+        cal.set(year, month - 1, 0); // alteracao aqui para listar O PADRAO É IGUAL A (0 ZERO)
         int daysInMonth = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
-        for (int i = day - 7; i < day ; i++) {
-            //System.out.println(fmt.format(cal.getTime()));
+        for (int i = 0; i < day ; i++) {
             cal.add(Calendar.DAY_OF_MONTH, 1);
             stringsData.add(fmt.format(cal.getTime()));
         }

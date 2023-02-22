@@ -43,15 +43,13 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class VendasSemanaFragment extends Fragment {
-
+public class VendasAnoFragment extends Fragment {
     /**
      * Atributos que irao receber o popular as classes Personas
      */
@@ -102,14 +100,15 @@ public class VendasSemanaFragment extends Fragment {
 
     private ConstraintLayout totalDePedisoConstrant, pedidosCanceladosContrant;
 
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_vendas_semana, container, false);
+        View view = inflater.inflate(R.layout.fragment_vendas_ano, container, false);
 
         InitComponentes(view);
-        inicializaData();
         recuperaDataSemana();
         InitCliques(view);
 
@@ -131,40 +130,14 @@ public class VendasSemanaFragment extends Fragment {
         return week;
     }
 
-    private void inicializaData() {
-        LocalDate today = null;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            today = LocalDate.now(ZoneId.of("America/Sao_Paulo"));
-        }
-        LocalDate weekStart = null;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            weekStart = today.with(TemporalAdjusters.previousOrSame(DayOfWeek.SUNDAY));
-        }
-        List<LocalDate> thisWeek = weekStarting(weekStart);
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-
-            lastWeek = weekStarting(weekStart.minusWeeks(1));
-
-        }
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            List<LocalDate> twoWeeksAgo = weekStarting(weekStart.minusWeeks(2));
-        }
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            List<LocalDate> threeWeeksAgo = weekStarting(weekStart.minusWeeks(3));
-        }
-
-
-    }
-
     public static void printDatesInMonth(int year, int month, int day) {
         SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
         cal = Calendar.getInstance();
         cal.clear();
-        cal.set(year, month - 1, day - 7); // alteracao aqui para listar O PADRAO É IGUAL A (0 ZERO)
+        cal.set(year, month - 1, 0); // alteracao aqui para listar O PADRAO É IGUAL A (0 ZERO)
         int daysInMonth = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
-        for (int i = day - 7; i < day ; i++) {
-            //System.out.println(fmt.format(cal.getTime()));
-            cal.add(Calendar.DAY_OF_MONTH, 1);
+        for (int i = 0; i < day ; i++) {
+            cal.add(Calendar.DAY_OF_YEAR, 1);
             stringsData.add(fmt.format(cal.getTime()));
         }
         Log.i("", "" + stringsData);
