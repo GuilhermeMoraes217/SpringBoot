@@ -32,9 +32,13 @@ import com.example.apirest.utils.PersonaService;
 import com.example.apirest.utils.VendasMasterService;
 import com.example.apirest.utils.VendasfpgService;
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -347,8 +351,8 @@ public class VendasDiaFragment extends Fragment {
         listView = view.findViewById(R.id.listView);
         textListaVazia = view.findViewById(R.id.textListaVazia);
         fab = view.findViewById(R.id.fabe);
-
         barChart = view.findViewById(R.id.barChat);
+
         barChartsDate.add(new BarEntry(2014, 420));
         barChartsDate.add(new BarEntry(2015, 520));
         barChartsDate.add(new BarEntry(2016, 620));
@@ -362,11 +366,14 @@ public class VendasDiaFragment extends Fragment {
 
         BarData barData = new BarData(barDataSet);
 
+        barChart.getXAxis().setDrawGridLines(false);
+        barChart.getAxisLeft().setDrawGridLines(false);
+        barChart.getAxisRight().setDrawGridLines(false);
+
         barChart.setFitBars(true);
         barChart.setData(barData);
-        barChart.getDescription().setText("Grafico de exemplo Data");
-        barChart.animateY(2000);
-
+        barChart.getDescription().setEnabled(false);
+        barChart.animateY(1000);
 
         //CONSTRANTS
         totalDePedisoConstrant = view.findViewById(R.id.constraintLayout2);

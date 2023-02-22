@@ -32,6 +32,11 @@ import com.example.apirest.utils.GetMask;
 import com.example.apirest.utils.PersonaService;
 import com.example.apirest.utils.VendasMasterService;
 import com.example.apirest.utils.VendasfpgService;
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.SimpleDateFormat;
@@ -79,6 +84,12 @@ public class VendasAnoFragment extends Fragment {
     List<LocalDate> lastWeek = new ArrayList<>();
     static Calendar cal;
 
+    /**
+     * Barchat list
+     */
+    BarChart barChart;
+    ArrayList<BarEntry> barChartsDate = new ArrayList<>();
+
     static List<String> stringsData = new ArrayList<>();
     ListView listView;
     TextView textListaVazia;
@@ -87,8 +98,8 @@ public class VendasAnoFragment extends Fragment {
     FloatingActionButton fab;
 
     private TextView valorGeralVendas, totaldePedidos, totalPedidosCancelados, ticketMedio, totalFaturado;
-    Double valorVendasDia = 0.0;
-    Double valorFaturadoDia = 0.0;
+    Double valorVendasDiaAno = 0.0;
+    Double valorFaturadoAno = 0.0;
 
     int pedidosCancelados = 0;
     int pedidosFaturadosBaixados = 0;
@@ -99,14 +110,13 @@ public class VendasAnoFragment extends Fragment {
     private ConstraintLayout totalDePedisoConstrant, pedidosCanceladosContrant;
 
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_vendas_ano, container, false);
 
-        InitComponentes(view);
+        inicializaComponentes(view);
         recuperaDataSemana();
         InitCliques(view);
 
@@ -135,8 +145,8 @@ public class VendasAnoFragment extends Fragment {
         cal.clear();
         cal.set(year, 0, 0); // alteracao aqui para listar O PADRAO É IGUAL A (0 ZERO)
         int daysInMonth = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
-        for (int j = 0; j < month ; j++) {
-            for (int i = 0; i < daysInMonth ; i++) {
+        for (int j = 0; j < month; j++) {
+            for (int i = 0; i < daysInMonth; i++) {
                 cal.add(Calendar.DAY_OF_YEAR, 1);
                 stringsData.add(fmt.format(cal.getTime()));
             }
@@ -146,10 +156,10 @@ public class VendasAnoFragment extends Fragment {
 
     }
 
-    private void recuperaDataSemana () {
-        int year= 0;
-        int month=0;
-        int day=0;
+    private void recuperaDataSemana() {
+        int year = 0;
+        int month = 0;
+        int day = 0;
 
         Date date = new Date();
         LocalDate date1 = null;
@@ -157,21 +167,21 @@ public class VendasAnoFragment extends Fragment {
             date1 = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         }
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            year  = date1.getYear();
+            year = date1.getYear();
         }
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             month = date1.getMonthValue();
         }
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            day   = date1.getDayOfMonth();
+            day = date1.getDayOfMonth();
         }
 
-        printDatesInMonth( year,  month,  day);
+        printDatesInMonth(year, month, day);
     }
 
-    private void limpandoComponetes () {
-        valorVendasDia = 0.0;
-        valorFaturadoDia = 0.0;
+    private void limpandoComponetes() {
+        valorVendasDiaAno = 0.0;
+        valorFaturadoAno = 0.0;
         pedidosCancelados = 0;
         pedidosFaturadosBaixados = 0;
         totalNumeroPedidos = 0;
@@ -179,6 +189,8 @@ public class VendasAnoFragment extends Fragment {
 
     private void ExibirComponentes() {
         limpandoComponetes();
+        int dataAUX = 0;
+
 
         for (VendasMaster vendasMaster : listVendasMasterAno) {
             /**
@@ -191,6 +203,7 @@ public class VendasAnoFragment extends Fragment {
 
                     if (vendasMaster.getTotal() > 0 && vendasMaster.getNome() != null) {
                         totalNumeroPedidos++;
+
                     }
 
                     /**
@@ -214,12 +227,14 @@ public class VendasAnoFragment extends Fragment {
                                         /**
                                          * recupera o valor de vendas
                                          */
-                                        valorVendasDia += vendasfpg.getValor();
+                                        valorVendasDiaAno += vendasfpg.getValor();
+
+
                                         if (vendasMaster.getNecf() > 0) {
                                             /**
                                              * recupera o valor da fatura
                                              */
-                                            valorFaturadoDia += vendasfpg.getValor();
+                                            valorFaturadoAno += vendasfpg.getValor();
                                         }
                                     }
                                 }
@@ -242,9 +257,30 @@ public class VendasAnoFragment extends Fragment {
 
         totaldePedidos.setText(Integer.toString(totalNumeroPedidos));
         totalPedidosCancelados.setText(Integer.toString(pedidosCancelados));
-        valorGeralVendas.setText("R$ " + GetMask.getValor(valorVendasDia));
-        totalFaturado.setText("Faturado " + "R$ " + GetMask.getValor(valorFaturadoDia));
-        ticketMedio.setText("R$ " + GetMask.getValor(valorVendasDia / pedidosFaturadosBaixados));
+        valorGeralVendas.setText("R$ " + GetMask.getValor(valorVendasDiaAno));
+        totalFaturado.setText("Faturado " + "R$ " + GetMask.getValor(valorFaturadoAno));
+        ticketMedio.setText("R$ " + GetMask.getValor(valorVendasDiaAno / pedidosFaturadosBaixados));
+
+        double d = valorVendasDiaAno;
+        float f = (float) d;
+        barChartsDate.add(new BarEntry(dataAUX, f));
+
+
+        BarDataSet barDataSet = new BarDataSet(barChartsDate, "Datas");
+        barDataSet.setColors(ColorTemplate.MATERIAL_COLORS);
+        barDataSet.setValueTextColor(android.R.color.black);
+        barDataSet.setValueTextSize(16f);
+
+        BarData barData = new BarData(barDataSet);
+
+        barChart.getXAxis().setDrawGridLines(false);
+        barChart.getAxisLeft().setDrawGridLines(false);
+        barChart.getAxisRight().setDrawGridLines(false);
+
+        barChart.setFitBars(true);
+        barChart.setData(barData);
+        barChart.getDescription().setEnabled(false);
+        barChart.animateY(1000);
 
     }
 
@@ -383,10 +419,11 @@ public class VendasAnoFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
-    public void InitComponentes(View view) {
+    public void inicializaComponentes(View view) {
         listView = view.findViewById(R.id.listView);
         textListaVazia = view.findViewById(R.id.textListaVazia);
         fab = view.findViewById(R.id.fabe);
+        barChart = view.findViewById(R.id.barChat);
 
         //CONSTRANTS
         totalDePedisoConstrant = view.findViewById(R.id.constraintLayout2);
