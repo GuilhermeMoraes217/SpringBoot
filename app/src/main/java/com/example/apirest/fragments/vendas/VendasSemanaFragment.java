@@ -156,6 +156,7 @@ public class VendasSemanaFragment extends Fragment {
     }
 
     public static void printDatesInMonth(int year, int month, int day) {
+        stringsData.clear();
         SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
         cal = Calendar.getInstance();
         cal.clear();
@@ -192,7 +193,16 @@ public class VendasSemanaFragment extends Fragment {
 
         printDatesInMonth( year,  month,  day);
     }
+    private void limpandoComponetes () {
+        valorVendasDia = 0.0;
+        valorFaturadoDia = 0.0;
+        pedidosCancelados = 0;
+        pedidosFaturadosBaixados = 0;
+        totalNumeroPedidos = 0;
+    }
     private void ExibirComponentes() {
+        limpandoComponetes();
+
         for (VendasMaster vendasMaster : listVendasMasterSemana) {
             /**
              * recupera o total do numero de pedidos
@@ -240,23 +250,24 @@ public class VendasSemanaFragment extends Fragment {
                         }
                     }
 
-                    progressBarValorGeral.setVisibility(View.GONE);
-                    progressBarTotalPedido.setVisibility(View.GONE);
-                    progressBarTotalPedidoCancelados.setVisibility(View.GONE);
-                    progressBarTicketMedio.setVisibility(View.GONE);
-                    progressBarTotalFaturado.setVisibility(View.GONE);
-
-
-                    totaldePedidos.setText(Integer.toString(totalNumeroPedidos));
-                    totalPedidosCancelados.setText(Integer.toString(pedidosCancelados));
-                    valorGeralVendas.setText("R$ " + GetMask.getValor(valorVendasDia));
-                    totalFaturado.setText("Faturado " + "R$ " + GetMask.getValor(valorFaturadoDia));
-                    ticketMedio.setText("R$ " + GetMask.getValor(valorVendasDia / pedidosFaturadosBaixados));
                 }
 
             }
 
         }
+
+        progressBarValorGeral.setVisibility(View.GONE);
+        progressBarTotalPedido.setVisibility(View.GONE);
+        progressBarTotalPedidoCancelados.setVisibility(View.GONE);
+        progressBarTicketMedio.setVisibility(View.GONE);
+        progressBarTotalFaturado.setVisibility(View.GONE);
+
+
+        totaldePedidos.setText(Integer.toString(totalNumeroPedidos));
+        totalPedidosCancelados.setText(Integer.toString(pedidosCancelados));
+        valorGeralVendas.setText("R$ " + GetMask.getValor(valorVendasDia));
+        totalFaturado.setText("Faturado " + "R$ " + GetMask.getValor(valorFaturadoDia));
+        ticketMedio.setText("R$ " + GetMask.getValor(valorVendasDia / pedidosFaturadosBaixados));
 
     }
 
@@ -315,6 +326,8 @@ public class VendasSemanaFragment extends Fragment {
         call.enqueue(new Callback<List<VendasMaster>>() {
             @Override
             public void onResponse(Call<List<VendasMaster>> call, Response<List<VendasMaster>> response) {
+                listVendasMasterSemana.clear();
+                listTotalDePedidosSemana.clear();
                 if (response.isSuccessful()) {
                     listVendasMasterSemana = response.body(); // PARA SER UMA LISTA PARA LISTAR AS VENDAS FATURADAS E BAIXADAS
                     listTotalDePedidosSemana = response.body(); // PARA SER UMA LISTA QUE RETORNE O NUMERO DE PEDIDOS FEITOS
@@ -338,6 +351,7 @@ public class VendasSemanaFragment extends Fragment {
         call.enqueue(new Callback<List<Vendasfpg>>() {
             @Override
             public void onResponse(Call<List<Vendasfpg>> call, Response<List<Vendasfpg>> response) {
+                listvendasfpgSemana.clear();
                 if (response.isSuccessful()) {
                     listvendasfpgSemana = response.body();
                 }
@@ -360,6 +374,7 @@ public class VendasSemanaFragment extends Fragment {
         call.enqueue(new Callback<List<FormaPagamento>>() {
             @Override
             public void onResponse(Call<List<FormaPagamento>> call, Response<List<FormaPagamento>> response) {
+                listformaPagamentoSemana.clear();
                 if (response.isSuccessful()) {
                     listformaPagamentoSemana = response.body();
                 }

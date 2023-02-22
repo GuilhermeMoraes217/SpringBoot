@@ -60,21 +60,21 @@ public class VendasMesFragment extends Fragment {
     /**
      * Atributos que irao receber o popular as classes VendasMaster
      */
-    VendasMasterService vendasMasterService;
-    List<VendasMaster> listVendasMaster = new ArrayList<>();
-    List<VendasMaster> listTotalDePedidos = new ArrayList<>();
+    VendasMasterService vendasMasterServiceMes;
+    List<VendasMaster> listVendasMasterMes = new ArrayList<>();
+    List<VendasMaster> listTotalDePedidosMes = new ArrayList<>();
 
     /**
      * Atributos que irao receber o popular as classes Vendasfpg
      */
-    VendasfpgService vendasfpgService;
-    List<Vendasfpg> listvendasfpg = new ArrayList<>();
+    VendasfpgService vendasfpgServiceMes;
+    List<Vendasfpg> listvendasfpgMes = new ArrayList<>();
 
     /**
      * Atributos que irao receber o popular as classes FormaPagamento
      */
-    FormaPagamentoService formaPagamentoService;
-    List<FormaPagamento> listformaPagamento = new ArrayList<>();
+    FormaPagamentoService formaPagamentoServiceMes;
+    List<FormaPagamento> listformaPagamentoMes = new ArrayList<>();
 
     /**
      * Atributos variados do layout vendas dia fragment
@@ -157,6 +157,7 @@ public class VendasMesFragment extends Fragment {
     }
 
     public static void printDatesInMonth(int year, int month, int day) {
+        stringsData.clear();
         SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
         cal = Calendar.getInstance();
         cal.clear();
@@ -192,8 +193,18 @@ public class VendasMesFragment extends Fragment {
 
         printDatesInMonth( year,  month,  day);
     }
+
+    private void limpandoComponetes () {
+        valorVendasDia = 0.0;
+        valorFaturadoDia = 0.0;
+        pedidosCancelados = 0;
+        pedidosFaturadosBaixados = 0;
+        totalNumeroPedidos = 0;
+    }
     private void ExibirComponentes() {
-        for (VendasMaster vendasMaster : listVendasMaster) {
+        limpandoComponetes();
+
+        for (VendasMaster vendasMaster : listVendasMasterMes) {
             /**
              * recupera o total do numero de pedidos
              */
@@ -219,8 +230,8 @@ public class VendasMesFragment extends Fragment {
                     if (vendasMaster.getTotal() > 0 && vendasMaster.getSituacao().equals("F")) {
                         pedidosFaturadosBaixados++;
                     }
-                    for (Vendasfpg vendasfpg : listvendasfpg) {
-                        for (FormaPagamento formaPagamento : listformaPagamento) {
+                    for (Vendasfpg vendasfpg : listvendasfpgMes) {
+                        for (FormaPagamento formaPagamento : listformaPagamentoMes) {
                             if (vendasfpg.getVendas_master() == vendasMaster.getCodigo()) {
                                 if (vendasfpg.getId_forma() == formaPagamento.getCodigo()) {
                                     if (vendasMaster.getTotal() > 0 && vendasMaster.getSituacao().equals("F")) {
@@ -240,23 +251,24 @@ public class VendasMesFragment extends Fragment {
                         }
                     }
 
-                    progressBarValorGeral.setVisibility(View.GONE);
-                    progressBarTotalPedido.setVisibility(View.GONE);
-                    progressBarTotalPedidoCancelados.setVisibility(View.GONE);
-                    progressBarTicketMedio.setVisibility(View.GONE);
-                    progressBarTotalFaturado.setVisibility(View.GONE);
-
-
-                    totaldePedidos.setText(Integer.toString(totalNumeroPedidos));
-                    totalPedidosCancelados.setText(Integer.toString(pedidosCancelados));
-                    valorGeralVendas.setText("R$ " + GetMask.getValor(valorVendasDia));
-                    totalFaturado.setText("Faturado " + "R$ " + GetMask.getValor(valorFaturadoDia));
-                    ticketMedio.setText("R$ " + GetMask.getValor(valorVendasDia / pedidosFaturadosBaixados));
                 }
 
             }
 
         }
+
+        progressBarValorGeral.setVisibility(View.GONE);
+        progressBarTotalPedido.setVisibility(View.GONE);
+        progressBarTotalPedidoCancelados.setVisibility(View.GONE);
+        progressBarTicketMedio.setVisibility(View.GONE);
+        progressBarTotalFaturado.setVisibility(View.GONE);
+
+
+        totaldePedidos.setText(Integer.toString(totalNumeroPedidos));
+        totalPedidosCancelados.setText(Integer.toString(pedidosCancelados));
+        valorGeralVendas.setText("R$ " + GetMask.getValor(valorVendasDia));
+        totalFaturado.setText("Faturado " + "R$ " + GetMask.getValor(valorFaturadoDia));
+        ticketMedio.setText("R$ " + GetMask.getValor(valorVendasDia / pedidosFaturadosBaixados));
 
     }
 
@@ -310,14 +322,16 @@ public class VendasMesFragment extends Fragment {
     }
 
     public void RecuperaListVendasMaster() {
-        vendasMasterService = Apis.getVendasMasterService();
-        Call<List<VendasMaster>> call = vendasMasterService.getVendasMaster();
+        vendasMasterServiceMes = Apis.getVendasMasterService();
+        Call<List<VendasMaster>> call = vendasMasterServiceMes.getVendasMaster();
         call.enqueue(new Callback<List<VendasMaster>>() {
             @Override
             public void onResponse(Call<List<VendasMaster>> call, Response<List<VendasMaster>> response) {
+                listVendasMasterMes.clear();
+                listTotalDePedidosMes.clear();
                 if (response.isSuccessful()) {
-                    listVendasMaster = response.body(); // PARA SER UMA LISTA PARA LISTAR AS VENDAS FATURADAS E BAIXADAS
-                    listTotalDePedidos = response.body(); // PARA SER UMA LISTA QUE RETORNE O NUMERO DE PEDIDOS FEITOS
+                    listVendasMasterMes = response.body(); // PARA SER UMA LISTA PARA LISTAR AS VENDAS FATURADAS E BAIXADAS
+                    listTotalDePedidosMes = response.body(); // PARA SER UMA LISTA QUE RETORNE O NUMERO DE PEDIDOS FEITOS
                 }
                 RecuperalistVendasfpg();
 
@@ -333,13 +347,14 @@ public class VendasMesFragment extends Fragment {
     }
 
     public void RecuperalistVendasfpg() {
-        vendasfpgService = Apis.getVendasfpgService();
-        Call<List<Vendasfpg>> call = vendasfpgService.getVendasfpg();
+        vendasfpgServiceMes = Apis.getVendasfpgService();
+        Call<List<Vendasfpg>> call = vendasfpgServiceMes.getVendasfpg();
         call.enqueue(new Callback<List<Vendasfpg>>() {
             @Override
             public void onResponse(Call<List<Vendasfpg>> call, Response<List<Vendasfpg>> response) {
+                listvendasfpgMes.clear();
                 if (response.isSuccessful()) {
-                    listvendasfpg = response.body();
+                    listvendasfpgMes = response.body();
                 }
                 RecuperalistFormaPagamento();
 
@@ -355,13 +370,14 @@ public class VendasMesFragment extends Fragment {
     }
 
     public void RecuperalistFormaPagamento() {
-        formaPagamentoService = Apis.getFormaPagamentoService();
-        Call<List<FormaPagamento>> call = formaPagamentoService.getFormaPagamento();
+        formaPagamentoServiceMes = Apis.getFormaPagamentoService();
+        Call<List<FormaPagamento>> call = formaPagamentoServiceMes.getFormaPagamento();
         call.enqueue(new Callback<List<FormaPagamento>>() {
             @Override
             public void onResponse(Call<List<FormaPagamento>> call, Response<List<FormaPagamento>> response) {
+                listformaPagamentoMes.clear();
                 if (response.isSuccessful()) {
-                    listformaPagamento = response.body();
+                    listformaPagamentoMes = response.body();
                 }
                 ExibirComponentes();
             }

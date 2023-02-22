@@ -105,7 +105,16 @@ public class VendasDiaFragment extends Fragment {
         return view;
     }
 
+    private void limpandoComponetes () {
+        valorVendasDia = 0.0;
+        valorFaturadoDia = 0.0;
+        pedidosCancelados = 0;
+        pedidosFaturadosBaixados = 0;
+        totalNumeroPedidos = 0;
+    }
+
     private void ExibirComponentes() {
+        limpandoComponetes();
         Date d = new Date();
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         String formattedDateAtual = df.format(d);
@@ -155,19 +164,6 @@ public class VendasDiaFragment extends Fragment {
                         }
                     }
                 }
-
-                progressBarValorGeral.setVisibility(View.GONE);
-                progressBarTotalPedido.setVisibility(View.GONE);
-                progressBarTotalPedidoCancelados.setVisibility(View.GONE);
-                progressBarTicketMedio.setVisibility(View.GONE);
-                progressBarTotalFaturado.setVisibility(View.GONE);
-
-
-                totaldePedidos.setText(Integer.toString(totalNumeroPedidos));
-                totalPedidosCancelados.setText(Integer.toString(pedidosCancelados));
-                valorGeralVendas.setText("R$ " + GetMask.getValor(valorVendasDia));
-                totalFaturado.setText("Faturado " + "R$ " + GetMask.getValor(valorFaturadoDia));
-                ticketMedio.setText("R$ " + GetMask.getValor(valorVendasDia / pedidosFaturadosBaixados));
             }
             else {
                 progressBarValorGeral.setVisibility(View.GONE);
@@ -185,6 +181,19 @@ public class VendasDiaFragment extends Fragment {
             }
 
         }
+
+        progressBarValorGeral.setVisibility(View.GONE);
+        progressBarTotalPedido.setVisibility(View.GONE);
+        progressBarTotalPedidoCancelados.setVisibility(View.GONE);
+        progressBarTicketMedio.setVisibility(View.GONE);
+        progressBarTotalFaturado.setVisibility(View.GONE);
+
+
+        totaldePedidos.setText(Integer.toString(totalNumeroPedidos));
+        totalPedidosCancelados.setText(Integer.toString(pedidosCancelados));
+        valorGeralVendas.setText("R$ " + GetMask.getValor(valorVendasDia));
+        totalFaturado.setText("Faturado " + "R$ " + GetMask.getValor(valorFaturadoDia));
+        ticketMedio.setText("R$ " + GetMask.getValor(valorVendasDia / pedidosFaturadosBaixados));
 
     }
 
@@ -243,6 +252,8 @@ public class VendasDiaFragment extends Fragment {
         call.enqueue(new Callback<List<VendasMaster>>() {
             @Override
             public void onResponse(Call<List<VendasMaster>> call, Response<List<VendasMaster>> response) {
+                listVendasMasterDia.clear();
+                listTotalDePedidosDia.clear();
                 if (response.isSuccessful()) {
                     listVendasMasterDia = response.body(); // PARA SER UMA LISTA PARA LISTAR AS VENDAS FATURADAS E BAIXADAS
                     listTotalDePedidosDia = response.body(); // PARA SER UMA LISTA QUE RETORNE O NUMERO DE PEDIDOS FEITOS
@@ -266,6 +277,7 @@ public class VendasDiaFragment extends Fragment {
         call.enqueue(new Callback<List<Vendasfpg>>() {
             @Override
             public void onResponse(Call<List<Vendasfpg>> call, Response<List<Vendasfpg>> response) {
+                listvendasfpgDia.clear();
                 if (response.isSuccessful()) {
                     listvendasfpgDia = response.body();
                 }
@@ -288,6 +300,7 @@ public class VendasDiaFragment extends Fragment {
         call.enqueue(new Callback<List<FormaPagamento>>() {
             @Override
             public void onResponse(Call<List<FormaPagamento>> call, Response<List<FormaPagamento>> response) {
+                listformaPagamentoDia.clear();
                 if (response.isSuccessful()) {
                     listformaPagamentoDia = response.body();
                 }
