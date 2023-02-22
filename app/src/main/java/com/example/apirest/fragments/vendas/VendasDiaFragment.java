@@ -31,6 +31,11 @@ import com.example.apirest.utils.GetMask;
 import com.example.apirest.utils.PersonaService;
 import com.example.apirest.utils.VendasMasterService;
 import com.example.apirest.utils.VendasfpgService;
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.SimpleDateFormat;
@@ -79,6 +84,12 @@ public class VendasDiaFragment extends Fragment {
     ConstraintLayout verProdutosVendas;
     FloatingActionButton fab;
 
+    /**
+     * Barchat list
+     */
+    BarChart barChart;
+    ArrayList<BarEntry> barChartsDate = new ArrayList<>();
+
     private TextView valorGeralVendas, totaldePedidos, totalPedidosCancelados, ticketMedio, totalFaturado;
     Double valorVendasDia = 0.0;
     Double valorFaturadoDia = 0.0;
@@ -96,7 +107,7 @@ public class VendasDiaFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_vendas_dia, container, false);
-        InitComponentes(view);
+        inicializaComponentes(view);
         InitCliques(view);
 
         listPersons();
@@ -332,10 +343,30 @@ public class VendasDiaFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
-    public void InitComponentes(View view) {
+    public void inicializaComponentes(View view) {
         listView = view.findViewById(R.id.listView);
         textListaVazia = view.findViewById(R.id.textListaVazia);
         fab = view.findViewById(R.id.fabe);
+
+        barChart = view.findViewById(R.id.barChat);
+        barChartsDate.add(new BarEntry(2014, 420));
+        barChartsDate.add(new BarEntry(2015, 520));
+        barChartsDate.add(new BarEntry(2016, 620));
+        barChartsDate.add(new BarEntry(2017, 720));
+        barChartsDate.add(new BarEntry(2018, 820));
+
+        BarDataSet barDataSet = new BarDataSet(barChartsDate, "Datas");
+        barDataSet.setColors(ColorTemplate.MATERIAL_COLORS);
+        barDataSet.setValueTextColor(android.R.color.black);
+        barDataSet.setValueTextSize(16f);
+
+        BarData barData = new BarData(barDataSet);
+
+        barChart.setFitBars(true);
+        barChart.setData(barData);
+        barChart.getDescription().setText("Grafico de exemplo Data");
+        barChart.animateY(2000);
+
 
         //CONSTRANTS
         totalDePedisoConstrant = view.findViewById(R.id.constraintLayout2);

@@ -40,5 +40,10 @@ dependencies {
     //JODATIME LIB - PARA TRABALHAR DATE TIME
     implementation 'joda-time:joda-time:2.11.1'
 
+    //https://github.com/PhilJay/MPAndroidChart
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+
+
+
 
 }
