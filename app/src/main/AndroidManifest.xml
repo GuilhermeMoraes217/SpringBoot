@@ -82,7 +82,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".activity.produtos.RelatorioDeProdutosVendasActivity"
+            android:name=".activity.produtos.dia.RelatorioDeProdutosVendasDiaActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"

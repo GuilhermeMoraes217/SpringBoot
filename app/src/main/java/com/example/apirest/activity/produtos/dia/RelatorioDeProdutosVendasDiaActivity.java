@@ -1,4 +1,4 @@
-package com.example.apirest.activity.produtos;
+package com.example.apirest.activity.produtos.dia;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
@@ -12,7 +12,7 @@ import com.example.apirest.fragments.produtos.RelatorioGruposVendasFragment;
 import com.example.apirest.fragments.produtos.RelatorioProdutosVendasFragment;
 import com.google.android.material.tabs.TabLayout;
 
-public class RelatorioDeProdutosVendasActivity extends AppCompatActivity {
+public class RelatorioDeProdutosVendasDiaActivity extends AppCompatActivity {
 
     private TabLayout tab_Layout;
     private ViewPager view_Pager;
