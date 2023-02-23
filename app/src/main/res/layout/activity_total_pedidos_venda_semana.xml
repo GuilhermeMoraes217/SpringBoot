@@ -4,11 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.vendas.RelatorioDeVendasActivity">
+    tools:context=".activity.vendas.semana.TotalPedidosVendaSemanaActivity">
 
     <include
         android:id="@+id/include17"
-        layout="@layout/toobar_vendas"
+        layout="@layout/toobar_total_pedidos_vendas"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -32,7 +32,8 @@
             android:textSize="14dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="TextSizeCheck" />
 
         <TextView
             android:id="@+id/textviewNumeroPedidos"
@@ -40,11 +41,12 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:padding="10dp"
-            tools:text="1000.000 pedido"
             android:textSize="14dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/textViewValorVendas"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="TextSizeCheck"
+            tools:text="1000.000 pedido" />
 
         <ProgressBar
             android:id="@+id/progressBarPedidos"
@@ -62,11 +64,12 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:padding="10dp"
-            tools:text="R$ 500.000.00"
             android:textSize="14dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="TextSizeCheck"
+            tools:text="R$ 500.000.00" />
 
         <ProgressBar
             android:id="@+id/progressBarValorPedidos"
@@ -113,7 +116,7 @@
             android:id="@+id/textListaVazia"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:text="Nenhuma venda realizada"
+            tools:text="Nenhum pedido feito"
             android:textAlignment="center"
             android:textSize="16dp"
             app:layout_constraintBottom_toBottomOf="parent"

@@ -1,4 +1,4 @@
-package com.example.apirest.activity.vendas;
+package com.example.apirest.activity.vendas.semana;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -12,6 +12,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.apirest.R;
+import com.example.apirest.activity.vendas.InformacoesPedidosCanceladoVendaActivity;
 import com.example.apirest.adapter.vendas.totalcancelado.AdapterPedidosCanceladoVenda;
 import com.example.apirest.model.Empresas;
 import com.example.apirest.model.RelatorioVendas;
@@ -21,14 +22,19 @@ import com.example.apirest.utils.EmpresasService;
 import com.example.apirest.utils.GetMask;
 import com.example.apirest.utils.VendasMasterService;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class PedidosCanceladosVendaActivity extends AppCompatActivity implements AdapterPedidosCanceladoVenda.ItemClickListener {
+public class PedidosCanceladosVendaSemanaActivity extends AppCompatActivity implements AdapterPedidosCanceladoVenda.ItemClickListener {
 
     /**
      * Atributos da inicialização do recyclerView do PedidosCanceladosVendaActivity
@@ -59,6 +65,8 @@ public class PedidosCanceladosVendaActivity extends AppCompatActivity implements
     /**
      * Atributos variddos do layout PedidosCanceladosVendaActivity
      */
+    static List<String> stringsData = new ArrayList<>();
+
     private Double valorTotalPedido = 0.0;
 
     private ProgressBar progressBar, progressBarPedidos, progressBarValorPedidos;
@@ -66,9 +74,10 @@ public class PedidosCanceladosVendaActivity extends AppCompatActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_pedidos_cancelados_venda);
+        setContentView(R.layout.activity_pedidos_cancelados_venda_semana);
 
         inicializaComponentes();
+        recuperaDataSemana();
         RecuperaListEmpresas();
         inicializaRecyclerView();
     }
@@ -83,6 +92,44 @@ public class PedidosCanceladosVendaActivity extends AppCompatActivity implements
         recyclerViewRelatorioProdutos.setAdapter(adapterPedidosCanceladoVenda);
     }
 
+    private void recuperaDataSemana () {
+        int year= 0;
+        int month=0;
+        int day=0;
+
+        Date date = new Date();
+        LocalDate date1 = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            date1 = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        }
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            year  = date1.getYear();
+        }
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            month = date1.getMonthValue();
+        }
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            day   = date1.getDayOfMonth();
+        }
+
+        printDatesInMonth( year,  month,  day);
+    }
+    public static void printDatesInMonth(int year, int month, int day) {
+        stringsData.clear();
+        SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar cal = Calendar.getInstance();
+        cal.clear();
+        cal.set(year, month - 1, day - 7); // alteracao aqui para listar O PADRAO É IGUAL A (0 ZERO)
+        int daysInMonth = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
+        for (int i = day - 7; i < day ; i++) {
+            //System.out.println(fmt.format(cal.getTime()));
+            cal.add(Calendar.DAY_OF_MONTH, 1);
+            stringsData.add(fmt.format(cal.getTime()));
+        }
+        Log.i("", "" + stringsData);
+
+    }
+
     /**
      * Método que recupera do banco de dados MySQl os dados que iram ser preenchidos na classe vendas_master.
      */
@@ -94,23 +141,43 @@ public class PedidosCanceladosVendaActivity extends AppCompatActivity implements
             public void onResponse(Call<List<VendasMaster>> call, Response<List<VendasMaster>> response) {
                 if (response.isSuccessful()) {
                     List<VendasMaster> vendasMaster = response.body();
+
                     for (VendasMaster vendasMaster1 : vendasMaster) {
-                        for (Empresas empresas : empresasList) {
-                            if (vendasMaster1.getSituacao().equals("C") && empresas.getCodigo() == vendasMaster1.getFkempresa()) {
-                                vendasMaster1.setNomeEmpresa(empresas.getRazao());
-                                listPedidosCancelados.add(vendasMaster1);
-                                valorTotalPedido += vendasMaster1.getTotal();
+                        for (String localDate : stringsData) {
+                            if (localDate.equals(vendasMaster1.getData_emissao())) {
+                                for (Empresas empresas : empresasList) {
+                                    if (vendasMaster1.getSituacao().equals("C") && empresas.getCodigo() == vendasMaster1.getFkempresa()) {
+                                        vendasMaster1.setNomeEmpresa(empresas.getRazao());
+                                        listPedidosCancelados.add(vendasMaster1);
+                                        valorTotalPedido += vendasMaster1.getTotal();
+                                    }
+                                }
+                            } else {
+                                progressBar.setVisibility(View.GONE);
+                                progressBarPedidos.setVisibility(View.GONE);
+                                progressBarValorPedidos.setVisibility(View.GONE);
+
+                                textViewListaVazia.setVisibility(View.VISIBLE);
+                                textViewListaVazia.setText("Nenhum pedido cancelado");
+
+                                textviewNumeroPedidosCancelados.setText(Integer.toString(0) + " pedidos");
+                                textViewValorPedidoCancelado.setText("R$ " + GetMask.getValor(0.0));
                             }
                         }
                     }
 
-                    progressBar.setVisibility(View.GONE);
-                    progressBarPedidos.setVisibility(View.GONE);
-                    progressBarValorPedidos.setVisibility(View.GONE);
+                    if (listPedidosCancelados.size() > 0) {
+                        progressBar.setVisibility(View.GONE);
+                        progressBarPedidos.setVisibility(View.GONE);
+                        progressBarValorPedidos.setVisibility(View.GONE);
 
-                    adapterPedidosCanceladoVenda.notifyDataSetChanged();
-                    textviewNumeroPedidosCancelados.setText(Integer.toString(listPedidosCancelados.size()) + " pedidos");
-                    textViewValorPedidoCancelado.setText("R$ " + GetMask.getValor(valorTotalPedido));
+                        textViewListaVazia.setVisibility(View.GONE);
+                        textViewListaVazia.setText(null);
+
+                        adapterPedidosCanceladoVenda.notifyDataSetChanged();
+                        textviewNumeroPedidosCancelados.setText(Integer.toString(listPedidosCancelados.size()) + " pedidos");
+                        textViewValorPedidoCancelado.setText("R$ " + GetMask.getValor(valorTotalPedido));
+                    }
                 }
             }
 
@@ -175,7 +242,7 @@ public class PedidosCanceladosVendaActivity extends AppCompatActivity implements
 
     @Override
     public void onClick(VendasMaster relatorioVendas) {
-        Intent intent = new Intent(PedidosCanceladosVendaActivity.this, InformacoesPedidosCanceladoActivity.class);
+        Intent intent = new Intent(PedidosCanceladosVendaSemanaActivity.this, InformacoesPedidosCanceladoVendaActivity.class);
         intent.putExtra("relatorioPedidoCancelado", relatorioVendas);
         startActivity(intent);
     }

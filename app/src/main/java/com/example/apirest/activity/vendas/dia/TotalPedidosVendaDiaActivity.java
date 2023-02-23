@@ -1,4 +1,4 @@
-package com.example.apirest.activity.vendas;
+package com.example.apirest.activity.vendas.dia;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -12,6 +12,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.apirest.R;
+import com.example.apirest.activity.vendas.InformacoesTotalPedidosVendaActivity;
 import com.example.apirest.adapter.vendas.totalpedidos.AdapterTotalPedidoVenda;
 import com.example.apirest.model.Empresas;
 import com.example.apirest.model.RelatorioVendas;
@@ -21,14 +22,16 @@ import com.example.apirest.utils.EmpresasService;
 import com.example.apirest.utils.GetMask;
 import com.example.apirest.utils.VendasMasterService;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class TotalPedidosVendaActivity extends AppCompatActivity implements AdapterTotalPedidoVenda.ItemClickListener {
+public class TotalPedidosVendaDiaActivity extends AppCompatActivity implements AdapterTotalPedidoVenda.ItemClickListener {
 
     /**
      * Atributos da inicialização do recyclerView do totalPedidosVendas
@@ -65,7 +68,7 @@ public class TotalPedidosVendaActivity extends AppCompatActivity implements Adap
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_total_pedidos_venda);
+        setContentView(R.layout.activity_total_pedidos_venda_dia);
 
         inicializaComponentes();
         RecuperaListEmpresas();
@@ -93,25 +96,52 @@ public class TotalPedidosVendaActivity extends AppCompatActivity implements Adap
             public void onResponse(Call<List<VendasMaster>> call, Response<List<VendasMaster>> response) {
                 if (response.isSuccessful()) {
                     List<VendasMaster> vendasMaster = response.body();
+
+                    /**
+                     * LIMITANTO A DATA PARA SOMENTE PARA DATA ATUAL
+                     */
+                    Date d = new Date();
+                    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+                    String formattedDateAtual = df.format(d);
+
                     for (VendasMaster vendasMaster1 : vendasMaster) {
-                        for (Empresas empresas : empresasList) {
-                            if (vendasMaster1.getTotal() > 0 && vendasMaster1.getNome() != null && empresas.getCodigo() == vendasMaster1.getFkempresa()) {
-                                vendasMaster1.setNomeEmpresa(empresas.getRazao());
-                                listTotalPedidos.add(vendasMaster1);
-                                if (vendasMaster1.getSituacao().equals("F")) {
-                                    valorTotalPedido += vendasMaster1.getTotal();
+                        if (vendasMaster1.getData_emissao().equals(formattedDateAtual)) {
+                            for (Empresas empresas : empresasList) {
+                                if (vendasMaster1.getTotal() > 0 && vendasMaster1.getNome() != null && empresas.getCodigo() == vendasMaster1.getFkempresa()) {
+                                    vendasMaster1.setNomeEmpresa(empresas.getRazao());
+                                    listTotalPedidos.add(vendasMaster1);
+                                    if (vendasMaster1.getSituacao().equals("F")) {
+                                        valorTotalPedido += vendasMaster1.getTotal();
+                                    }
                                 }
                             }
+                        } else {
+                            progressBar.setVisibility(View.GONE);
+                            progressBarPedidos.setVisibility(View.GONE);
+                            progressBarValorPedidos.setVisibility(View.GONE);
+
+                            textViewListaVazia.setVisibility(View.VISIBLE);
+                            textViewListaVazia.setText("Nenhum pedido feito");
+
+                            textviewNumeroPedidos.setText(Integer.toString(0) + " pedidos");
+                            textViewValorVendas.setText("R$ " + GetMask.getValor(0.0));
                         }
                     }
+                    if (listTotalPedidos.size() > 0) {
+                        progressBar.setVisibility(View.GONE);
+                        progressBarPedidos.setVisibility(View.GONE);
+                        progressBarValorPedidos.setVisibility(View.GONE);
 
-                    progressBar.setVisibility(View.GONE);
-                    progressBarPedidos.setVisibility(View.GONE);
-                    progressBarValorPedidos.setVisibility(View.GONE);
+                        textViewListaVazia.setVisibility(View.GONE);
+                        textViewListaVazia.setText(null);
 
-                    adapterTotalPedidoVenda.notifyDataSetChanged();
-                    textviewNumeroPedidos.setText(Integer.toString(listTotalPedidos.size()) + " pedidos");
-                    textViewValorVendas.setText("R$ " + GetMask.getValor(valorTotalPedido));
+                        adapterTotalPedidoVenda.notifyDataSetChanged();
+                        textviewNumeroPedidos.setText(Integer.toString(listTotalPedidos.size()) + " pedidos");
+                        textViewValorVendas.setText("R$ " + GetMask.getValor(valorTotalPedido));
+
+                    }
+
+
                 }
             }
 
@@ -177,7 +207,7 @@ public class TotalPedidosVendaActivity extends AppCompatActivity implements Adap
 
     @Override
     public void onClick(VendasMaster relatorioVendas) {
-        Intent intent = new Intent(TotalPedidosVendaActivity.this, InformacoesTotalPedidosVendaActivity.class);
+        Intent intent = new Intent(TotalPedidosVendaDiaActivity.this, InformacoesTotalPedidosVendaActivity.class);
         intent.putExtra("relatorioTotalPedido", relatorioVendas);
         startActivity(intent);
     }

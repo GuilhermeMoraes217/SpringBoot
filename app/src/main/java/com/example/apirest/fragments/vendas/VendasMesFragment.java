@@ -18,9 +18,12 @@ import android.widget.TextView;
 
 import com.example.apirest.R;
 import com.example.apirest.activity.empresa.PersonaActivity;
-import com.example.apirest.activity.vendas.PedidosCanceladosVendaActivity;
-import com.example.apirest.activity.vendas.RelatorioDeVendasActivity;
-import com.example.apirest.activity.vendas.TotalPedidosVendaActivity;
+import com.example.apirest.activity.vendas.dia.PedidosCanceladosVendaDiaActivity;
+import com.example.apirest.activity.vendas.dia.RelatorioDeVendasDiaActivity;
+import com.example.apirest.activity.vendas.dia.TotalPedidosVendaDiaActivity;
+import com.example.apirest.activity.vendas.mes.PedidosCanceladosVendaMesActivity;
+import com.example.apirest.activity.vendas.mes.RelatorioDeVendasMesActivity;
+import com.example.apirest.activity.vendas.mes.TotalPedidosVendaMesActivity;
 import com.example.apirest.adapter.PersonaAdapter;
 import com.example.apirest.model.Persona;
 import com.example.apirest.model.vendas.FormaPagamento;
@@ -281,17 +284,17 @@ public class VendasMesFragment extends Fragment {
             startActivity(intent);
         });
         verProdutosVendas.setOnClickListener(view1 -> {
-            Intent intent = new Intent(getActivity(), RelatorioDeVendasActivity.class);
+            Intent intent = new Intent(getActivity(), RelatorioDeVendasMesActivity.class);
             startActivity(intent);
         });
 
         totalDePedisoConstrant.setOnClickListener(view1 -> {
-            Intent intent = new Intent(getActivity(), TotalPedidosVendaActivity.class);
+            Intent intent = new Intent(getActivity(), TotalPedidosVendaMesActivity.class);
             startActivity(intent);
         });
 
         pedidosCanceladosContrant.setOnClickListener(view1 -> {
-            Intent intent = new Intent(getActivity(), PedidosCanceladosVendaActivity.class);
+            Intent intent = new Intent(getActivity(), PedidosCanceladosVendaMesActivity.class);
             startActivity(intent);
         });
 

@@ -13,16 +13,43 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".activity.vendas.InformacoesPedidosCanceladoActivity"
+            android:name=".activity.vendas.ano.PedidosCanceladosVendaAnoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.vendas.ano.TotalPedidosVendaAnoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.vendas.ano.RelatorioDeVendasAnoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.vendas.mes.PedidosCanceladosVendaMesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.vendas.mes.TotalPedidosVendaMesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.vendas.mes.RelatorioDeVendasMesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.vendas.semana.PedidosCanceladosVendaSemanaActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.vendas.semana.TotalPedidosVendaSemanaActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.vendas.semana.RelatorioDeVendasSemanaActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.vendas.InformacoesPedidosCanceladoVendaActivity"
             android:exported="false" />
         <activity
             android:name=".activity.vendas.InformacoesTotalPedidosVendaActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.vendas.PedidosCanceladosVendaActivity"
+            android:name=".activity.vendas.dia.PedidosCanceladosVendaDiaActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.vendas.TotalPedidosVendaActivity"
+            android:name=".activity.vendas.dia.TotalPedidosVendaDiaActivity"
             android:exported="false" />
         <activity
             android:name=".activity.produtos.InformacoesProdutosRelatorioActivity"
@@ -41,14 +68,14 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".activity.vendas.InformacoesPedidoActivity"
+            android:name=".activity.vendas.InformacoesPedidoVendaActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".activity.vendas.RelatorioDeVendasActivity"
+            android:name=".activity.vendas.dia.RelatorioDeVendasDiaActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"

@@ -15,9 +15,9 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.example.apirest.activity.vendas.PedidosCanceladosVendaActivity;
-import com.example.apirest.activity.vendas.RelatorioDeVendasActivity;
-import com.example.apirest.activity.vendas.TotalPedidosVendaActivity;
+import com.example.apirest.activity.vendas.dia.PedidosCanceladosVendaDiaActivity;
+import com.example.apirest.activity.vendas.dia.RelatorioDeVendasDiaActivity;
+import com.example.apirest.activity.vendas.dia.TotalPedidosVendaDiaActivity;
 import com.example.apirest.adapter.PersonaAdapter;
 import com.example.apirest.activity.empresa.PersonaActivity;
 import com.example.apirest.model.Persona;
@@ -32,13 +32,9 @@ import com.example.apirest.utils.PersonaService;
 import com.example.apirest.utils.VendasMasterService;
 import com.example.apirest.utils.VendasfpgService;
 import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -221,17 +217,17 @@ public class VendasDiaFragment extends Fragment {
             startActivity(intent);
         });
         verProdutosVendas.setOnClickListener(view1 -> {
-            Intent intent = new Intent(getActivity(), RelatorioDeVendasActivity.class);
+            Intent intent = new Intent(getActivity(), RelatorioDeVendasDiaActivity.class);
             startActivity(intent);
         });
 
         totalDePedisoConstrant.setOnClickListener(view1 -> {
-            Intent intent = new Intent(getActivity(), TotalPedidosVendaActivity.class);
+            Intent intent = new Intent(getActivity(), TotalPedidosVendaDiaActivity.class);
             startActivity(intent);
         });
 
         pedidosCanceladosContrant.setOnClickListener(view1 -> {
-            Intent intent = new Intent(getActivity(), PedidosCanceladosVendaActivity.class);
+            Intent intent = new Intent(getActivity(), PedidosCanceladosVendaDiaActivity.class);
             startActivity(intent);
         });
 
