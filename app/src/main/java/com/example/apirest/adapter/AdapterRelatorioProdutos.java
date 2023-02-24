@@ -12,25 +12,26 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.apirest.R;
 import com.example.apirest.model.RelatorioProdutos;
+import com.example.apirest.model.vendas.VendasDetalhes;
 import com.example.apirest.utils.GetMask;
 
 import java.util.List;
 
 public class AdapterRelatorioProdutos extends RecyclerView.Adapter<AdapterRelatorioProdutos.MyViewHolder> {
 
-    private List<RelatorioProdutos> relatorioProdutos;
+    private List<VendasDetalhes> relatorioProdutos;
     private Context context;
 
     ItemClickListener itemClickListener;
 
 
-    public AdapterRelatorioProdutos(List<RelatorioProdutos> relatorioProdutos, Context context, ItemClickListener onClickListener) {
+    public AdapterRelatorioProdutos(List<VendasDetalhes> relatorioProdutos, Context context, ItemClickListener onClickListener) {
         this.relatorioProdutos = relatorioProdutos;
         this.context = context;
         this.itemClickListener = onClickListener;
     }
 
-    public List<RelatorioProdutos> getRelaorioProdutos() {
+    public List<VendasDetalhes> getRelaorioProdutos() {
         return relatorioProdutos;
     }
 
@@ -43,17 +44,26 @@ public class AdapterRelatorioProdutos extends RecyclerView.Adapter<AdapterRelato
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        RelatorioProdutos relatorioProdutos1 = relatorioProdutos.get(position);
-        holder.idRelatorio.setText(relatorioProdutos1.getIdRelatorio());
-        holder.idRelatorio_R.setText(relatorioProdutos1.getIdRelatorio_R());
-        holder.idGeral.setText(relatorioProdutos1.getIdGeral());
+        VendasDetalhes relatorioProdutos1 = relatorioProdutos.get(position);
+
+        //RECUPERANDO A QUANTIDADE TOTAL DE PRODUTOS VENTIDOS
+        Double aux = 0.0;
+
+
+        for (VendasDetalhes vendasDetalhes : relatorioProdutos) {
+            aux += vendasDetalhes.getQtd();
+        }
+
+        holder.idRelatorio.setText("#" + Double.toString(aux));
+        holder.idRelatorio_R.setText("#" + Integer.toString(relatorioProdutos1.getCodigo()));
+        holder.idGeral.setText("#" + Integer.toString(relatorioProdutos1.getCodigo()));
         holder.nomeProduto.setText(relatorioProdutos1.getNomeProduto());
 
-        holder.preco_1.setText("R$" + GetMask.getValor(relatorioProdutos1.getPreco_1()));
-        holder.preco_2.setText("R$" + GetMask.getValor(relatorioProdutos1.getPreco_2()));
+        holder.preco_1.setText("R$" + GetMask.getValor(relatorioProdutos1.getPreco()));
+        holder.preco_2.setText("R$" + GetMask.getValor(relatorioProdutos1.getQtd()));
 
-        holder.porcentagem_1.setText("R$" + GetMask.getValor(relatorioProdutos1.getPorcentagem_1()));
-        holder.porcentagem_2.setText("R$" + GetMask.getValor(relatorioProdutos1.getPorcentagem_2()));
+        holder.porcentagem_1.setText(GetMask.getValorPorcentagem((((relatorioProdutos1.getQtd() * 100)) / aux )) + "%");
+        holder.porcentagem_2.setText(Double.toString(relatorioProdutos1.getQtd()));
 
         holder.itemView.setOnClickListener(view -> itemClickListener.onClick(relatorioProdutos1));
 
@@ -67,7 +77,7 @@ public class AdapterRelatorioProdutos extends RecyclerView.Adapter<AdapterRelato
     }
 
     public interface ItemClickListener {
-        void onClick ( RelatorioProdutos relatorioProdutos);
+        void onClick ( VendasDetalhes relatorioProdutos);
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {

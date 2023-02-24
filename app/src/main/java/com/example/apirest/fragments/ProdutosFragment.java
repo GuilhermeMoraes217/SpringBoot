@@ -12,7 +12,10 @@ import android.view.ViewGroup;
 
 import com.example.apirest.R;
 import com.example.apirest.adapter.ViewPagerAdapter;
+import com.example.apirest.fragments.produtos.ProdutosAnoFragment;
 import com.example.apirest.fragments.produtos.ProdutosDiaFragment;
+import com.example.apirest.fragments.produtos.ProdutosMesFragment;
+import com.example.apirest.fragments.produtos.ProdutosSemanaFragment;
 import com.example.apirest.fragments.vendas.VendasDiaFragment;
 import com.google.android.material.tabs.TabLayout;
 
@@ -44,9 +47,9 @@ public class ProdutosFragment extends Fragment {
     private void configTabsLayout(){
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getChildFragmentManager());
         viewPagerAdapter.addFragment(new ProdutosDiaFragment(), "Dia");
-        viewPagerAdapter.addFragment(new ProdutosDiaFragment(), "Semana");
-        viewPagerAdapter.addFragment(new ProdutosDiaFragment(), "Mes");
-        viewPagerAdapter.addFragment(new ProdutosDiaFragment(), "Ano");
+        viewPagerAdapter.addFragment(new ProdutosSemanaFragment(), "Semana");
+        viewPagerAdapter.addFragment(new ProdutosMesFragment(), "Mes");
+        viewPagerAdapter.addFragment(new ProdutosAnoFragment(), "Ano");
 
         view_Pager.setAdapter(viewPagerAdapter);
         view_Pager.setSaveEnabled(false);

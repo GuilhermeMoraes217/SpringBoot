@@ -1,41 +1,33 @@
-package com.example.apirest.fragments.produtos;
+package com.example.apirest.fragments.produtos.dia;
 
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.apirest.R;
-import com.example.apirest.activity.empresa.PersonaActivity;
-import com.example.apirest.activity.produtos.dia.RelatorioDeProdutosVendasDiaActivity;
-import com.example.apirest.adapter.PersonaAdapter;
-import com.example.apirest.model.Empresas;
-import com.example.apirest.model.Persona;
+import com.example.apirest.activity.produtos.InformacoesProdutosRelatorioActivity;
+import com.example.apirest.adapter.AdapterRelatorioProdutos;
 import com.example.apirest.model.Produtos;
+import com.example.apirest.model.RelatorioProdutos;
 import com.example.apirest.model.vendas.FormaPagamento;
 import com.example.apirest.model.vendas.VendasDetalhes;
 import com.example.apirest.model.vendas.VendasMaster;
 import com.example.apirest.model.vendas.Vendasfpg;
 import com.example.apirest.utils.Apis;
-import com.example.apirest.utils.EmpresasService;
 import com.example.apirest.utils.FormaPagamentoService;
-import com.example.apirest.utils.GetMask;
-import com.example.apirest.utils.PersonaService;
 import com.example.apirest.utils.ProdutosService;
 import com.example.apirest.utils.VendasDetalhesService;
 import com.example.apirest.utils.VendasMasterService;
 import com.example.apirest.utils.VendasfpgService;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -47,7 +39,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class ProdutosDiaFragment extends Fragment {
+public class RelatorioProdutosVendasDiaFragment extends Fragment implements AdapterRelatorioProdutos.ItemClickListener {
+
     /**
      * Atributos que irao receber o popular as classes Empresas
      */
@@ -79,63 +72,43 @@ public class ProdutosDiaFragment extends Fragment {
     List<FormaPagamento> listformaPagamentoDia = new ArrayList<>();
 
     /**
-     * Atributos variados do layout produtos
+     * Atributos da inicialização do recyclerView do relatorio de produtos
      */
+    private RecyclerView recyclerViewRelatorioProdutos;
+    private AdapterRelatorioProdutos adapterRelatorioProdutos;
+    ArrayList<RelatorioProdutos> relatorioProdutos = new ArrayList<>();
 
-    ProgressBar progressBarTotalPedido, progressBarMediaItens, progressBarItensVendido;
-
-    TextView valortotalItensVendidoTextView, totalIPedidosTextView, mediaItensPedidoTextView;
-
-    int valortotalItensVendido = 0;
-    int totalIPedidos = 0;
-    int mediaItensPedido = 0;
-    PersonaService personaService;
-    List<Persona> listPersona = new ArrayList<>();
-    ListView listView;
-    TextView textListaVazia;
-    ProgressBar progressBar;
-    ConstraintLayout VerProdutosProdutos;
-    FloatingActionButton fab;
-
+    /**
+     * Atributos dos textView da activity relatorio_de_Produtos
+     */
+    private TextView textViewPorcentagemGeral, textviewPorcentagemGeral2;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_produtos_dia, container, false);
+        View view = inflater.inflate(R.layout.fragment_relatorio_produtos_vendas, container, false);
 
         inicializaComponentes(view);
-        inicializaCliques(view);
         RecuperaListProdutos();
-        listPersons();
+        inicializaRecyclerView(view);
 
         return view;
     }
 
-    public void inicializaCliques(View view) {
-        FloatingActionButton fab = view.findViewById(R.id.fabe);
-        fab.setOnClickListener(view1 -> {
-            Intent intent = new Intent(getActivity(), PersonaActivity.class);
-            intent.putExtra("ID", "");
-            intent.putExtra("NOMBRE", "");
-            intent.putExtra("APELLIDO", "");
-            startActivity(intent);
-        });
-
-        fab.setOnClickListener(view1 -> {
-            Intent intent = new Intent(getActivity(), PersonaActivity.class);
-            intent.putExtra("ID", "");
-            intent.putExtra("NOMBRE", "");
-            intent.putExtra("APELLIDO", "");
-            startActivity(intent);
-        });
-        VerProdutosProdutos.setOnClickListener(view1 -> {
-            Intent intent = new Intent(getActivity(), RelatorioDeProdutosVendasDiaActivity.class);
-            startActivity(intent);
-        });
-
+    /**
+     * Método que inicializa o recycler view do relatorio de Produtos
+     */
+    private void inicializaRecyclerView(View view) {
+        recyclerViewRelatorioProdutos.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerViewRelatorioProdutos.setHasFixedSize(true);
+        adapterRelatorioProdutos = new AdapterRelatorioProdutos(vendasDetalhesList, getContext(), this);
+        recyclerViewRelatorioProdutos.setAdapter(adapterRelatorioProdutos);
     }
 
+    /**
+     * Método que recupera do banco de dados MySQl os dados que iram ser preenchidos na classe RelatorioProdutos.
+     */
     public void RecuperaListProdutos() {
         produtosService = Apis.getProdutos();
         Call<List<Produtos>> call = produtosService.getProdutosService();
@@ -225,7 +198,6 @@ public class ProdutosDiaFragment extends Fragment {
     }
 
     public void RecuperaListVendasDetalhes() {
-        limpandoComponetes();
         vendasDetalhesService = Apis.getVendasDetalhesService();
         Call<List<VendasDetalhes>> call = vendasDetalhesService.getVendasDetalhes();
         call.enqueue(new Callback<List<VendasDetalhes>>() {
@@ -244,9 +216,6 @@ public class ProdutosDiaFragment extends Fragment {
 
                     for (VendasMaster vendasMaster1 : listVendasMaster) {
                         if (vendasMaster1.getData_emissao().equals(formattedDateAtual)) {
-                            if (vendasMaster1.getTotal() > 0 && vendasMaster1.getNome() != null) {
-                                totalIPedidos++;
-                            }
                             for (VendasDetalhes vendasDetalhes : vendasDetalhesList1) {
                                 for (Produtos produtos : vendasProdutosList) {
                                     if (vendasDetalhes.getFkvenda() == vendasMaster1.getCodigo() && vendasDetalhes.getId_produto() == produtos.getCodigo()) {
@@ -259,29 +228,10 @@ public class ProdutosDiaFragment extends Fragment {
                                     }
                                 }
                             }
-
-                        } else{
-                            progressBar.setVisibility(View.GONE);
-                            progressBarItensVendido.setVisibility(View.GONE);
-                            progressBarTotalPedido.setVisibility(View.GONE);
-                            progressBarMediaItens.setVisibility(View.GONE);
-
-                            totalIPedidosTextView.setText(Integer.toString(0));
-                            valortotalItensVendidoTextView.setText(Integer.toString(0));
-                            mediaItensPedidoTextView.setText(Integer.toString(0));
                         }
                     }
-                    if (vendasDetalhesList.size() > 0) {
-                        progressBar.setVisibility(View.GONE);
-                        progressBarItensVendido.setVisibility(View.GONE);
-                        progressBarTotalPedido.setVisibility(View.GONE);
-                        progressBarMediaItens.setVisibility(View.GONE);
-
-                        valortotalItensVendidoTextView.setText(Integer.toString(vendasDetalhesList.size()));
-                        totalIPedidosTextView.setText(Integer.toString(totalIPedidos));
-                        mediaItensPedidoTextView.setText(Integer.toString(vendasDetalhesList.size() / totalIPedidos));
-                    }
                 }
+                adapterRelatorioProdutos.notifyDataSetChanged();
             }
 
             @Override
@@ -292,69 +242,17 @@ public class ProdutosDiaFragment extends Fragment {
         });
     }
 
-    private void limpandoComponetes () {
-        totalIPedidos = 0;
-    }
-
-    public void listPersons() {
-        personaService = Apis.getPersonaService();
-        Call<List<Persona>> call = personaService.getPersonas();
-        call.enqueue(new Callback<List<Persona>>() {
-            @Override
-            public void onResponse(Call<List<Persona>> call, Response<List<Persona>> response) {
-                if (response.isSuccessful()) {
-                    listPersona = response.body();
-                    listView.setAdapter(new PersonaAdapter(getActivity(), R.layout.content_main, listPersona));
-                    textListaVazia.setVisibility(View.GONE);
-                    progressBar.setVisibility(View.GONE);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<Persona>> call, Throwable t) {
-                Log.e("Error:", t.getMessage());
-                progressBar.setVisibility(View.GONE);
-                textListaVazia.setVisibility(View.VISIBLE);
-            }
-        });
+    private void inicializaComponentes(View view) {
+        recyclerViewRelatorioProdutos = view.findViewById(R.id.recyclerViewRelatorioProdutos);
+        textViewPorcentagemGeral = view.findViewById(R.id.text2);
+        textviewPorcentagemGeral2 = view.findViewById(R.id.textView15);
 
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onResume() {
-        listPersons();
-        super.onResume();
-    }
-
-    public void inicializaComponentes(View view) {
-        listView = view.findViewById(R.id.listView);
-        textListaVazia = view.findViewById(R.id.textListaVazia);
-        progressBar = view.findViewById(R.id.progressBar);
-        fab = view.findViewById(R.id.fabe);
-        VerProdutosProdutos = view.findViewById(R.id.VerProdutosProdutos);
-
-        progressBarTotalPedido = view.findViewById(R.id.progressBarTotalPedido);
-        progressBarMediaItens = view.findViewById(R.id.progressBarMediaItens);
-        progressBarItensVendido = view.findViewById(R.id.progressBarItensVendido);
-
-        valortotalItensVendidoTextView = view.findViewById(R.id.textView2);
-        totalIPedidosTextView = view.findViewById(R.id.textView4);
-        mediaItensPedidoTextView = view.findViewById(R.id.textView5);
-
+    public void onClick(VendasDetalhes relatorioProdutos) {
+        Intent intent = new Intent(getActivity(), InformacoesProdutosRelatorioActivity.class);
+        intent.putExtra("relatorioProdutoSelecionados", relatorioProdutos);
+        startActivity(intent);
     }
 }

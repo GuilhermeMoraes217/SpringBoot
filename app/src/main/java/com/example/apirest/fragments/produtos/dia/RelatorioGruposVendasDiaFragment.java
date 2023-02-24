@@ -1,4 +1,4 @@
-package com.example.apirest.fragments.produtos;
+package com.example.apirest.fragments.produtos.dia;
 
 import android.os.Bundle;
 
@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import com.example.apirest.R;
 
 
-public class RelatorioGruposVendasFragment extends Fragment {
+public class RelatorioGruposVendasDiaFragment extends Fragment {
 
 
     @Override

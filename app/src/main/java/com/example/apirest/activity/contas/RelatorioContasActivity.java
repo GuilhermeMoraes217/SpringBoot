@@ -10,8 +10,6 @@ import com.example.apirest.R;
 import com.example.apirest.adapter.ViewPagerAdapter;
 import com.example.apirest.fragments.contas.RelatorioContasPagarFragment;
 import com.example.apirest.fragments.contas.RelatorioContasReceberFragment;
-import com.example.apirest.fragments.produtos.RelatorioGruposVendasFragment;
-import com.example.apirest.fragments.produtos.RelatorioProdutosVendasFragment;
 import com.google.android.material.tabs.TabLayout;
 
 public class RelatorioContasActivity extends AppCompatActivity {

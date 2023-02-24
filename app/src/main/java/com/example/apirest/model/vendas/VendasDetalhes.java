@@ -99,6 +99,8 @@ public class VendasDetalhes implements Serializable {
 
     private String referenciaProduto;
 
+    private Double quantidadeProdutosVendido;
+
 
     public VendasDetalhes() {
 
@@ -127,6 +129,14 @@ public class VendasDetalhes implements Serializable {
         this.fk_mesa = fk_mesa;
         this.qtd_restante = qtd_restante;
         this.observacao = observacao;
+    }
+
+    public Double getQuantidadeProdutosVendido() {
+        return quantidadeProdutosVendido;
+    }
+
+    public void setQuantidadeProdutosVendido(Double quantidadeProdutosVendido) {
+        this.quantidadeProdutosVendido = quantidadeProdutosVendido;
     }
 
     public String getReferenciaProduto() {

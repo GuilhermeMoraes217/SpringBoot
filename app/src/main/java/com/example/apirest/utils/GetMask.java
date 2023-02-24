@@ -120,4 +120,10 @@ public class GetMask {
         return nf.format(valor);
     }
 
+    public static String getValorPorcentagem(double valor){
+        NumberFormat nf = new DecimalFormat("#.##", new DecimalFormatSymbols(
+                new Locale("PT", "com")));
+        return nf.format(valor);
+    }
+
 }

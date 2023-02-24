@@ -18,9 +18,6 @@ import android.widget.TextView;
 
 import com.example.apirest.R;
 import com.example.apirest.activity.empresa.PersonaActivity;
-import com.example.apirest.activity.vendas.dia.PedidosCanceladosVendaDiaActivity;
-import com.example.apirest.activity.vendas.dia.RelatorioDeVendasDiaActivity;
-import com.example.apirest.activity.vendas.dia.TotalPedidosVendaDiaActivity;
 import com.example.apirest.activity.vendas.semana.PedidosCanceladosVendaSemanaActivity;
 import com.example.apirest.activity.vendas.semana.RelatorioDeVendasSemanaActivity;
 import com.example.apirest.activity.vendas.semana.TotalPedidosVendaSemanaActivity;
@@ -110,7 +107,7 @@ public class VendasSemanaFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_vendas_semana, container, false);
 
-        InitComponentes(view);
+        inicializaComponentes(view);
         inicializaData();
         recuperaDataSemana();
         InitCliques(view);
@@ -196,6 +193,7 @@ public class VendasSemanaFragment extends Fragment {
 
         printDatesInMonth( year,  month,  day);
     }
+
     private void limpandoComponetes () {
         valorVendasDia = 0.0;
         valorFaturadoDia = 0.0;
@@ -409,7 +407,7 @@ public class VendasSemanaFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
-    public void InitComponentes(View view) {
+    public void inicializaComponentes(View view) {
         listView = view.findViewById(R.id.listView);
         textListaVazia = view.findViewById(R.id.textListaVazia);
         fab = view.findViewById(R.id.fabe);
