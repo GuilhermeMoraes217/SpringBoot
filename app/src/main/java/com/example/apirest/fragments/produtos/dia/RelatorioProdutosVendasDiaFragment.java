@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.apirest.R;
@@ -82,6 +83,9 @@ public class RelatorioProdutosVendasDiaFragment extends Fragment implements Adap
      * Atributos dos textView da activity relatorio_de_Produtos
      */
     private TextView textViewPorcentagemGeral, textviewPorcentagemGeral2;
+    private TextView textViewListaVazia, porcentagemItensVendidosTexteView, totalItensVendidoTexteView;
+    private ProgressBar progressBar;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -204,6 +208,7 @@ public class RelatorioProdutosVendasDiaFragment extends Fragment implements Adap
             @Override
             public void onResponse(Call<List<VendasDetalhes>> call, Response<List<VendasDetalhes>> response) {
                 vendasDetalhesList.clear();
+                int contadorItensVendido = 0;
                 if (response.isSuccessful()) {
                     List<VendasDetalhes> vendasDetalhesList1 = response.body();
 
@@ -222,14 +227,28 @@ public class RelatorioProdutosVendasDiaFragment extends Fragment implements Adap
                                         if (vendasMaster1.getTotal() > 0 && vendasMaster1.getSituacao().equals("F")) {
                                             vendasDetalhes.setNomeProduto(produtos.getDescricao());
                                             vendasDetalhes.setReferenciaProduto(produtos.getReferencia());
+                                            contadorItensVendido += vendasDetalhes.getQtd();
                                             vendasDetalhesList.add(vendasDetalhes);
                                         }
 
                                     }
                                 }
                             }
+                        } else {
+                            progressBar.setVisibility(View.GONE);
+                            textViewListaVazia.setVisibility(View.VISIBLE);
+                            textViewListaVazia.setText("Nenhum item vendido");
+                            porcentagemItensVendidosTexteView.setText("0%");
+                            totalItensVendidoTexteView.setText("0");
                         }
                     }
+                }
+                if (vendasDetalhesList.size() > 0) {
+                    progressBar.setVisibility(View.GONE);
+                    textViewListaVazia.setVisibility(View.GONE);
+                    textViewListaVazia.setText(null);
+                    porcentagemItensVendidosTexteView.setText("100%");
+                    totalItensVendidoTexteView.setText(Integer.toString(contadorItensVendido));
                 }
                 adapterRelatorioProdutos.notifyDataSetChanged();
             }
@@ -246,6 +265,10 @@ public class RelatorioProdutosVendasDiaFragment extends Fragment implements Adap
         recyclerViewRelatorioProdutos = view.findViewById(R.id.recyclerViewRelatorioProdutos);
         textViewPorcentagemGeral = view.findViewById(R.id.text2);
         textviewPorcentagemGeral2 = view.findViewById(R.id.textView15);
+        textViewListaVazia = view.findViewById(R.id.textListaVazia);
+        porcentagemItensVendidosTexteView = view.findViewById(R.id.text2);
+        totalItensVendidoTexteView = view.findViewById(R.id.textView15);
+        progressBar = view.findViewById(R.id.progressBar);
 
     }
 
