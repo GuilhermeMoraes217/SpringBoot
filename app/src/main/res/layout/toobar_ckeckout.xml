@@ -4,7 +4,7 @@
     android:layout_height="?actionBarSize"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/toobarNavegation">
+    android:background="@color/toobarNavegationRoxoforte">
 
     <ImageView
         android:id="@+id/ib_Voltar"
