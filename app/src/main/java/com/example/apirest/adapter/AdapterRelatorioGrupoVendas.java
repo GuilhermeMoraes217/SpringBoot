@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.apirest.R;
 import com.example.apirest.model.Grupos;
-import com.example.apirest.model.vendas.VendasDetalhes;
 
 import java.util.List;
 
@@ -54,6 +53,8 @@ public class AdapterRelatorioGrupoVendas extends RecyclerView.Adapter<AdapterRel
 
         holder.idItens.setText("#" + Integer.toString(grupos.getCodigo()));
         holder.nomeGrupo.setText(grupos.getDescricao());
+        holder.quantidadeitem.setText(Integer.toString(grupos.getCodigo()));
+        holder.porcentagemGrupo.setText(Integer.toString(grupos.getCodigo()) + "%");
 
 
 

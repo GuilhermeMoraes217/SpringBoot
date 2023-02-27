@@ -3,7 +3,9 @@ package com.example.apirest.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Grupos {
+import java.io.Serializable;
+
+public class Grupos implements Serializable {
 
     @SerializedName(value = "empresa", alternate = "EMPRESA")
     @Expose
@@ -21,6 +23,8 @@ public class Grupos {
     @Expose
     private String ativo;
 
+    private Double quantidadeItensGrupo;
+
     public Grupos(){
 
     }
@@ -30,6 +34,14 @@ public class Grupos {
         this.codigo = codigo;
         this.descricao = descricao;
         this.ativo = ativo;
+    }
+
+    public Double getQuantidadeItensGrupo() {
+        return quantidadeItensGrupo;
+    }
+
+    public void setQuantidadeItensGrupo(Double quantidadeItensGrupo) {
+        this.quantidadeItensGrupo = quantidadeItensGrupo;
     }
 
     public int getEmpresa() {

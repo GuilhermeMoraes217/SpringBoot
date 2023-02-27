@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 
 import com.example.apirest.R;
 import com.example.apirest.adapter.AdapterRelatorioGrupoVendas;
-import com.example.apirest.adapter.vendas.totalvendas.AdapterRelatorioVendas;
 import com.example.apirest.model.Grupos;
 import com.example.apirest.model.Produtos;
 import com.example.apirest.model.vendas.VendasDetalhes;
@@ -35,13 +34,14 @@ import retrofit2.Response;
 public class RelatorioGruposVendasDiaFragment extends Fragment implements AdapterRelatorioGrupoVendas.ItemClickListener {
 
     /**
-     * Atributos que irao receber o popular as classes Empresas
+     * Atributos que irao receber o popular as classes Grupos
      */
     GruposService gruposService;
     List<Grupos> gruposList = new ArrayList<>();
+    List<Grupos> updateListGrupo = new ArrayList<>();
 
     /**
-     * Atributos que irao receber o popular as classes VendasMaster
+     * Atributos que irao receber o popular as classes Produtos
      */
     ProdutosService produtosService;
     List<Produtos> produtosList = new ArrayList<>();
@@ -84,7 +84,7 @@ public class RelatorioGruposVendasDiaFragment extends Fragment implements Adapte
     private void inicializaRecyclerView() {
         recyclerViewGrupoList.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerViewGrupoList.setHasFixedSize(true);
-        adapterRelatorioGrupoVendas = new AdapterRelatorioGrupoVendas(gruposList, getContext(), this);
+        adapterRelatorioGrupoVendas = new AdapterRelatorioGrupoVendas(updateListGrupo, getContext(), this);
         recyclerViewGrupoList.setAdapter(adapterRelatorioGrupoVendas);
     }
 
@@ -158,10 +158,6 @@ public class RelatorioGruposVendasDiaFragment extends Fragment implements Adapte
 
     /**
      * Método que recupera do banco de dados MySQl os dados que iram ser preenchidos na classe GRUPOS.
-     * VENDAS_MASTER VM
-     * INNER JOIN vendas_detalhe vd on vd.fkvenda = vm.codigo
-     * INNER JOIN produto p on p.codigo = vd.id_produto
-     * INNER JOIN grupo g on g.codigo = p.grupo
      */
     public void RecuperaListGrupos() {
         gruposService = Apis.getGruposService();
@@ -170,27 +166,32 @@ public class RelatorioGruposVendasDiaFragment extends Fragment implements Adapte
             @Override
             public void onResponse(Call<List<Grupos>> call, Response<List<Grupos>> response) {
                 gruposList.clear();
+                List<String> quantidade = new ArrayList<>();
                 if (response.isSuccessful()) {
                     List<Grupos> gruposList1 = response.body();
-
-                    for (Grupos g : gruposList1) {
-                        gruposList.add(g);
-                        for (VendasMaster vm : listVendasMaster) {
-                            for (VendasDetalhes vd : vendasDetalhesList) {
-                                for (Produtos p : produtosList) {
-                                    if (vd.getFkvenda() == vm.getCodigo()) {
-                                        if (p.getCodigo() == vd.getId_produto()) {
-                                            if (g.getCodigo() == p.getGrupo()) {
-
-                                            }
-                                        }
+                    for (VendasMaster vm : listVendasMaster) {
+                        for (VendasDetalhes vd : vendasDetalhesList) {
+                            for (Produtos p : produtosList) {
+                                for (Grupos g : gruposList1) {
+                                    if (vd.getFkvenda() == vm.getCodigo() && p.getCodigo() == vd.getId_produto() && g.getCodigo() == p.getGrupo()) {
+                                        quantidade.add(Double.toString(vd.getQtd()));
+                                        g.setQuantidadeItensGrupo((vd.getQtd()));
+                                        gruposList.add(g);
                                     }
                                 }
                             }
                         }
 
                     }
-                    Log.i("", "" + gruposList);
+
+                    for (Grupos grupos : gruposList) {
+                        if (!updateListGrupo.contains(grupos)) {
+                            updateListGrupo.add(grupos);
+                        }
+
+                    }
+
+                    Log.i("", "" + quantidade + gruposList);
                     adapterRelatorioGrupoVendas.notifyDataSetChanged();
                 }
 
