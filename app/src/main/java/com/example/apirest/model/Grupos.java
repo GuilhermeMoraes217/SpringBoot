@@ -23,7 +23,7 @@ public class Grupos implements Serializable {
     @Expose
     private String ativo;
 
-    private Double quantidadeItensGrupo;
+    private String data_emissao;
 
     public Grupos(){
 
@@ -36,12 +36,12 @@ public class Grupos implements Serializable {
         this.ativo = ativo;
     }
 
-    public Double getQuantidadeItensGrupo() {
-        return quantidadeItensGrupo;
+    public String getData_emissao() {
+        return data_emissao;
     }
 
-    public void setQuantidadeItensGrupo(Double quantidadeItensGrupo) {
-        this.quantidadeItensGrupo = quantidadeItensGrupo;
+    public void setData_emissao(String data_emissao) {
+        this.data_emissao = data_emissao;
     }
 
     public int getEmpresa() {

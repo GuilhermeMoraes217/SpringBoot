@@ -23,7 +23,9 @@ import com.example.apirest.utils.ProdutosService;
 import com.example.apirest.utils.VendasDetalhesService;
 import com.example.apirest.utils.VendasMasterService;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import retrofit2.Call;
@@ -167,17 +169,26 @@ public class RelatorioGruposVendasDiaFragment extends Fragment implements Adapte
                 gruposList.clear();
                 if (response.isSuccessful()) {
                     List<Grupos> gruposList1 = response.body();
+                    /**
+                     * LIMITANTO A DATA PARA SOMENTE PARA DATA ATUAL
+                     */
+                    Date d = new Date();
+                    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+                    String formattedDateAtual = df.format(d);
+
                     for (VendasMaster vm : listVendasMaster) {
-                        for (VendasDetalhes vd : vendasDetalhesList) {
-                            for (Produtos p : produtosList) {
-                                for (Grupos g : gruposList1) {
-                                    if (vd.getFkvenda() == vm.getCodigo() && p.getCodigo() == vd.getId_produto() && g.getCodigo() == p.getGrupo()) {
-                                        gruposList.add(g);
+                        if (vm.getData_emissao().equals(formattedDateAtual)) {
+                            for (VendasDetalhes vd : vendasDetalhesList) {
+                                for (Produtos p : produtosList) {
+                                    for (Grupos g : gruposList1) {
+                                        if (vd.getFkvenda() == vm.getCodigo() && p.getCodigo() == vd.getId_produto() && g.getCodigo() == p.getGrupo()) {
+                                            g.setData_emissao(vm.getData_emissao());
+                                            gruposList.add(g);
+                                        }
                                     }
                                 }
                             }
                         }
-
                     }
 
                     for (Grupos grupos : gruposList) {
@@ -186,6 +197,7 @@ public class RelatorioGruposVendasDiaFragment extends Fragment implements Adapte
                         }
 
                     }
+                    Log.i("",""+ updateListGrupo);
                     inicializaRecyclerView();
                     adapterRelatorioGrupoVendas.notifyDataSetChanged();
                 }

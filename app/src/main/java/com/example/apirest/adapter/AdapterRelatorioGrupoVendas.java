@@ -56,25 +56,30 @@ public class AdapterRelatorioGrupoVendas extends RecyclerView.Adapter<AdapterRel
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         Grupos grupos = gruposList.get(position);
 
+        //RECUPERANDO A QUANTIDADE TOTAL DE PRODUTOS VENTIDOS
+        Double auxItemVendido = 0.0;
+        Double auxTotalItemVendido = 0.0;
+
         /**
          * LIMITANTO A DATA PARA SOMENTE PARA DATA ATUAL
          */
         Date d = new Date();
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         String formattedDateAtual = df.format(d);
-        //RECUPERANDO A QUANTIDADE TOTAL DE PRODUTOS VENTIDOS
-        Double auxItemVendido = 0.0;
-        Double auxTotalItemVendido = 0.0;
 
 
-        for (Grupos grupos1 : gruposList) {
-            for (Produtos produtos : produtosList) {
-                for (VendasDetalhes vendasDetalhes : vendasDetalhesList) {
-                    if (produtos.getGrupo() == grupos1.getCodigo() && produtos.getCodigo() == vendasDetalhes.getId_produto()) {
-                        auxTotalItemVendido += vendasDetalhes.getQtd();
-                    }
-                    if (produtos.getGrupo() == grupos1.getCodigo() && produtos.getCodigo() == vendasDetalhes.getId_produto() && grupos.getDescricao() == grupos1.getDescricao()) {
-                        auxItemVendido += vendasDetalhes.getQtd();
+        for (VendasMaster vm : vendasMasterList) {
+            if (vm.getData_emissao().equals(formattedDateAtual)) {
+                for (VendasDetalhes vd : vendasDetalhesList) {
+                    for (Produtos p : produtosList) {
+                        for (Grupos g : gruposList) {
+                            if (vd.getFkvenda() == vm.getCodigo() && p.getCodigo() == vd.getId_produto() && g.getCodigo() == p.getGrupo()) {
+                                auxTotalItemVendido += vd.getQtd();
+                                if (vd.getFkvenda() == vm.getCodigo() && p.getCodigo() == vd.getId_produto() && g.getCodigo() == p.getGrupo() && g.getDescricao() == grupos.getDescricao()) {
+                                    auxItemVendido += vd.getQtd();
+                                }
+                            }
+                        }
                     }
                 }
             }
