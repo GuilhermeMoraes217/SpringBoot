@@ -49,7 +49,7 @@ public class RelatorioGruposVendasDiaFragment extends Fragment implements Adapte
     /**
      * Atributos que irao receber o popular as classes VendasMaster
      */
-    VendasMasterService vendasMasterServiceDia;
+    VendasMasterService vendasMasterService;
     List<VendasMaster> listVendasMaster = new ArrayList<>();
 
     /**
@@ -72,7 +72,6 @@ public class RelatorioGruposVendasDiaFragment extends Fragment implements Adapte
         View view = inflater.inflate(R.layout.fragment_relatorio_grupos_vendas, container, false);
 
         inicializaComponentes(view);
-        inicializaRecyclerView();
         RecuperaListVendasMaster();
 
         return view;
@@ -84,13 +83,13 @@ public class RelatorioGruposVendasDiaFragment extends Fragment implements Adapte
     private void inicializaRecyclerView() {
         recyclerViewGrupoList.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerViewGrupoList.setHasFixedSize(true);
-        adapterRelatorioGrupoVendas = new AdapterRelatorioGrupoVendas(updateListGrupo, getContext(), this);
+        adapterRelatorioGrupoVendas = new AdapterRelatorioGrupoVendas(updateListGrupo, vendasDetalhesList, produtosList, listVendasMaster, getContext(), this);
         recyclerViewGrupoList.setAdapter(adapterRelatorioGrupoVendas);
     }
 
     public void RecuperaListVendasMaster() {
-        vendasMasterServiceDia = Apis.getVendasMasterService();
-        Call<List<VendasMaster>> call = vendasMasterServiceDia.getVendasMaster();
+        vendasMasterService = Apis.getVendasMasterService();
+        Call<List<VendasMaster>> call = vendasMasterService.getVendasMaster();
         call.enqueue(new Callback<List<VendasMaster>>() {
             @Override
             public void onResponse(Call<List<VendasMaster>> call, Response<List<VendasMaster>> response) {
@@ -166,7 +165,6 @@ public class RelatorioGruposVendasDiaFragment extends Fragment implements Adapte
             @Override
             public void onResponse(Call<List<Grupos>> call, Response<List<Grupos>> response) {
                 gruposList.clear();
-                List<String> quantidade = new ArrayList<>();
                 if (response.isSuccessful()) {
                     List<Grupos> gruposList1 = response.body();
                     for (VendasMaster vm : listVendasMaster) {
@@ -174,8 +172,6 @@ public class RelatorioGruposVendasDiaFragment extends Fragment implements Adapte
                             for (Produtos p : produtosList) {
                                 for (Grupos g : gruposList1) {
                                     if (vd.getFkvenda() == vm.getCodigo() && p.getCodigo() == vd.getId_produto() && g.getCodigo() == p.getGrupo()) {
-                                        quantidade.add(Double.toString(vd.getQtd()));
-                                        g.setQuantidadeItensGrupo((vd.getQtd()));
                                         gruposList.add(g);
                                     }
                                 }
@@ -190,8 +186,7 @@ public class RelatorioGruposVendasDiaFragment extends Fragment implements Adapte
                         }
 
                     }
-
-                    Log.i("", "" + quantidade + gruposList);
+                    inicializaRecyclerView();
                     adapterRelatorioGrupoVendas.notifyDataSetChanged();
                 }
 
