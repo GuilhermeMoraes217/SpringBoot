@@ -11,7 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.apirest.R;
-import com.example.apirest.model.RelatorioProdutos;
 import com.example.apirest.model.vendas.VendasDetalhes;
 import com.example.apirest.utils.GetMask;
 
@@ -59,11 +58,11 @@ public class AdapterRelatorioProdutos extends RecyclerView.Adapter<AdapterRelato
         holder.idGeral.setText("#" + Integer.toString(relatorioProdutos1.getCodigo()));
         holder.nomeProduto.setText(relatorioProdutos1.getNomeProduto());
 
-        holder.preco_1.setText("R$" + GetMask.getValor(relatorioProdutos1.getPreco()));
-        holder.preco_2.setText("R$" + GetMask.getValor(relatorioProdutos1.getQtd()));
+        holder.valorUnitario.setText("R$" + GetMask.getValor(relatorioProdutos1.getPreco()));
+        holder.valorticktMedio.setText("R$" + GetMask.getValor( relatorioProdutos1.getPreco() / relatorioProdutos1.getQtd()));
 
-        holder.porcentagem_1.setText(GetMask.getValorPorcentagem((((relatorioProdutos1.getQtd() * 100)) / aux )) + "%");
-        holder.porcentagem_2.setText(Double.toString(relatorioProdutos1.getQtd()));
+        holder.porcentagemItensVendido.setText(GetMask.getValorPorcentagem((((relatorioProdutos1.getQtd() * 100)) / aux )) + "%");
+        holder.totalItensVendido.setText(Double.toString(relatorioProdutos1.getQtd()));
 
         holder.itemView.setOnClickListener(view -> itemClickListener.onClick(relatorioProdutos1));
 
@@ -83,7 +82,7 @@ public class AdapterRelatorioProdutos extends RecyclerView.Adapter<AdapterRelato
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
         TextView idRelatorio, idRelatorio_R, idGeral,
-                nomeProduto, preco_1, preco_2, porcentagem_1, porcentagem_2;
+                nomeProduto, valorUnitario, valorticktMedio, porcentagemItensVendido, totalItensVendido;
         ImageView imagemStatus;
 
         public MyViewHolder(View itemView) {
@@ -96,10 +95,10 @@ public class AdapterRelatorioProdutos extends RecyclerView.Adapter<AdapterRelato
             idGeral = itemView.findViewById(R.id.textView18);
             nomeProduto = itemView.findViewById(R.id.textView19);
 
-            preco_1 = itemView.findViewById(R.id.textView17);
-            preco_2 = itemView.findViewById(R.id.textView10);
-            porcentagem_1 = itemView.findViewById(R.id.textView20);
-            porcentagem_2 = itemView.findViewById(R.id.textView22);
+            valorUnitario = itemView.findViewById(R.id.textView17);
+            valorticktMedio = itemView.findViewById(R.id.textView10);
+            porcentagemItensVendido = itemView.findViewById(R.id.textView20);
+            totalItensVendido = itemView.findViewById(R.id.textView22);
 
         }
     }

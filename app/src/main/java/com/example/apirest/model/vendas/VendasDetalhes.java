@@ -96,6 +96,8 @@ public class VendasDetalhes implements Serializable {
     private String observacao;
 
     private String nomeProduto;
+    private String nomeGrupo;
+    private int idGrupo;
 
     private String referenciaProduto;
 
@@ -129,6 +131,22 @@ public class VendasDetalhes implements Serializable {
         this.fk_mesa = fk_mesa;
         this.qtd_restante = qtd_restante;
         this.observacao = observacao;
+    }
+
+    public int getIdGrupo() {
+        return idGrupo;
+    }
+
+    public void setIdGrupo(int idGrupo) {
+        this.idGrupo = idGrupo;
+    }
+
+    public String getNomeGrupo() {
+        return nomeGrupo;
+    }
+
+    public void setNomeGrupo(String nomeGrupo) {
+        this.nomeGrupo = nomeGrupo;
     }
 
     public Double getQuantidadeProdutosVendido() {

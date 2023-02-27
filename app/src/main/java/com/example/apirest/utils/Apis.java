@@ -5,16 +5,17 @@ import com.example.apirest.model.vendas.VendasMaster;
 public class Apis {
 
     // 10.0.0.132 LABEX
-    // 192.168.1.109 SIGATEC 192.168.1.104
+    // 192.168.1.107 SIGATEC
     // 10.0.0.126 Casa - notebook
     // 10.0.0.100 Casa - desktop
-    public static final String URL_001="http://10.0.0.100:8080/personas/"; // Notebook
-    public static final String URL_002="http://10.0.0.100:8080/vendasmaster/"; // Notebook
-    public static final String URL_003="http://10.0.0.100:8080/vendasformapagamento/"; // Notebook
-    public static final String URL_004="http://10.0.0.100:8080/formapagamento/"; // Notebook
-    public static final String URL_005="http://10.0.0.100:8080/empresas/"; // Notebook
-    public static final String URL_006="http://10.0.0.100:8080/vendasdetalhes/"; // Notebook
-    public static final String URL_007="http://10.0.0.100:8080/produtos/"; // Notebook
+    public static final String URL_001="http://192.168.1.107:8080/personas/";
+    public static final String URL_002="http://192.168.1.107:8080/vendasmaster/";
+    public static final String URL_003="http://192.168.1.107:8080/vendasformapagamento/";
+    public static final String URL_004="http://192.168.1.107:8080/formapagamento/";
+    public static final String URL_005="http://192.168.1.107:8080/empresas/";
+    public static final String URL_006="http://192.168.1.107:8080/vendasdetalhes/";
+    public static final String URL_007="http://192.168.1.107:8080/produtos/";
+    public static final String URL_008="http://192.168.1.107:8080/grupos/";
 
     public static PersonaService getPersonaService(){
         return  Cliente.getClient(URL_001).create(PersonaService.class);
@@ -42,6 +43,10 @@ public class Apis {
 
     public static ProdutosService getProdutos(){
         return  Cliente.getClient(URL_007).create(ProdutosService.class);
+    }
+
+    public static GruposService getGruposService(){
+        return  Cliente.getClient(URL_008).create(GruposService.class);
     }
 
 
