@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.apirest.R;
 import com.example.apirest.adapter.AdapterRelatorioGrupoVendas;
@@ -25,6 +26,7 @@ import com.example.apirest.utils.VendasMasterService;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -66,6 +68,7 @@ public class RelatorioGruposVendasDiaFragment extends Fragment implements Adapte
     private RecyclerView recyclerViewGrupoList;
     private AdapterRelatorioGrupoVendas adapterRelatorioGrupoVendas;
 
+    private TextView totalItens, porcentagemTotalItens;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -167,6 +170,7 @@ public class RelatorioGruposVendasDiaFragment extends Fragment implements Adapte
             @Override
             public void onResponse(Call<List<Grupos>> call, Response<List<Grupos>> response) {
                 gruposList.clear();
+                double auxTotalItem = 0.0;
                 if (response.isSuccessful()) {
                     List<Grupos> gruposList1 = response.body();
                     /**
@@ -182,6 +186,7 @@ public class RelatorioGruposVendasDiaFragment extends Fragment implements Adapte
                                 for (Produtos p : produtosList) {
                                     for (Grupos g : gruposList1) {
                                         if (vd.getFkvenda() == vm.getCodigo() && p.getCodigo() == vd.getId_produto() && g.getCodigo() == p.getGrupo()) {
+                                            auxTotalItem += vd.getQtd();
                                             g.setData_emissao(vm.getData_emissao());
                                             gruposList.add(g);
                                         }
@@ -197,8 +202,14 @@ public class RelatorioGruposVendasDiaFragment extends Fragment implements Adapte
                         }
 
                     }
+
+                    if (gruposList.size() > -1) {
+                        totalItens.setText(Double.toString(auxTotalItem));
+                    }
+
                     Log.i("",""+ updateListGrupo);
                     inicializaRecyclerView();
+                    Collections.reverse(updateListGrupo);
                     adapterRelatorioGrupoVendas.notifyDataSetChanged();
                 }
 
@@ -214,6 +225,8 @@ public class RelatorioGruposVendasDiaFragment extends Fragment implements Adapte
 
     public void inicializaComponentes(View view) {
         recyclerViewGrupoList = view.findViewById(R.id.recyclerViewGrupoList);
+        porcentagemTotalItens = view.findViewById(R.id.textView2);
+        totalItens = view.findViewById(R.id.textView53);
     }
 
     @Override

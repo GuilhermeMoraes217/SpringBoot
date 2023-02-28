@@ -27,7 +27,7 @@
             android:id="@+id/tab_Layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/toobarNavegation"
+            android:background="@color/toobarNavegationRoxoforte"
             app:tabIndicatorColor="@color/white"
             app:tabInlineLabel="true"
             app:tabMode="fixed"
