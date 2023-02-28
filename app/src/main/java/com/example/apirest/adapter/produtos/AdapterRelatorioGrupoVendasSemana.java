@@ -1,6 +1,7 @@
-package com.example.apirest.adapter;
+package com.example.apirest.adapter.produtos;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,22 +18,27 @@ import com.example.apirest.model.vendas.VendasMaster;
 import com.example.apirest.utils.GetMask;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-public class AdapterRelatorioGrupoVendas extends RecyclerView.Adapter<AdapterRelatorioGrupoVendas.MyViewHolder> {
+public class AdapterRelatorioGrupoVendasSemana extends RecyclerView.Adapter<AdapterRelatorioGrupoVendasSemana.MyViewHolder> {
 
     private List<Grupos> gruposList;
     private List<VendasDetalhes> vendasDetalhesList;
     private List<Produtos> produtosList;
     private List<VendasMaster> vendasMasterList;
     private Context context;
+    static List<String> stringsData = new ArrayList<>();
 
     ItemClickListener itemClickListener;
 
 
-    public AdapterRelatorioGrupoVendas(List<Grupos> gruposList, List<VendasDetalhes> vendasDetalhesList,
-                                       List<Produtos> produtosList, List<VendasMaster> vendasMasterList, Context context, ItemClickListener onClickListener) {
+    public AdapterRelatorioGrupoVendasSemana(List<Grupos> gruposList, List<VendasDetalhes> vendasDetalhesList,
+                                             List<Produtos> produtosList, List<VendasMaster> vendasMasterList, Context context, ItemClickListener onClickListener) {
         this.gruposList = gruposList;
         this.context = context;
         this.vendasDetalhesList = vendasDetalhesList;
@@ -60,23 +66,52 @@ public class AdapterRelatorioGrupoVendas extends RecyclerView.Adapter<AdapterRel
         Double auxItemVendido = 0.0;
         Double auxTotalItemVendido = 0.0;
 
-        /**
-         * LIMITANTO A DATA PARA SOMENTE PARA DATA ATUAL
-         */
-        Date d = new Date();
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        String formattedDateAtual = df.format(d);
+        int year = 0;
+        int month = 0;
+        int day = 0;
+
+        Date date = new Date();
+        LocalDate date1 = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            date1 = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        }
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            year = date1.getYear();
+        }
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            month = date1.getMonthValue();
+        }
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            day = date1.getDayOfMonth();
+        }
+
+        stringsData.clear();
+        SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar cal = Calendar.getInstance();
+        cal.clear();
+        cal.set(year, month - 1, day - 7); // alteracao aqui para listar O PADRAO É IGUAL A (0 ZERO)
+        int daysInMonth = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
+        for (int i = day - 7; i < day; i++) {
+            //System.out.println(fmt.format(cal.getTime()));
+            cal.add(Calendar.DAY_OF_MONTH, 1);
+            stringsData.add(fmt.format(cal.getTime()));
+        }
+        Log.i("", "" + stringsData);
 
 
         for (VendasMaster vm : vendasMasterList) {
-            if (vm.getData_emissao().equals(formattedDateAtual)) {
-                for (VendasDetalhes vd : vendasDetalhesList) {
-                    for (Produtos p : produtosList) {
-                        for (Grupos g : gruposList) {
-                            if (vd.getFkvenda() == vm.getCodigo() && p.getCodigo() == vd.getId_produto() && g.getCodigo() == p.getGrupo()) {
-                                auxTotalItemVendido += vd.getQtd();
-                                if (vd.getFkvenda() == vm.getCodigo() && p.getCodigo() == vd.getId_produto() && g.getCodigo() == p.getGrupo() && g.getDescricao() == grupos.getDescricao()) {
-                                    auxItemVendido += vd.getQtd();
+            for (String localDate : stringsData) {
+                if (localDate.equals(vm.getData_emissao())) {
+                    for (VendasDetalhes vd : vendasDetalhesList) {
+                        for (Produtos p : produtosList) {
+                            for (Grupos g : gruposList) {
+                                if (vd.getFkvenda() == vm.getCodigo() && p.getCodigo() == vd.getId_produto() && g.getCodigo() == p.getGrupo()) {
+                                    auxTotalItemVendido += vd.getQtd();
+                                    if (vd.getFkvenda() == vm.getCodigo() && p.getCodigo() == vd.getId_produto() && g.getCodigo() == p.getGrupo() && g.getDescricao() == grupos.getDescricao()) {
+                                        if (vm.getTotal() > 0 && vm.getSituacao().equals("F")) {
+                                            auxItemVendido += vd.getQtd();
+                                        }
+                                    }
                                 }
                             }
                         }

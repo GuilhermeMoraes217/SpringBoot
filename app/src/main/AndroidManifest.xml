@@ -13,6 +13,12 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".activity.produtos.semana.RelatorioDeProdutosVendasSemanaActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.produtos.InformacoesGrupoItensProdutosActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.vendas.ano.PedidosCanceladosVendaAnoActivity"
             android:exported="false" />
         <activity

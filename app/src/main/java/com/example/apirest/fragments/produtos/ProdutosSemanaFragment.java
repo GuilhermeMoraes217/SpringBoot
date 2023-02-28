@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.example.apirest.R;
 import com.example.apirest.activity.empresa.PersonaActivity;
 import com.example.apirest.activity.produtos.dia.RelatorioDeProdutosVendasDiaActivity;
+import com.example.apirest.activity.produtos.semana.RelatorioDeProdutosVendasSemanaActivity;
 import com.example.apirest.adapter.PersonaAdapter;
 import com.example.apirest.model.Persona;
 import com.example.apirest.model.Produtos;
@@ -133,7 +134,7 @@ public class ProdutosSemanaFragment extends Fragment {
             startActivity(intent);
         });
         VerProdutosProdutos.setOnClickListener(view1 -> {
-            Intent intent = new Intent(getActivity(), RelatorioDeProdutosVendasDiaActivity.class);
+            Intent intent = new Intent(getActivity(), RelatorioDeProdutosVendasSemanaActivity.class);
             startActivity(intent);
         });
 
@@ -279,6 +280,8 @@ public class ProdutosSemanaFragment extends Fragment {
             @Override
             public void onResponse(Call<List<VendasDetalhes>> call, Response<List<VendasDetalhes>> response) {
                 vendasDetalhesList.clear();
+                Double contadorItensVendido = 0.0;
+
                 if (response.isSuccessful()) {
                     List<VendasDetalhes> vendasDetalhesList1 = response.body();
 
@@ -299,6 +302,7 @@ public class ProdutosSemanaFragment extends Fragment {
                                             if (vendasMaster1.getTotal() > 0 && vendasMaster1.getSituacao().equals("F")) {
                                                 vendasDetalhes.setNomeProduto(produtos.getDescricao());
                                                 vendasDetalhes.setReferenciaProduto(produtos.getReferencia());
+                                                contadorItensVendido+=vendasDetalhes.getQtd();
                                                 vendasDetalhesList.add(vendasDetalhes);
                                             }
 
@@ -324,7 +328,7 @@ public class ProdutosSemanaFragment extends Fragment {
                         progressBarTotalPedido.setVisibility(View.GONE);
                         progressBarMediaItens.setVisibility(View.GONE);
 
-                        valortotalItensVendidoTextView.setText(Integer.toString(vendasDetalhesList.size()));
+                        valortotalItensVendidoTextView.setText(Double.toString(contadorItensVendido));
                         totalIPedidosTextView.setText(Integer.toString(totalIPedidos));
                         mediaItensPedidoTextView.setText(Integer.toString(vendasDetalhesList.size() / totalIPedidos));
                     }
