@@ -1,5 +1,6 @@
 package com.example.apirest.fragments.produtos.semana;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -14,7 +15,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.apirest.R;
-import com.example.apirest.adapter.AdapterRelatorioProdutos;
+import com.example.apirest.activity.produtos.InformacoesProdutosRelatorioActivity;
+import com.example.apirest.adapter.produtos.AdapterRelatorioProdutos;
+import com.example.apirest.model.Empresas;
 import com.example.apirest.model.Produtos;
 import com.example.apirest.model.RelatorioProdutos;
 import com.example.apirest.model.vendas.FormaPagamento;
@@ -22,6 +25,7 @@ import com.example.apirest.model.vendas.VendasDetalhes;
 import com.example.apirest.model.vendas.VendasMaster;
 import com.example.apirest.model.vendas.Vendasfpg;
 import com.example.apirest.utils.Apis;
+import com.example.apirest.utils.EmpresasService;
 import com.example.apirest.utils.FormaPagamentoService;
 import com.example.apirest.utils.ProdutosService;
 import com.example.apirest.utils.VendasDetalhesService;
@@ -43,7 +47,7 @@ import retrofit2.Response;
 
 public class RelatorioProdutosVendasSemanaFragment extends Fragment implements AdapterRelatorioProdutos.ItemClickListener {
     /**
-     * Atributos que irao receber o popular as classes Empresas
+     * Atributos que irao receber o popular as classes VendasDetalhes
      */
     VendasDetalhesService vendasDetalhesService;
     List<VendasDetalhes> vendasDetalhesList = new ArrayList<>();
@@ -73,6 +77,12 @@ public class RelatorioProdutosVendasSemanaFragment extends Fragment implements A
     List<FormaPagamento> listformaPagamentoDia = new ArrayList<>();
 
     /**
+     * Atributos que irao receber o popular as classes Empresa
+     */
+    EmpresasService empresasService;
+    List<Empresas> empresasList = new ArrayList<>();
+
+    /**
      * Atributos da inicialização do recyclerView do relatorio de produtos
      */
     private RecyclerView recyclerViewRelatorioProdutos;
@@ -97,7 +107,7 @@ public class RelatorioProdutosVendasSemanaFragment extends Fragment implements A
 
         inicializaComponentes(view);
         recuperaDataSemana();
-        RecuperaListProdutos();
+        RecuperaListEmpresas();
         inicializaRecyclerView(view);
 
         return view;
@@ -156,6 +166,30 @@ public class RelatorioProdutosVendasSemanaFragment extends Fragment implements A
     /**
      * Método que recupera do banco de dados MySQl os dados que iram ser preenchidos na classe RelatorioProdutos.
      */
+    public void RecuperaListEmpresas() {
+        empresasService = Apis.getEmpresasService();
+        Call<List<Empresas>> call = empresasService.getEmpresas();
+        call.enqueue(new Callback<List<Empresas>>() {
+            @Override
+            public void onResponse(Call<List<Empresas>> call, Response<List<Empresas>> response) {
+                empresasList.clear();
+                if (response.isSuccessful()) {
+                    empresasList = response.body();
+                }
+                RecuperaListProdutos();
+            }
+
+            @Override
+            public void onFailure(Call<List<Empresas>> call, Throwable t) {
+                Log.e("Error:", t.getMessage());
+
+            }
+        });
+    }
+
+    /**
+     * Método que recupera do banco de dados MySQl os dados que iram ser preenchidos na classe RelatorioProdutos.
+     */
     public void RecuperaListProdutos() {
         produtosService = Apis.getProdutos();
         Call<List<Produtos>> call = produtosService.getProdutosService();
@@ -209,8 +243,8 @@ public class RelatorioProdutosVendasSemanaFragment extends Fragment implements A
                 if (response.isSuccessful()) {
                     listvendasfpgDia = response.body();
                 }
-                RecuperalistFormaPagamento();
 
+                RecuperalistFormaPagamento();
             }
 
             @Override
@@ -260,14 +294,17 @@ public class RelatorioProdutosVendasSemanaFragment extends Fragment implements A
                             if (localDate.equals(vendasMaster1.getData_emissao())) {
                                 for (VendasDetalhes vendasDetalhes : vendasDetalhesList1) {
                                     for (Produtos produtos : vendasProdutosList) {
-                                        if (vendasDetalhes.getFkvenda() == vendasMaster1.getCodigo() && vendasDetalhes.getId_produto() == produtos.getCodigo()) {
-                                            if (vendasMaster1.getTotal() > 0 && vendasMaster1.getSituacao().equals("F")) {
-                                                vendasDetalhes.setNomeProduto(produtos.getDescricao());
-                                                vendasDetalhes.setReferenciaProduto(produtos.getReferencia());
-                                                contadorItensVendido += vendasDetalhes.getQtd();
-                                                vendasDetalhesList.add(vendasDetalhes);
+                                        for (Empresas empresas : empresasList) {
+                                            if (vendasDetalhes.getFkvenda() == vendasMaster1.getCodigo() && vendasDetalhes.getId_produto() == produtos.getCodigo() && vendasMaster1.getFkempresa() == empresas.getCodigo()) {
+                                                if (vendasMaster1.getTotal() > 0 && vendasMaster1.getSituacao().equals("F")) {
+                                                    vendasDetalhes.setNomeProduto(produtos.getDescricao());
+                                                    vendasDetalhes.setNomeEmpresa(empresas.getRazao());
+                                                    vendasDetalhes.setReferenciaProduto(produtos.getReferencia());
+                                                    vendasDetalhes.setDataCadastroProduto(produtos.getDt_cadastro());
+                                                    contadorItensVendido += vendasDetalhes.getQtd();
+                                                    vendasDetalhesList.add(vendasDetalhes);
+                                                }
                                             }
-
                                         }
                                     }
                                 }
@@ -312,6 +349,8 @@ public class RelatorioProdutosVendasSemanaFragment extends Fragment implements A
 
     @Override
     public void onClick(VendasDetalhes relatorioProdutos) {
-
+        Intent intent = new Intent(getActivity(), InformacoesProdutosRelatorioActivity.class);
+        intent.putExtra("relatorioProdutoSelecionados", relatorioProdutos);
+        startActivity(intent);
     }
 }

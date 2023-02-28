@@ -44,7 +44,6 @@
         android:id="@+id/constraintLayout21"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout20">
@@ -53,13 +52,17 @@
             android:id="@+id/textView73"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:text="#777"
             android:textColor="@color/black"
             android:textSize="15dp"
+            android:layout_marginStart="16dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="TextSizeCheck" />
 
         <TextView
+            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
@@ -68,22 +71,26 @@
             android:textSize="15dp"
             app:layout_constraintBottom_toBottomOf="@+id/textView73"
             app:layout_constraintStart_toEndOf="@+id/textView73"
-            app:layout_constraintTop_toTopOf="@+id/textView73" />
+            app:layout_constraintTop_toTopOf="@+id/textView73"
+            tools:ignore="TextSizeCheck" />
 
         <TextView
             android:id="@+id/textView74"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
             android:text="Produto Sigatec Sistemas"
             android:textColor="@color/black"
             android:textSize="20dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView73" />
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="4dp"
             android:gravity="center"
+            android:layout_marginTop="8dp"
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -94,7 +101,6 @@
                 android:id="@+id/constraintLayout2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
                 android:layout_marginEnd="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -149,12 +155,14 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/unidadeTextView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="UN"
                             android:textColor="@color/black" />
 
                         <TextView
+                            android:id="@+id/tipoGrupoTextView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Bebidas"
@@ -162,18 +170,21 @@
                             android:textColor="@color/black" />
 
                         <TextView
+                            android:id="@+id/corProdutoTextView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="*****"
                             android:textColor="@color/black" />
 
                         <TextView
+                            android:id="@+id/tamanhoProdutoTextView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="*****"
                             android:textColor="@color/black" />
 
                         <TextView
+                            android:id="@+id/qtdProdutotextView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="24"
@@ -187,10 +198,9 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
                 android:layout_marginEnd="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <LinearLayout
@@ -211,7 +221,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Ult Vl Compras:" />
+                            android:text="Data cadastro:" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -242,22 +252,24 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/dataCadastroTextView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="R$ 10.000,00"
+                            android:text="26/06/2023"
                             android:textColor="@color/black" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Cachaça"
+                            android:text="*******"
                             android:textAllCaps="true"
                             android:textColor="@color/black" />
 
                         <TextView
+                            android:id="@+id/marcaProdutoTextView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Duelo"
+                            android:text="****"
                             android:textAllCaps="true"
                             android:textColor="@color/black" />
 
@@ -269,9 +281,10 @@
                             android:textColor="@color/black" />
 
                         <TextView
+                            android:id="@+id/percentualVendidoTextView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="9,06%"
+                            android:text="****%"
                             android:textAllCaps="true"
                             android:textColor="@color/black" />
                     </LinearLayout>
@@ -280,7 +293,7 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

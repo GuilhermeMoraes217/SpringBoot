@@ -98,11 +98,10 @@ public class VendasDetalhes implements Serializable {
     private String nomeProduto;
     private String nomeGrupo;
     private int idGrupo;
-
     private String referenciaProduto;
-
     private Double quantidadeProdutosVendido;
-
+    private String nomeEmpresa;
+    private String dataCadastroProduto;
 
     public VendasDetalhes() {
 
@@ -131,6 +130,22 @@ public class VendasDetalhes implements Serializable {
         this.fk_mesa = fk_mesa;
         this.qtd_restante = qtd_restante;
         this.observacao = observacao;
+    }
+
+    public String getDataCadastroProduto() {
+        return dataCadastroProduto;
+    }
+
+    public void setDataCadastroProduto(String dataCadastroProduto) {
+        this.dataCadastroProduto = dataCadastroProduto;
+    }
+
+    public String getNomeEmpresa() {
+        return nomeEmpresa;
+    }
+
+    public void setNomeEmpresa(String nomeEmpresa) {
+        this.nomeEmpresa = nomeEmpresa;
     }
 
     public int getIdGrupo() {

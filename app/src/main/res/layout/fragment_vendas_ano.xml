@@ -122,6 +122,7 @@
                     android:id="@+id/textView7"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/efeito_onda_view"
                     android:layout_marginTop="8dp"
                     android:text="Ver produtos"
                     android:textColor="@color/toobarNavegation"
@@ -129,7 +130,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView3"
-                    tools:ignore="TextSizeCheck" />
+                    tools:ignore="NotSibling,TextSizeCheck" />
 
                 <ImageView
                     android:layout_width="15dp"
@@ -180,6 +181,7 @@
                     android:id="@+id/constraintLayout2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/efeito_onda_view"
                     android:clickable="true"
                     android:focusable="true"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -315,6 +317,7 @@
                     android:id="@+id/constraintLayout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/efeito_onda_view"
                     android:clickable="true"
                     android:focusable="true"
                     app:layout_constraintBottom_toBottomOf="parent"

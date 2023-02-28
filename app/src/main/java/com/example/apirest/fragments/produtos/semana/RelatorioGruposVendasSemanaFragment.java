@@ -1,5 +1,6 @@
 package com.example.apirest.fragments.produtos.semana;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -14,6 +15,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.apirest.R;
+import com.example.apirest.activity.produtos.InformacoesGrupoItensProdutosActivity;
 import com.example.apirest.adapter.produtos.AdapterRelatorioGrupoVendasSemana;
 import com.example.apirest.model.Grupos;
 import com.example.apirest.model.Produtos;
@@ -288,6 +290,8 @@ public class RelatorioGruposVendasSemanaFragment extends Fragment implements Ada
 
     @Override
     public void onClick(Grupos grupos) {
-
+        Intent intent = new Intent(getActivity(), InformacoesGrupoItensProdutosActivity.class);
+        intent.putExtra("informacoesGrupoSelecionado", grupos);
+        startActivity(intent);
     }
 }

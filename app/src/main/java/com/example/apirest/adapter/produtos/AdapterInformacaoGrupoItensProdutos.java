@@ -1,4 +1,4 @@
-package com.example.apirest.adapter;
+package com.example.apirest.adapter.produtos;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -16,7 +16,7 @@ import com.example.apirest.utils.GetMask;
 
 import java.util.List;
 
-public class AdapterRelatorioProdutos extends RecyclerView.Adapter<AdapterRelatorioProdutos.MyViewHolder> {
+public class AdapterInformacaoGrupoItensProdutos extends RecyclerView.Adapter<AdapterInformacaoGrupoItensProdutos.MyViewHolder> {
 
     private List<VendasDetalhes> relatorioProdutos;
     private Context context;
@@ -24,7 +24,7 @@ public class AdapterRelatorioProdutos extends RecyclerView.Adapter<AdapterRelato
     ItemClickListener itemClickListener;
 
 
-    public AdapterRelatorioProdutos(List<VendasDetalhes> relatorioProdutos, Context context, ItemClickListener onClickListener) {
+    public AdapterInformacaoGrupoItensProdutos(List<VendasDetalhes> relatorioProdutos, Context context, ItemClickListener onClickListener) {
         this.relatorioProdutos = relatorioProdutos;
         this.context = context;
         this.itemClickListener = onClickListener;
@@ -59,7 +59,7 @@ public class AdapterRelatorioProdutos extends RecyclerView.Adapter<AdapterRelato
         holder.nomeProduto.setText(relatorioProdutos1.getNomeProduto());
 
         holder.valorUnitario.setText("R$" + GetMask.getValor(relatorioProdutos1.getPreco()));
-        holder.valorticktMedio.setText("R$" + GetMask.getValor( relatorioProdutos1.getPreco() / relatorioProdutos1.getQtd()));
+        holder.valorxQtd.setText("R$" + GetMask.getValor( relatorioProdutos1.getPreco() * relatorioProdutos1.getQtd()));
 
         holder.porcentagemItensVendido.setText(GetMask.getValorPorcentagem((((relatorioProdutos1.getQtd() * 100)) / aux )) + "%");
         holder.totalItensVendido.setText(Double.toString(relatorioProdutos1.getQtd()));
@@ -82,7 +82,7 @@ public class AdapterRelatorioProdutos extends RecyclerView.Adapter<AdapterRelato
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
         TextView idRelatorio, idRelatorio_R, idGeral,
-                nomeProduto, valorUnitario, valorticktMedio, porcentagemItensVendido, totalItensVendido;
+                nomeProduto, valorUnitario, valorxQtd, porcentagemItensVendido, totalItensVendido;
         ImageView imagemStatus;
 
         public MyViewHolder(View itemView) {
@@ -96,7 +96,7 @@ public class AdapterRelatorioProdutos extends RecyclerView.Adapter<AdapterRelato
             nomeProduto = itemView.findViewById(R.id.textView19);
 
             valorUnitario = itemView.findViewById(R.id.textView17);
-            valorticktMedio = itemView.findViewById(R.id.textView10);
+            valorxQtd = itemView.findViewById(R.id.textView10);
             porcentagemItensVendido = itemView.findViewById(R.id.textView20);
             totalItensVendido = itemView.findViewById(R.id.textView22);
 

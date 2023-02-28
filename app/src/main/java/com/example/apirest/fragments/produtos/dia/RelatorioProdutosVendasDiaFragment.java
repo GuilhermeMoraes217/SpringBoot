@@ -16,7 +16,7 @@ import android.widget.TextView;
 
 import com.example.apirest.R;
 import com.example.apirest.activity.produtos.InformacoesProdutosRelatorioActivity;
-import com.example.apirest.adapter.AdapterRelatorioProdutos;
+import com.example.apirest.adapter.produtos.AdapterRelatorioProdutos;
 import com.example.apirest.model.Produtos;
 import com.example.apirest.model.RelatorioProdutos;
 import com.example.apirest.model.vendas.FormaPagamento;
