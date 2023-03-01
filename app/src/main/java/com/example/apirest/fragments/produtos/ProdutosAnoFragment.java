@@ -17,7 +17,10 @@ import android.widget.TextView;
 
 import com.example.apirest.R;
 import com.example.apirest.activity.empresa.PersonaActivity;
+import com.example.apirest.activity.produtos.ano.RelatorioDeProdutosVendasAnoActivity;
+import com.example.apirest.activity.produtos.ano.TotalPedidosProdutosAnoActivity;
 import com.example.apirest.activity.produtos.dia.RelatorioDeProdutosVendasDiaActivity;
+import com.example.apirest.activity.produtos.mes.TotalPedidosProdutosMesActivity;
 import com.example.apirest.adapter.PersonaAdapter;
 import com.example.apirest.model.Persona;
 import com.example.apirest.model.Produtos;
@@ -27,6 +30,7 @@ import com.example.apirest.model.vendas.VendasMaster;
 import com.example.apirest.model.vendas.Vendasfpg;
 import com.example.apirest.utils.Apis;
 import com.example.apirest.utils.FormaPagamentoService;
+import com.example.apirest.utils.GetMask;
 import com.example.apirest.utils.PersonaService;
 import com.example.apirest.utils.ProdutosService;
 import com.example.apirest.utils.VendasDetalhesService;
@@ -95,7 +99,7 @@ public class ProdutosAnoFragment extends Fragment {
     ListView listView;
     TextView textListaVazia;
     ProgressBar progressBar;
-    ConstraintLayout VerProdutosProdutos;
+    ConstraintLayout totalItensProdutoVendido, totalPedidosProduto;
     FloatingActionButton fab;
 
     @Override
@@ -130,8 +134,13 @@ public class ProdutosAnoFragment extends Fragment {
             intent.putExtra("APELLIDO", "");
             startActivity(intent);
         });
-        VerProdutosProdutos.setOnClickListener(view1 -> {
-            Intent intent = new Intent(getActivity(), RelatorioDeProdutosVendasDiaActivity.class);
+        totalItensProdutoVendido.setOnClickListener(view1 -> {
+            Intent intent = new Intent(getActivity(), RelatorioDeProdutosVendasAnoActivity.class);
+            startActivity(intent);
+        });
+
+        totalPedidosProduto.setOnClickListener(view1 -> {
+            Intent intent = new Intent(getActivity(), TotalPedidosProdutosAnoActivity.class);
             startActivity(intent);
         });
 
@@ -278,13 +287,10 @@ public class ProdutosAnoFragment extends Fragment {
             @Override
             public void onResponse(Call<List<VendasDetalhes>> call, Response<List<VendasDetalhes>> response) {
                 vendasDetalhesList.clear();
+                Double contadorItensVendido = 0.0;
+
                 if (response.isSuccessful()) {
                     List<VendasDetalhes> vendasDetalhesList1 = response.body();
-
-                    /**
-                     * LIMITANTO A DATA PARA SOMENTE PARA ANO
-                     *
-                     */
 
                     for (VendasMaster vendasMaster1 : listVendasMaster) {
                         for (String localDate : stringsData) {
@@ -298,6 +304,7 @@ public class ProdutosAnoFragment extends Fragment {
                                             if (vendasMaster1.getTotal() > 0 && vendasMaster1.getSituacao().equals("F")) {
                                                 vendasDetalhes.setNomeProduto(produtos.getDescricao());
                                                 vendasDetalhes.setReferenciaProduto(produtos.getReferencia());
+                                                contadorItensVendido+=vendasDetalhes.getQtd();
                                                 vendasDetalhesList.add(vendasDetalhes);
                                             }
 
@@ -323,9 +330,9 @@ public class ProdutosAnoFragment extends Fragment {
                         progressBarTotalPedido.setVisibility(View.GONE);
                         progressBarMediaItens.setVisibility(View.GONE);
 
-                        valortotalItensVendidoTextView.setText(Integer.toString(vendasDetalhesList.size()));
+                        valortotalItensVendidoTextView.setText(Integer.toString(GetMask.getValorDoubleForInt(contadorItensVendido)));
                         totalIPedidosTextView.setText(Integer.toString(totalIPedidos));
-                        mediaItensPedidoTextView.setText(Integer.toString(vendasDetalhesList.size() / totalIPedidos));
+                        mediaItensPedidoTextView.setText(Double.toString(contadorItensVendido / totalIPedidos));
                     }
                 }
             }
@@ -388,7 +395,8 @@ public class ProdutosAnoFragment extends Fragment {
         textListaVazia = view.findViewById(R.id.textListaVazia);
         progressBar = view.findViewById(R.id.progressBar);
         fab = view.findViewById(R.id.fabe);
-        VerProdutosProdutos = view.findViewById(R.id.VerProdutosProdutos);
+        totalItensProdutoVendido = view.findViewById(R.id.VerProdutosProdutos);
+        totalPedidosProduto = view.findViewById(R.id.constraintLayout2);
 
         progressBarTotalPedido = view.findViewById(R.id.progressBarTotalPedido);
         progressBarMediaItens = view.findViewById(R.id.progressBarMediaItens);

@@ -1,4 +1,4 @@
-package com.example.apirest.fragments.produtos.dia;
+package com.example.apirest.fragments.produtos.mes;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,8 +15,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.apirest.R;
-import com.example.apirest.activity.produtos.dia.InformacoesGrupoItensProdutosDiaActivity;
-import com.example.apirest.adapter.produtos.AdapterRelatorioGrupoVendasDia;
+import com.example.apirest.activity.produtos.mes.InformacoesGrupoItensProdutosMesActivity;
+import com.example.apirest.activity.produtos.semana.InformacoesGrupoItensProdutosSemanaActivity;
+import com.example.apirest.adapter.produtos.AdapterRelatorioGrupoVendasMes;
+import com.example.apirest.adapter.produtos.AdapterRelatorioGrupoVendasSemana;
 import com.example.apirest.model.Grupos;
 import com.example.apirest.model.Produtos;
 import com.example.apirest.model.vendas.VendasDetalhes;
@@ -28,7 +30,10 @@ import com.example.apirest.utils.VendasDetalhesService;
 import com.example.apirest.utils.VendasMasterService;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -38,7 +43,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class RelatorioGruposVendasDiaFragment extends Fragment implements AdapterRelatorioGrupoVendasDia.ItemClickListener {
+public class RelatorioGruposVendasMesFragment extends Fragment implements AdapterRelatorioGrupoVendasMes.ItemClickListener {
 
     /**
      * Atributos que irao receber o popular as classes Grupos
@@ -69,19 +74,21 @@ public class RelatorioGruposVendasDiaFragment extends Fragment implements Adapte
      * Atributos aleatorios do layout
      */
     private RecyclerView recyclerViewGrupoList;
-    private AdapterRelatorioGrupoVendasDia adapterRelatorioGrupoVendasDia;
+    private AdapterRelatorioGrupoVendasMes adapterRelatorioGrupoVendasMes;
 
     private TextView totalItens, porcentagemTotalItens, textListaVazia;
 
     private ProgressBar progressBar;
 
+    static List<String> stringsData = new ArrayList<>();
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_relatorio_grupos_vendas, container, false);
+        View view = inflater.inflate(R.layout.fragment_relatorio_grupos_vendas_mes, container, false);
 
         inicializaComponentes(view);
+        recuperaDataSemana();
         RecuperaListVendasMaster();
 
         return view;
@@ -93,8 +100,47 @@ public class RelatorioGruposVendasDiaFragment extends Fragment implements Adapte
     private void inicializaRecyclerView() {
         recyclerViewGrupoList.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerViewGrupoList.setHasFixedSize(true);
-        adapterRelatorioGrupoVendasDia = new AdapterRelatorioGrupoVendasDia(updateListGrupo, vendasDetalhesList, produtosList, listVendasMaster, getContext(), this);
-        recyclerViewGrupoList.setAdapter(adapterRelatorioGrupoVendasDia);
+        adapterRelatorioGrupoVendasMes = new AdapterRelatorioGrupoVendasMes(updateListGrupo, vendasDetalhesList, produtosList, listVendasMaster, getContext(), this);
+        recyclerViewGrupoList.setAdapter(adapterRelatorioGrupoVendasMes);
+    }
+
+    public static void printDatesInMonth(int year, int month, int day) {
+        stringsData.clear();
+        SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar cal = Calendar.getInstance();
+        cal.clear();
+        cal.set(year, month - 1, 0); // alteracao aqui para listar O PADRAO É IGUAL A (0 ZERO)
+        int daysInMonth = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
+        for (int i = 0; i < day ; i++) {
+            cal.add(Calendar.DAY_OF_MONTH, 1);
+            stringsData.add(fmt.format(cal.getTime()));
+        }
+        Log.i("", "" + stringsData);
+
+
+    }
+
+    private void recuperaDataSemana() {
+        int year = 0;
+        int month = 0;
+        int day = 0;
+
+        Date date = new Date();
+        LocalDate date1 = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            date1 = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        }
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            year = date1.getYear();
+        }
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            month = date1.getMonthValue();
+        }
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            day = date1.getDayOfMonth();
+        }
+
+        printDatesInMonth(year, month, day);
     }
 
     public void RecuperaListVendasMaster() {
@@ -178,31 +224,28 @@ public class RelatorioGruposVendasDiaFragment extends Fragment implements Adapte
                 double auxTotalItem = 0.0;
                 if (response.isSuccessful()) {
                     List<Grupos> gruposList1 = response.body();
-                    /**
-                     * LIMITANTO A DATA PARA SOMENTE PARA DATA ATUAL
-                     */
-                    Date d = new Date();
-                    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-                    String formattedDateAtual = df.format(d);
-
                     for (VendasMaster vm : listVendasMaster) {
-                        if (vm.getData_emissao().equals(formattedDateAtual)) {
-                            for (VendasDetalhes vd : vendasDetalhesList) {
-                                for (Produtos p : produtosList) {
-                                    for (Grupos g : gruposList1) {
-                                        if (vd.getFkvenda() == vm.getCodigo() && p.getCodigo() == vd.getId_produto() && g.getCodigo() == p.getGrupo()) {
-                                            auxTotalItem += vd.getQtd();
-                                            g.setData_emissao(vm.getData_emissao());
-                                            gruposList.add(g);
+                        for (String localDate : stringsData) {
+                            if (localDate.equals(vm.getData_emissao())) {
+                                for (VendasDetalhes vd : vendasDetalhesList) {
+                                    for (Produtos p : produtosList) {
+                                        for (Grupos g : gruposList1) {
+                                            if (vd.getFkvenda() == vm.getCodigo() && p.getCodigo() == vd.getId_produto() && g.getCodigo() == p.getGrupo()) {
+                                                if (vm.getTotal() > 0 && vm.getSituacao().equals("F")) {
+                                                    auxTotalItem += vd.getQtd();
+                                                    g.setData_emissao(vm.getData_emissao());
+                                                    gruposList.add(g);
+                                                }
+                                            }
                                         }
                                     }
                                 }
+                            } else {
+                                progressBar.setVisibility(View.GONE);
+                                textListaVazia.setVisibility(View.VISIBLE);
+                                textListaVazia.setText("Nenhum grupo de produto vendido");
+                                totalItens.setText("0");
                             }
-                        }else {
-                            progressBar.setVisibility(View.GONE);
-                            textListaVazia.setVisibility(View.VISIBLE);
-                            textListaVazia.setText("Nenhum grupo de produto vendido");
-                            totalItens.setText("0");
                         }
                     }
 
@@ -220,10 +263,10 @@ public class RelatorioGruposVendasDiaFragment extends Fragment implements Adapte
                         totalItens.setText(Double.toString(auxTotalItem));
                     }
 
-                    Log.i("",""+ updateListGrupo);
+                    Log.i("", "" + updateListGrupo);
                     inicializaRecyclerView();
                     Collections.reverse(updateListGrupo);
-                    adapterRelatorioGrupoVendasDia.notifyDataSetChanged();
+                    adapterRelatorioGrupoVendasMes.notifyDataSetChanged();
                 }
 
             }
@@ -246,8 +289,7 @@ public class RelatorioGruposVendasDiaFragment extends Fragment implements Adapte
 
     @Override
     public void onClick(Grupos grupos) {
-
-        Intent intent = new Intent(getActivity(), InformacoesGrupoItensProdutosDiaActivity.class);
+        Intent intent = new Intent(getActivity(), InformacoesGrupoItensProdutosMesActivity.class);
         intent.putExtra("informacoesGrupoSelecionado", grupos);
         startActivity(intent);
     }

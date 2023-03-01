@@ -15,7 +15,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.apirest.R;
-import com.example.apirest.activity.produtos.InformacoesGrupoItensProdutosActivity;
+import com.example.apirest.activity.produtos.semana.InformacoesGrupoItensProdutosSemanaActivity;
 import com.example.apirest.adapter.produtos.AdapterRelatorioGrupoVendasSemana;
 import com.example.apirest.model.Grupos;
 import com.example.apirest.model.Produtos;
@@ -109,12 +109,21 @@ public class RelatorioGruposVendasSemanaFragment extends Fragment implements Ada
         SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
         Calendar cal = Calendar.getInstance();
         cal.clear();
-        cal.set(year, month - 1, day - 7); // alteracao aqui para listar O PADRAO É IGUAL A (0 ZERO)
         int daysInMonth = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
-        for (int i = day - 7; i < day; i++) {
-            //System.out.println(fmt.format(cal.getTime()));
-            cal.add(Calendar.DAY_OF_MONTH, 1);
-            stringsData.add(fmt.format(cal.getTime()));
+        if (day > 7) {
+            cal.set(year, month - 1, day - 7);
+            for (int i = day - 7; i < day; i++) {
+                //System.out.println(fmt.format(cal.getTime()));
+                cal.add(Calendar.DAY_OF_MONTH, 1);
+                stringsData.add(fmt.format(cal.getTime()));
+            }
+        } else {
+            cal.set(year, month - 1, 0);
+            for (int i = 0; i < day ; i++) {
+                //System.out.println(fmt.format(cal.getTime()));
+                cal.add(Calendar.DAY_OF_MONTH, 1);
+                stringsData.add(fmt.format(cal.getTime()));
+            }
         }
         Log.i("", "" + stringsData);
 
@@ -290,7 +299,7 @@ public class RelatorioGruposVendasSemanaFragment extends Fragment implements Ada
 
     @Override
     public void onClick(Grupos grupos) {
-        Intent intent = new Intent(getActivity(), InformacoesGrupoItensProdutosActivity.class);
+        Intent intent = new Intent(getActivity(), InformacoesGrupoItensProdutosSemanaActivity.class);
         intent.putExtra("informacoesGrupoSelecionado", grupos);
         startActivity(intent);
     }

@@ -158,18 +158,28 @@ public class VendasSemanaFragment extends Fragment {
     public static void printDatesInMonth(int year, int month, int day) {
         stringsData.clear();
         SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
-        cal = Calendar.getInstance();
+        Calendar cal = Calendar.getInstance();
         cal.clear();
-        cal.set(year, month - 1, day - 7); // alteracao aqui para listar O PADRAO É IGUAL A (0 ZERO)
         int daysInMonth = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
-        for (int i = day - 7; i < day ; i++) {
-            //System.out.println(fmt.format(cal.getTime()));
-            cal.add(Calendar.DAY_OF_MONTH, 1);
-            stringsData.add(fmt.format(cal.getTime()));
+        if (day > 7) {
+            cal.set(year, month - 1, day - 7);
+            for (int i = day - 7; i < day; i++) {
+                //System.out.println(fmt.format(cal.getTime()));
+                cal.add(Calendar.DAY_OF_MONTH, 1);
+                stringsData.add(fmt.format(cal.getTime()));
+            }
+        } else {
+            cal.set(year, month - 1, 0);
+            for (int i = 0; i < day ; i++) {
+                //System.out.println(fmt.format(cal.getTime()));
+                cal.add(Calendar.DAY_OF_MONTH, 1);
+                stringsData.add(fmt.format(cal.getTime()));
+            }
         }
         Log.i("", "" + stringsData);
 
     }
+
 
     private void recuperaDataSemana () {
         int year= 0;

@@ -17,8 +17,8 @@ import android.widget.TextView;
 
 import com.example.apirest.R;
 import com.example.apirest.activity.empresa.PersonaActivity;
-import com.example.apirest.activity.produtos.dia.RelatorioDeProdutosVendasDiaActivity;
 import com.example.apirest.activity.produtos.semana.RelatorioDeProdutosVendasSemanaActivity;
+import com.example.apirest.activity.produtos.semana.TotalPedidosProdutosSemanaActivity;
 import com.example.apirest.adapter.PersonaAdapter;
 import com.example.apirest.model.Persona;
 import com.example.apirest.model.Produtos;
@@ -28,6 +28,7 @@ import com.example.apirest.model.vendas.VendasMaster;
 import com.example.apirest.model.vendas.Vendasfpg;
 import com.example.apirest.utils.Apis;
 import com.example.apirest.utils.FormaPagamentoService;
+import com.example.apirest.utils.GetMask;
 import com.example.apirest.utils.PersonaService;
 import com.example.apirest.utils.ProdutosService;
 import com.example.apirest.utils.VendasDetalhesService;
@@ -97,7 +98,7 @@ public class ProdutosSemanaFragment extends Fragment {
     ListView listView;
     TextView textListaVazia;
     ProgressBar progressBar;
-    ConstraintLayout VerProdutosProdutos;
+    ConstraintLayout totalItensVendidosProduto, totalPedidos;
     FloatingActionButton fab;
 
     @Override
@@ -133,8 +134,13 @@ public class ProdutosSemanaFragment extends Fragment {
             intent.putExtra("APELLIDO", "");
             startActivity(intent);
         });
-        VerProdutosProdutos.setOnClickListener(view1 -> {
+        totalItensVendidosProduto.setOnClickListener(view1 -> {
             Intent intent = new Intent(getActivity(), RelatorioDeProdutosVendasSemanaActivity.class);
+            startActivity(intent);
+        });
+
+        totalPedidos.setOnClickListener(view1 -> {
+            Intent intent = new Intent(getActivity(), TotalPedidosProdutosSemanaActivity.class);
             startActivity(intent);
         });
 
@@ -145,12 +151,21 @@ public class ProdutosSemanaFragment extends Fragment {
         SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
         Calendar cal = Calendar.getInstance();
         cal.clear();
-        cal.set(year, month - 1, day - 7); // alteracao aqui para listar O PADRAO É IGUAL A (0 ZERO)
         int daysInMonth = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
-        for (int i = day - 7; i < day; i++) {
-            //System.out.println(fmt.format(cal.getTime()));
-            cal.add(Calendar.DAY_OF_MONTH, 1);
-            stringsData.add(fmt.format(cal.getTime()));
+        if (day > 7) {
+            cal.set(year, month - 1, day - 7);
+            for (int i = day - 7; i < day; i++) {
+                //System.out.println(fmt.format(cal.getTime()));
+                cal.add(Calendar.DAY_OF_MONTH, 1);
+                stringsData.add(fmt.format(cal.getTime()));
+            }
+        } else {
+            cal.set(year, month - 1, 0);
+            for (int i = 0; i < day ; i++) {
+                //System.out.println(fmt.format(cal.getTime()));
+                cal.add(Calendar.DAY_OF_MONTH, 1);
+                stringsData.add(fmt.format(cal.getTime()));
+            }
         }
         Log.i("", "" + stringsData);
 
@@ -284,12 +299,6 @@ public class ProdutosSemanaFragment extends Fragment {
 
                 if (response.isSuccessful()) {
                     List<VendasDetalhes> vendasDetalhesList1 = response.body();
-
-                    /**
-                     * LIMITANTO A DATA PARA SOMENTE PARA SEMANA
-                     *
-                     */
-
                     for (VendasMaster vendasMaster1 : listVendasMaster) {
                         for (String localDate : stringsData) {
                             if (localDate.equals(vendasMaster1.getData_emissao())) {
@@ -328,9 +337,9 @@ public class ProdutosSemanaFragment extends Fragment {
                         progressBarTotalPedido.setVisibility(View.GONE);
                         progressBarMediaItens.setVisibility(View.GONE);
 
-                        valortotalItensVendidoTextView.setText(Double.toString(contadorItensVendido));
+                        valortotalItensVendidoTextView.setText(Integer.toString(GetMask.getValorDoubleForInt(contadorItensVendido)));
                         totalIPedidosTextView.setText(Integer.toString(totalIPedidos));
-                        mediaItensPedidoTextView.setText(Integer.toString(vendasDetalhesList.size() / totalIPedidos));
+                        mediaItensPedidoTextView.setText(Double.toString(contadorItensVendido / totalIPedidos));
                     }
                 }
             }
@@ -393,7 +402,8 @@ public class ProdutosSemanaFragment extends Fragment {
         textListaVazia = view.findViewById(R.id.textListaVazia);
         progressBar = view.findViewById(R.id.progressBar);
         fab = view.findViewById(R.id.fabe);
-        VerProdutosProdutos = view.findViewById(R.id.VerProdutosProdutos);
+        totalItensVendidosProduto = view.findViewById(R.id.VerProdutosProdutos);
+        totalPedidos = view.findViewById(R.id.constraintLayout2);
 
         progressBarTotalPedido = view.findViewById(R.id.progressBarTotalPedido);
         progressBarMediaItens = view.findViewById(R.id.progressBarMediaItens);

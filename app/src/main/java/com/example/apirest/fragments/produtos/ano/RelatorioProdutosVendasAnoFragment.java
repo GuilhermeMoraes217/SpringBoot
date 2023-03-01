@@ -1,4 +1,4 @@
-package com.example.apirest.fragments.produtos.dia;
+package com.example.apirest.fragments.produtos.ano;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -33,7 +33,10 @@ import com.example.apirest.utils.VendasMasterService;
 import com.example.apirest.utils.VendasfpgService;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -41,11 +44,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-
-public class RelatorioProdutosVendasDiaFragment extends Fragment implements AdapterRelatorioProdutos.ItemClickListener {
-
+public class RelatorioProdutosVendasAnoFragment extends Fragment implements AdapterRelatorioProdutos.ItemClickListener {
     /**
-     * Atributos que irao receber o popular as classes Empresas
+     * Atributos que irao receber o popular as classes VendasDetalhes
      */
     VendasDetalhesService vendasDetalhesService;
     List<VendasDetalhes> vendasDetalhesList = new ArrayList<>();
@@ -93,15 +94,14 @@ public class RelatorioProdutosVendasDiaFragment extends Fragment implements Adap
     private TextView textViewPorcentagemGeral, textviewPorcentagemGeral2;
     private TextView textViewListaVazia, porcentagemItensVendidosTexteView, totalItensVendidoTexteView;
     private ProgressBar progressBar;
-
-
+    static List<String> stringsData = new ArrayList<>();
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_relatorio_produtos_vendas, container, false);
-
+        View view = inflater.inflate(R.layout.fragment_relatorio_produtos_vendas_ano, container, false);
         inicializaComponentes(view);
+        recuperaDataSemana();
         RecuperaListEmpresas();
         inicializaRecyclerView(view);
 
@@ -116,6 +116,44 @@ public class RelatorioProdutosVendasDiaFragment extends Fragment implements Adap
         recyclerViewRelatorioProdutos.setHasFixedSize(true);
         adapterRelatorioProdutos = new AdapterRelatorioProdutos(vendasDetalhesList, getContext(), this);
         recyclerViewRelatorioProdutos.setAdapter(adapterRelatorioProdutos);
+    }
+
+    public static void printDatesInMonth(int year, int month, int day) {
+        stringsData.clear();
+        SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar cal = Calendar.getInstance();
+        cal.clear();
+        cal.set(year, 0, 0); // alteracao aqui para listar O PADRAO É IGUAL A (0 ZERO)
+        int daysInMonth = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
+        for (int j = 0; j < month; j++) {
+            for (int i = 0; i < daysInMonth; i++) {
+                cal.add(Calendar.DAY_OF_YEAR, 1);
+                stringsData.add(fmt.format(cal.getTime()));
+            }
+        }
+    }
+
+    private void recuperaDataSemana() {
+        int year = 0;
+        int month = 0;
+        int day = 0;
+
+        Date date = new Date();
+        LocalDate date1 = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            date1 = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        }
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            year = date1.getYear();
+        }
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            month = date1.getMonthValue();
+        }
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            day = date1.getDayOfMonth();
+        }
+
+        printDatesInMonth(year, month, day);
     }
 
     /**
@@ -198,8 +236,8 @@ public class RelatorioProdutosVendasDiaFragment extends Fragment implements Adap
                 if (response.isSuccessful()) {
                     listvendasfpgDia = response.body();
                 }
-                RecuperalistFormaPagamento();
 
+                RecuperalistFormaPagamento();
             }
 
             @Override
@@ -240,42 +278,36 @@ public class RelatorioProdutosVendasDiaFragment extends Fragment implements Adap
             @Override
             public void onResponse(Call<List<VendasDetalhes>> call, Response<List<VendasDetalhes>> response) {
                 vendasDetalhesList.clear();
-                int contadorItensVendido = 0;
+                Double contadorItensVendido = 0.0;
                 if (response.isSuccessful()) {
                     List<VendasDetalhes> vendasDetalhesList1 = response.body();
 
-                    /**
-                     * LIMITANTO A DATA PARA SOMENTE PARA DATA ATUAL
-                     */
-                    Date d = new Date();
-                    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-                    String formattedDateAtual = df.format(d);
-
                     for (VendasMaster vendasMaster1 : listVendasMaster) {
-                        if (vendasMaster1.getData_emissao().equals(formattedDateAtual)) {
-                            for (VendasDetalhes vendasDetalhes : vendasDetalhesList1) {
-                                for (Produtos produtos : vendasProdutosList) {
-                                    for (Empresas empresas : empresasList) {
-                                        if (vendasDetalhes.getFkvenda() == vendasMaster1.getCodigo() && vendasDetalhes.getId_produto() == produtos.getCodigo() && vendasMaster1.getFkempresa() == empresas.getCodigo()) {
-                                            if (vendasMaster1.getTotal() > 0 && vendasMaster1.getSituacao().equals("F")) {
-                                                vendasDetalhes.setNomeProduto(produtos.getDescricao());
-                                                vendasDetalhes.setNomeEmpresa(empresas.getRazao());
-                                                vendasDetalhes.setReferenciaProduto(produtos.getReferencia());
-                                                vendasDetalhes.setDataCadastroProduto(produtos.getDt_cadastro());
-                                                contadorItensVendido += vendasDetalhes.getQtd();
-                                                vendasDetalhesList.add(vendasDetalhes);
+                        for (String localDate : stringsData) {
+                            if (localDate.equals(vendasMaster1.getData_emissao())) {
+                                for (VendasDetalhes vendasDetalhes : vendasDetalhesList1) {
+                                    for (Produtos produtos : vendasProdutosList) {
+                                        for (Empresas empresas : empresasList) {
+                                            if (vendasDetalhes.getFkvenda() == vendasMaster1.getCodigo() && vendasDetalhes.getId_produto() == produtos.getCodigo() && vendasMaster1.getFkempresa() == empresas.getCodigo()) {
+                                                if (vendasMaster1.getTotal() > 0 && vendasMaster1.getSituacao().equals("F")) {
+                                                    vendasDetalhes.setNomeProduto(produtos.getDescricao());
+                                                    vendasDetalhes.setNomeEmpresa(empresas.getRazao());
+                                                    vendasDetalhes.setReferenciaProduto(produtos.getReferencia());
+                                                    vendasDetalhes.setDataCadastroProduto(produtos.getDt_cadastro());
+                                                    contadorItensVendido += vendasDetalhes.getQtd();
+                                                    vendasDetalhesList.add(vendasDetalhes);
+                                                }
                                             }
-
                                         }
                                     }
                                 }
+                            }else{
+                                progressBar.setVisibility(View.GONE);
+                                textViewListaVazia.setVisibility(View.VISIBLE);
+                                textViewListaVazia.setText("Nenhum item vendido");
+                                porcentagemItensVendidosTexteView.setText("0%");
+                                totalItensVendidoTexteView.setText("0");
                             }
-                        } else {
-                            progressBar.setVisibility(View.GONE);
-                            textViewListaVazia.setVisibility(View.VISIBLE);
-                            textViewListaVazia.setText("Nenhum item vendido");
-                            porcentagemItensVendidosTexteView.setText("0%");
-                            totalItensVendidoTexteView.setText("0");
                         }
                     }
                 }
@@ -284,7 +316,7 @@ public class RelatorioProdutosVendasDiaFragment extends Fragment implements Adap
                     textViewListaVazia.setVisibility(View.GONE);
                     textViewListaVazia.setText(null);
                     porcentagemItensVendidosTexteView.setText("100%");
-                    totalItensVendidoTexteView.setText(Integer.toString(contadorItensVendido));
+                    totalItensVendidoTexteView.setText(Double.toString(contadorItensVendido));
                 }
                 adapterRelatorioProdutos.notifyDataSetChanged();
             }

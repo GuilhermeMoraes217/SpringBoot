@@ -1,4 +1,4 @@
-package com.example.apirest.activity.vendas.semana;
+package com.example.apirest.activity.produtos.semana;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -12,8 +12,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.apirest.R;
-import com.example.apirest.activity.vendas.InformacoesPedidoVendaActivity;
-import com.example.apirest.adapter.vendas.totalvendas.AdapterRelatorioVendas;
+import com.example.apirest.activity.vendas.InformacoesTotalPedidosVendaActivity;
+import com.example.apirest.activity.vendas.semana.TotalPedidosVendaSemanaActivity;
+import com.example.apirest.adapter.vendas.totalpedidos.AdapterTotalPedidoVenda;
 import com.example.apirest.model.Empresas;
 import com.example.apirest.model.RelatorioVendas;
 import com.example.apirest.model.vendas.VendasMaster;
@@ -34,17 +35,16 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class RelatorioDeVendasSemanaActivity extends AppCompatActivity implements AdapterRelatorioVendas.ItemClickListener {
-
+public class TotalPedidosProdutosSemanaActivity extends AppCompatActivity implements AdapterTotalPedidoVenda.ItemClickListener {
     /**
-     * Atributos da inicialização do recyclerView do relatorio de vendas
+     * Atributos da inicialização do recyclerView do totalPedidosVendas
      */
     private RecyclerView recyclerViewRelatorioProdutos;
-    private AdapterRelatorioVendas adapterRelatorioVendas;
+    private AdapterTotalPedidoVenda adapterTotalPedidoVenda;
     ArrayList<RelatorioVendas> relatorioVendas = new ArrayList<>();
 
     /**
-     * Atributos dos textView da activity relatorio_de_vendas
+     * Atributos dos textView da activity totalPedidosVendas
      */
     private TextView textViewDataRelatorio, textviewNumeroPedidos, textViewValorVendas;
     private TextView textViewListaVazia;
@@ -54,7 +54,7 @@ public class RelatorioDeVendasSemanaActivity extends AppCompatActivity implement
      * Atributos que irao receber o popular as classes VendasMaster
      */
     VendasMasterService vendasMasterService;
-    List<VendasMaster> listVendasMaster = new ArrayList<>();
+    List<VendasMaster> listTotalPedidos = new ArrayList<>();
 
     /**
      * Atributos que irao receber o popular as classes Empresas
@@ -63,17 +63,15 @@ public class RelatorioDeVendasSemanaActivity extends AppCompatActivity implement
     List<Empresas> empresasList = new ArrayList<>();
 
     /**
-     * Atributos variddos do layout
+     * Atributos variddos do layout totalPedidosVendas
      */
-    private Double valorVendas = 0.0;
-    private ProgressBar progressBar, progressBarPedidos, progressBarValorPedidos;
     static List<String> stringsData = new ArrayList<>();
-
-
+    private Double valorTotalPedido = 0.0;
+    private ProgressBar progressBar, progressBarPedidos, progressBarValorPedidos;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_relatorio_de_vendas_semana);
+        setContentView(R.layout.activity_total_pedidos_produtos_semana);
 
         inicializaComponentes();
         recuperaDataSemana();
@@ -82,19 +80,19 @@ public class RelatorioDeVendasSemanaActivity extends AppCompatActivity implement
     }
 
     /**
-     * Método que inicializa o recycler view do relatorio de vendas
+     * Método que inicializa o recycler view do totalPedidosVendas
      */
     private void inicializaRecyclerView() {
         recyclerViewRelatorioProdutos.setLayoutManager(new LinearLayoutManager(this));
         recyclerViewRelatorioProdutos.setHasFixedSize(true);
-        adapterRelatorioVendas = new AdapterRelatorioVendas(listVendasMaster, this, this);
-        recyclerViewRelatorioProdutos.setAdapter(adapterRelatorioVendas);
+        adapterTotalPedidoVenda = new AdapterTotalPedidoVenda(listTotalPedidos, this, this);
+        recyclerViewRelatorioProdutos.setAdapter(adapterTotalPedidoVenda);
     }
 
-    private void recuperaDataSemana () {
-        int year= 0;
-        int month=0;
-        int day=0;
+    private void recuperaDataSemana() {
+        int year = 0;
+        int month = 0;
+        int day = 0;
 
         Date date = new Date();
         LocalDate date1 = null;
@@ -102,17 +100,18 @@ public class RelatorioDeVendasSemanaActivity extends AppCompatActivity implement
             date1 = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         }
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            year  = date1.getYear();
+            year = date1.getYear();
         }
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             month = date1.getMonthValue();
         }
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            day   = date1.getDayOfMonth();
+            day = date1.getDayOfMonth();
         }
 
-        printDatesInMonth( year,  month,  day);
+        printDatesInMonth(year, month, day);
     }
+
     public static void printDatesInMonth(int year, int month, int day) {
         stringsData.clear();
         SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
@@ -140,7 +139,7 @@ public class RelatorioDeVendasSemanaActivity extends AppCompatActivity implement
 
 
     /**
-     * Método que recupera do banco de dados MySQl os dados que iram ser preenchidos na classe RelatorioVendas.
+     * Método que recupera do banco de dados MySQl os dados que iram ser preenchidos na classe vendas_master.
      */
     public void RecuperaListVendasMaster() {
         vendasMasterService = Apis.getVendasMasterService();
@@ -155,10 +154,12 @@ public class RelatorioDeVendasSemanaActivity extends AppCompatActivity implement
                         for (String localDate : stringsData) {
                             if (localDate.equals(vendasMaster1.getData_emissao())) {
                                 for (Empresas empresas : empresasList) {
-                                    if (vendasMaster1.getTotal() > 0 && vendasMaster1.getSituacao().equals("F") && empresas.getCodigo() == vendasMaster1.getFkempresa()) {
+                                    if (vendasMaster1.getTotal() > 0 && vendasMaster1.getNome() != null && empresas.getCodigo() == vendasMaster1.getFkempresa()) {
                                         vendasMaster1.setNomeEmpresa(empresas.getRazao());
-                                        listVendasMaster.add(vendasMaster1);
-                                        valorVendas += vendasMaster1.getTotal();
+                                        listTotalPedidos.add(vendasMaster1);
+                                        if (vendasMaster1.getSituacao().equals("F")) {
+                                            valorTotalPedido += vendasMaster1.getTotal();
+                                        }
                                     }
                                 }
                             } else {
@@ -167,15 +168,14 @@ public class RelatorioDeVendasSemanaActivity extends AppCompatActivity implement
                                 progressBarValorPedidos.setVisibility(View.GONE);
 
                                 textViewListaVazia.setVisibility(View.VISIBLE);
-                                textViewListaVazia.setText("Nenhuma venda realizada");
+                                textViewListaVazia.setText("Nenhum pedido feito");
 
                                 textviewNumeroPedidos.setText(Integer.toString(0) + " pedidos");
                                 textViewValorVendas.setText("R$ " + GetMask.getValor(0.0));
                             }
-
                         }
                     }
-                    if (listVendasMaster.size() > 0) {
+                    if (listTotalPedidos.size() > 0) {
                         progressBar.setVisibility(View.GONE);
                         progressBarPedidos.setVisibility(View.GONE);
                         progressBarValorPedidos.setVisibility(View.GONE);
@@ -183,9 +183,9 @@ public class RelatorioDeVendasSemanaActivity extends AppCompatActivity implement
                         textViewListaVazia.setVisibility(View.GONE);
                         textViewListaVazia.setText(null);
 
-                        adapterRelatorioVendas.notifyDataSetChanged();
-                        textviewNumeroPedidos.setText(Integer.toString(listVendasMaster.size()) + " pedidos");
-                        textViewValorVendas.setText("R$ " + GetMask.getValor(valorVendas));
+                        adapterTotalPedidoVenda.notifyDataSetChanged();
+                        textviewNumeroPedidos.setText(Integer.toString(listTotalPedidos.size()) + " pedidos");
+                        textViewValorVendas.setText("R$ " + GetMask.getValor(valorTotalPedido));
                     }
                 }
             }
@@ -199,7 +199,7 @@ public class RelatorioDeVendasSemanaActivity extends AppCompatActivity implement
                 progressBarValorPedidos.setVisibility(View.GONE);
 
                 textViewListaVazia.setVisibility(View.VISIBLE);
-                textViewListaVazia.setText("Nenhuma venda realizada");
+                textViewListaVazia.setText("Nenhum pedido feito");
 
                 textviewNumeroPedidos.setText(Integer.toString(0) + " pedidos");
                 textViewValorVendas.setText("R$ " + GetMask.getValor(0.0));
@@ -233,11 +233,10 @@ public class RelatorioDeVendasSemanaActivity extends AppCompatActivity implement
 
     }
 
-
     private void inicializaComponentes() {
         recyclerViewRelatorioProdutos = findViewById(R.id.recyclerViewRelatorioProdutos);
 
-        //TEXTEVIEW
+        //TEXTVIEW
         textViewDataRelatorio = findViewById(R.id.textViewDataRelatorio);
         textviewNumeroPedidos = findViewById(R.id.textviewNumeroPedidos);
         textViewValorVendas = findViewById(R.id.textViewValorVendas);
@@ -248,12 +247,13 @@ public class RelatorioDeVendasSemanaActivity extends AppCompatActivity implement
         progressBarPedidos = findViewById(R.id.progressBarPedidos);
         progressBarValorPedidos = findViewById(R.id.progressBarValorPedidos);
 
+
     }
 
     @Override
     public void onClick(VendasMaster relatorioVendas) {
-        Intent intent = new Intent(RelatorioDeVendasSemanaActivity.this, InformacoesPedidoVendaActivity.class);
-        intent.putExtra("relatorioVendasSelecionados", relatorioVendas);
+        Intent intent = new Intent(TotalPedidosProdutosSemanaActivity.this, InformacoesTotalPedidosVendaActivity.class);
+        intent.putExtra("relatorioTotalPedido", relatorioVendas);
         startActivity(intent);
     }
 }

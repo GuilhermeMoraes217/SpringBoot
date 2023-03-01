@@ -13,10 +13,37 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".activity.produtos.ano.InformacoesGrupoItensProdutosAnoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.produtos.ano.RelatorioDeProdutosVendasAnoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.produtos.ano.TotalPedidosProdutosAnoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.produtos.mes.TotalPedidosProdutosMesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.produtos.mes.InformacoesGrupoItensProdutosMesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.produtos.mes.RelatorioDeProdutosVendasMesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.produtos.semana.TotalPedidosProdutosSemanaActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.produtos.dia.TotalPedidosProdutosDiaActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.produtos.dia.InformacoesGrupoItensProdutosDiaActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.produtos.semana.RelatorioDeProdutosVendasSemanaActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.produtos.InformacoesGrupoItensProdutosActivity"
+            android:name=".activity.produtos.semana.InformacoesGrupoItensProdutosSemanaActivity"
             android:exported="false" />
         <activity
             android:name=".activity.vendas.ano.PedidosCanceladosVendaAnoActivity"

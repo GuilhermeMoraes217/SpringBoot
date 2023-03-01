@@ -1,4 +1,4 @@
-package com.example.apirest.activity.produtos;
+package com.example.apirest.activity.produtos.mes;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -38,7 +38,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class InformacoesGrupoItensProdutosActivity extends AppCompatActivity implements AdapterInformacaoGrupoItensProdutos.ItemClickListener {
+public class InformacoesGrupoItensProdutosMesActivity extends AppCompatActivity implements AdapterInformacaoGrupoItensProdutos.ItemClickListener {
+
     /**
      * Atributos que irao receber o popular as classes Empresas
      */
@@ -85,11 +86,11 @@ public class InformacoesGrupoItensProdutosActivity extends AppCompatActivity imp
     static List<String> stringsData = new ArrayList<>();
 
     Grupos informacoesGrupoSelecionado;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_informacoes_grupo_itens_produtos);
+        setContentView(R.layout.activity_informacoes_grupo_itens_produtos_mes);
+
         Bundle bundle = getIntent().getExtras();
         informacoesGrupoSelecionado = (Grupos) bundle.getSerializable("informacoesGrupoSelecionado");
 
@@ -97,7 +98,6 @@ public class InformacoesGrupoItensProdutosActivity extends AppCompatActivity imp
         recuperaDataSemana();
         RecuperaListProdutos();
         inicializaRecyclerView();
-
     }
 
     /**
@@ -115,14 +115,14 @@ public class InformacoesGrupoItensProdutosActivity extends AppCompatActivity imp
         SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
         Calendar cal = Calendar.getInstance();
         cal.clear();
-        cal.set(year, month - 1, day - 7); // alteracao aqui para listar O PADRAO É IGUAL A (0 ZERO)
+        cal.set(year, month - 1, 0); // alteracao aqui para listar O PADRAO É IGUAL A (0 ZERO)
         int daysInMonth = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
-        for (int i = day - 7; i < day; i++) {
-            //System.out.println(fmt.format(cal.getTime()));
+        for (int i = 0; i < day ; i++) {
             cal.add(Calendar.DAY_OF_MONTH, 1);
             stringsData.add(fmt.format(cal.getTime()));
         }
         Log.i("", "" + stringsData);
+
 
     }
 

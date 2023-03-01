@@ -1,7 +1,6 @@
 package com.example.apirest.adapter.produtos;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +24,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-public class AdapterRelatorioGrupoVendasSemana extends RecyclerView.Adapter<AdapterRelatorioGrupoVendasSemana.MyViewHolder> {
+public class AdapterRelatorioGrupoVendasMes extends RecyclerView.Adapter<AdapterRelatorioGrupoVendasMes.MyViewHolder> {
 
     private List<Grupos> gruposList;
     private List<VendasDetalhes> vendasDetalhesList;
@@ -37,8 +36,8 @@ public class AdapterRelatorioGrupoVendasSemana extends RecyclerView.Adapter<Adap
     ItemClickListener itemClickListener;
 
 
-    public AdapterRelatorioGrupoVendasSemana(List<Grupos> gruposList, List<VendasDetalhes> vendasDetalhesList,
-                                             List<Produtos> produtosList, List<VendasMaster> vendasMasterList, Context context, ItemClickListener onClickListener) {
+    public AdapterRelatorioGrupoVendasMes(List<Grupos> gruposList, List<VendasDetalhes> vendasDetalhesList,
+                                          List<Produtos> produtosList, List<VendasMaster> vendasMasterList, Context context, ItemClickListener onClickListener) {
         this.gruposList = gruposList;
         this.context = context;
         this.vendasDetalhesList = vendasDetalhesList;

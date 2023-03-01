@@ -126,4 +126,20 @@ public class GetMask {
         return nf.format(valor);
     }
 
+    public static Double getValorIntForDouble(int valor){
+        int i = valor;
+        double d;
+
+        d = (double) i; // converte i para o tipo double
+
+        return d;
+    }
+
+    public static int getValorDoubleForInt(Double valor){
+        double pi = valor;
+        int i = (int)pi;
+
+        return i;
+    }
+
 }

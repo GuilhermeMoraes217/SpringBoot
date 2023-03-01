@@ -25,7 +25,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-public class AdapterRelatorioGrupoVendasSemana extends RecyclerView.Adapter<AdapterRelatorioGrupoVendasSemana.MyViewHolder> {
+public class AdapterRelatorioGrupoVendasAno extends RecyclerView.Adapter<AdapterRelatorioGrupoVendasAno.MyViewHolder> {
 
     private List<Grupos> gruposList;
     private List<VendasDetalhes> vendasDetalhesList;
@@ -37,8 +37,8 @@ public class AdapterRelatorioGrupoVendasSemana extends RecyclerView.Adapter<Adap
     ItemClickListener itemClickListener;
 
 
-    public AdapterRelatorioGrupoVendasSemana(List<Grupos> gruposList, List<VendasDetalhes> vendasDetalhesList,
-                                             List<Produtos> produtosList, List<VendasMaster> vendasMasterList, Context context, ItemClickListener onClickListener) {
+    public AdapterRelatorioGrupoVendasAno(List<Grupos> gruposList, List<VendasDetalhes> vendasDetalhesList,
+                                          List<Produtos> produtosList, List<VendasMaster> vendasMasterList, Context context, ItemClickListener onClickListener) {
         this.gruposList = gruposList;
         this.context = context;
         this.vendasDetalhesList = vendasDetalhesList;
@@ -89,21 +89,15 @@ public class AdapterRelatorioGrupoVendasSemana extends RecyclerView.Adapter<Adap
         SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
         Calendar cal = Calendar.getInstance();
         cal.clear();
-        if (day > 7) {
-            cal.set(year, month - 1, day - 7);
-            for (int i = day - 7; i < day; i++) {
-                //System.out.println(fmt.format(cal.getTime()));
-                cal.add(Calendar.DAY_OF_MONTH, 1);
-                stringsData.add(fmt.format(cal.getTime()));
-            }
-        } else {
-            cal.set(year, month - 1, 0);
-            for (int i = 0; i < day ; i++) {
-                //System.out.println(fmt.format(cal.getTime()));
-                cal.add(Calendar.DAY_OF_MONTH, 1);
+        cal.set(year, 0, 0); // alteracao aqui para listar O PADRAO É IGUAL A (0 ZERO)
+        int daysInMonth = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
+        for (int j = 0; j < month; j++) {
+            for (int i = 0; i < daysInMonth; i++) {
+                cal.add(Calendar.DAY_OF_YEAR, 1);
                 stringsData.add(fmt.format(cal.getTime()));
             }
         }
+
 
         for (VendasMaster vm : vendasMasterList) {
             for (String localDate : stringsData) {

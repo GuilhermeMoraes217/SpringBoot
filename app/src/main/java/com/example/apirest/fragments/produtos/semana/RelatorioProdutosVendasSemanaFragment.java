@@ -97,8 +97,6 @@ public class RelatorioProdutosVendasSemanaFragment extends Fragment implements A
     private ProgressBar progressBar;
     static List<String> stringsData = new ArrayList<>();
 
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -129,12 +127,21 @@ public class RelatorioProdutosVendasSemanaFragment extends Fragment implements A
         SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
         Calendar cal = Calendar.getInstance();
         cal.clear();
-        cal.set(year, month - 1, day - 7); // alteracao aqui para listar O PADRAO É IGUAL A (0 ZERO)
         int daysInMonth = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
-        for (int i = day - 7; i < day; i++) {
-            //System.out.println(fmt.format(cal.getTime()));
-            cal.add(Calendar.DAY_OF_MONTH, 1);
-            stringsData.add(fmt.format(cal.getTime()));
+        if (day > 7) {
+            cal.set(year, month - 1, day - 7);
+            for (int i = day - 7; i < day; i++) {
+                //System.out.println(fmt.format(cal.getTime()));
+                cal.add(Calendar.DAY_OF_MONTH, 1);
+                stringsData.add(fmt.format(cal.getTime()));
+            }
+        } else {
+            cal.set(year, month - 1, 0);
+            for (int i = 0; i < day ; i++) {
+                //System.out.println(fmt.format(cal.getTime()));
+                cal.add(Calendar.DAY_OF_MONTH, 1);
+                stringsData.add(fmt.format(cal.getTime()));
+            }
         }
         Log.i("", "" + stringsData);
 
@@ -164,7 +171,7 @@ public class RelatorioProdutosVendasSemanaFragment extends Fragment implements A
     }
 
     /**
-     * Método que recupera do banco de dados MySQl os dados que iram ser preenchidos na classe RelatorioProdutos.
+     * Método que recupera do banco de dados MySQl os dados que iram ser preenchidos na classe Empresas.
      */
     public void RecuperaListEmpresas() {
         empresasService = Apis.getEmpresasService();
