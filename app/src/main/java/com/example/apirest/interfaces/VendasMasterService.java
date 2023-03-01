@@ -1,4 +1,4 @@
-package com.example.apirest.utils;
+package com.example.apirest.interfaces;
 
 import com.example.apirest.model.Persona;
 import com.example.apirest.model.vendas.VendasMaster;

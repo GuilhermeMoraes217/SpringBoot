@@ -27,11 +27,11 @@ import com.example.apirest.model.vendas.FormaPagamento;
 import com.example.apirest.model.vendas.VendasMaster;
 import com.example.apirest.model.vendas.Vendasfpg;
 import com.example.apirest.utils.Apis;
-import com.example.apirest.utils.FormaPagamentoService;
+import com.example.apirest.interfaces.FormaPagamentoService;
 import com.example.apirest.utils.GetMask;
-import com.example.apirest.utils.PersonaService;
-import com.example.apirest.utils.VendasMasterService;
-import com.example.apirest.utils.VendasfpgService;
+import com.example.apirest.interfaces.PersonaService;
+import com.example.apirest.interfaces.VendasMasterService;
+import com.example.apirest.interfaces.VendasfpgService;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.SimpleDateFormat;

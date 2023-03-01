@@ -1,4 +1,4 @@
-package com.example.apirest.utils;
+package com.example.apirest.interfaces;
 
 import com.example.apirest.model.Grupos;
 import com.example.apirest.model.Persona;

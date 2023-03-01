@@ -22,10 +22,10 @@ import com.example.apirest.model.Produtos;
 import com.example.apirest.model.vendas.VendasDetalhes;
 import com.example.apirest.model.vendas.VendasMaster;
 import com.example.apirest.utils.Apis;
-import com.example.apirest.utils.GruposService;
-import com.example.apirest.utils.ProdutosService;
-import com.example.apirest.utils.VendasDetalhesService;
-import com.example.apirest.utils.VendasMasterService;
+import com.example.apirest.interfaces.GruposService;
+import com.example.apirest.interfaces.ProdutosService;
+import com.example.apirest.interfaces.VendasDetalhesService;
+import com.example.apirest.interfaces.VendasMasterService;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;

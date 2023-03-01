@@ -1,6 +1,19 @@
 package com.example.apirest.utils;
 
-import com.example.apirest.model.vendas.VendasMaster;
+import com.example.apirest.interfaces.CPagamentoService;
+import com.example.apirest.interfaces.CPagarService;
+import com.example.apirest.interfaces.CReceberService;
+import com.example.apirest.interfaces.CRecebimentoLoteService;
+import com.example.apirest.interfaces.CRecebimentoService;
+import com.example.apirest.interfaces.EmpresasService;
+import com.example.apirest.interfaces.FormaPagamentoService;
+import com.example.apirest.interfaces.GruposService;
+import com.example.apirest.interfaces.PersonaService;
+import com.example.apirest.interfaces.PessoasService;
+import com.example.apirest.interfaces.ProdutosService;
+import com.example.apirest.interfaces.VendasDetalhesService;
+import com.example.apirest.interfaces.VendasMasterService;
+import com.example.apirest.interfaces.VendasfpgService;
 
 public class Apis {
 
@@ -16,38 +29,66 @@ public class Apis {
     public static final String URL_006="http://192.168.1.107:8080/vendasdetalhes/";
     public static final String URL_007="http://192.168.1.107:8080/produtos/";
     public static final String URL_008="http://192.168.1.107:8080/grupos/";
+    public static final String URL_009="http://192.168.1.107:8080/cpagar/";
+    public static final String URL_010="http://192.168.1.107:8080/cpagamento/";
+    public static final String URL_011="http://192.168.1.107:8080/creceber/";
+    public static final String URL_012="http://192.168.1.107:8080/crecebimento/";
+    public static final String URL_013="http://192.168.1.107:8080/crecebimentolote/";
+    public static final String URL_014="http://192.168.1.107:8080/pessoas/";
 
     public static PersonaService getPersonaService(){
-        return  Cliente.getClient(URL_001).create(PersonaService.class);
+        return  Gestao.getClient(URL_001).create(PersonaService.class);
     }
 
     public static VendasMasterService getVendasMasterService(){
-        return  Cliente.getClient(URL_002).create(VendasMasterService.class);
+        return  Gestao.getClient(URL_002).create(VendasMasterService.class);
     }
 
     public static VendasfpgService getVendasfpgService(){
-        return  Cliente.getClient(URL_003).create(VendasfpgService.class);
+        return  Gestao.getClient(URL_003).create(VendasfpgService.class);
     }
 
     public static FormaPagamentoService getFormaPagamentoService(){
-        return  Cliente.getClient(URL_004).create(FormaPagamentoService.class);
+        return  Gestao.getClient(URL_004).create(FormaPagamentoService.class);
     }
 
     public static EmpresasService getEmpresasService(){
-        return  Cliente.getClient(URL_005).create(EmpresasService.class);
+        return  Gestao.getClient(URL_005).create(EmpresasService.class);
     }
 
     public static VendasDetalhesService getVendasDetalhesService(){
-        return  Cliente.getClient(URL_006).create(VendasDetalhesService.class);
+        return  Gestao.getClient(URL_006).create(VendasDetalhesService.class);
     }
 
     public static ProdutosService getProdutos(){
-        return  Cliente.getClient(URL_007).create(ProdutosService.class);
+        return  Gestao.getClient(URL_007).create(ProdutosService.class);
     }
 
     public static GruposService getGruposService(){
-        return  Cliente.getClient(URL_008).create(GruposService.class);
+        return  Gestao.getClient(URL_008).create(GruposService.class);
     }
 
+    public static CPagarService getCPagarService(){
+        return  Gestao.getClient(URL_009).create(CPagarService.class);
+    }
 
+    public static CPagamentoService getCPagamentoService(){
+        return  Gestao.getClient(URL_010).create(CPagamentoService.class);
+    }
+
+    public static CReceberService getCReceberService(){
+        return  Gestao.getClient(URL_011).create(CReceberService.class);
+    }
+
+    public static CRecebimentoService getCRecebimentoService(){
+        return  Gestao.getClient(URL_012).create(CRecebimentoService.class);
+    }
+
+    public static CRecebimentoLoteService getCRecebimentoLoteService(){
+        return  Gestao.getClient(URL_013).create(CRecebimentoLoteService.class);
+    }
+
+    public static PessoasService getPessoasService(){
+        return  Gestao.getClient(URL_014).create(PessoasService.class);
+    }
 }

@@ -13,15 +13,14 @@ import android.widget.TextView;
 
 import com.example.apirest.R;
 import com.example.apirest.activity.vendas.InformacoesPedidosCanceladoVendaActivity;
-import com.example.apirest.activity.vendas.mes.PedidosCanceladosVendaMesActivity;
 import com.example.apirest.adapter.vendas.totalcancelado.AdapterPedidosCanceladoVenda;
 import com.example.apirest.model.Empresas;
 import com.example.apirest.model.RelatorioVendas;
 import com.example.apirest.model.vendas.VendasMaster;
 import com.example.apirest.utils.Apis;
-import com.example.apirest.utils.EmpresasService;
+import com.example.apirest.interfaces.EmpresasService;
 import com.example.apirest.utils.GetMask;
-import com.example.apirest.utils.VendasMasterService;
+import com.example.apirest.interfaces.VendasMasterService;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;

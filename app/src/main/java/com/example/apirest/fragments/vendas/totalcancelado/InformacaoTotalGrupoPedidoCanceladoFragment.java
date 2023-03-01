@@ -14,14 +14,13 @@ import android.widget.TextView;
 
 import com.example.apirest.R;
 import com.example.apirest.adapter.vendas.totalcancelado.AdapterInformacaoTotalGrupoPedidoCancelado;
-import com.example.apirest.adapter.vendas.totalpedidos.AdapterInformacaoTotalGrupoPedidoVenda;
 import com.example.apirest.model.Produtos;
 import com.example.apirest.model.vendas.VendasDetalhes;
 import com.example.apirest.model.vendas.VendasMaster;
 import com.example.apirest.utils.Apis;
 import com.example.apirest.utils.GetMask;
-import com.example.apirest.utils.ProdutosService;
-import com.example.apirest.utils.VendasDetalhesService;
+import com.example.apirest.interfaces.ProdutosService;
+import com.example.apirest.interfaces.VendasDetalhesService;
 
 import java.util.ArrayList;
 import java.util.List;

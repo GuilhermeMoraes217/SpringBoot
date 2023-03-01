@@ -16,18 +16,16 @@ import android.widget.TextView;
 
 import com.example.apirest.R;
 import com.example.apirest.activity.produtos.mes.InformacoesGrupoItensProdutosMesActivity;
-import com.example.apirest.activity.produtos.semana.InformacoesGrupoItensProdutosSemanaActivity;
 import com.example.apirest.adapter.produtos.AdapterRelatorioGrupoVendasMes;
-import com.example.apirest.adapter.produtos.AdapterRelatorioGrupoVendasSemana;
 import com.example.apirest.model.Grupos;
 import com.example.apirest.model.Produtos;
 import com.example.apirest.model.vendas.VendasDetalhes;
 import com.example.apirest.model.vendas.VendasMaster;
 import com.example.apirest.utils.Apis;
-import com.example.apirest.utils.GruposService;
-import com.example.apirest.utils.ProdutosService;
-import com.example.apirest.utils.VendasDetalhesService;
-import com.example.apirest.utils.VendasMasterService;
+import com.example.apirest.interfaces.GruposService;
+import com.example.apirest.interfaces.ProdutosService;
+import com.example.apirest.interfaces.VendasDetalhesService;
+import com.example.apirest.interfaces.VendasMasterService;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;

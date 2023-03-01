@@ -1,6 +1,5 @@
 package com.example.apirest.activity.empresa;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -11,11 +10,10 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.apirest.activity.MainActivity;
 import com.example.apirest.model.Persona;
 import com.example.apirest.R;
 import com.example.apirest.utils.Apis;
-import com.example.apirest.utils.PersonaService;
+import com.example.apirest.interfaces.PersonaService;
 
 import retrofit2.Call;
 import retrofit2.Callback;

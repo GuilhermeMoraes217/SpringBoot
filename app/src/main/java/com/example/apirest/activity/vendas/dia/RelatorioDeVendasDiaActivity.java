@@ -18,9 +18,9 @@ import com.example.apirest.model.Empresas;
 import com.example.apirest.model.RelatorioVendas;
 import com.example.apirest.model.vendas.VendasMaster;
 import com.example.apirest.utils.Apis;
-import com.example.apirest.utils.EmpresasService;
+import com.example.apirest.interfaces.EmpresasService;
 import com.example.apirest.utils.GetMask;
-import com.example.apirest.utils.VendasMasterService;
+import com.example.apirest.interfaces.VendasMasterService;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
