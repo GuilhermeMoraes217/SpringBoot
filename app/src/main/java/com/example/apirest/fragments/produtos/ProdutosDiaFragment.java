@@ -3,6 +3,7 @@ package com.example.apirest.fragments.produtos;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
@@ -93,7 +94,8 @@ public class ProdutosDiaFragment extends Fragment {
     ListView listView;
     TextView textListaVazia;
     ProgressBar progressBar;
-    ConstraintLayout totalitemProdutosVendido, totalPedido;
+    ConstraintLayout totalitemProdutosVendido;
+    CardView totalPedido;
     FloatingActionButton fab;
 
 
