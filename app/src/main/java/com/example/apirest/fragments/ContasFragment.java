@@ -12,8 +12,7 @@ import android.view.ViewGroup;
 
 import com.example.apirest.R;
 import com.example.apirest.adapter.ViewPagerAdapter;
-import com.example.apirest.fragments.contas.ContasDiaFragment;
-import com.example.apirest.fragments.produtos.ProdutosDiaFragment;
+import com.example.apirest.fragments.contas.dia.ContasDiaFragment;
 import com.google.android.material.tabs.TabLayout;
 
 

@@ -91,7 +91,7 @@
             android:name=".activity.checkout.RelatorioCheckoutActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.contas.RelatorioContasActivity"
+            android:name=".activity.contas.RelatorioContasDiaActivity"
             android:exported="false" />
         <activity
             android:name=".activity.checkout.MovimentacaoCaixaActivity"

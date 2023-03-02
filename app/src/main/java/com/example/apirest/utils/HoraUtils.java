@@ -52,4 +52,8 @@ public class HoraUtils {
         org.joda.time.LocalTime horaAtual = org.joda.time.LocalTime.now();
         return horaAtual.isBefore(mTime);
     }
+
+    public static boolean isDateInBetweenIncludingEndPoints(final Date min, final Date max, final Date date){
+        return !(date.before(min) || date.after(max));
+    }
 }

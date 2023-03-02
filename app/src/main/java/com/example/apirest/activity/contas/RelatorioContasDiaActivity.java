@@ -8,11 +8,11 @@ import android.os.Bundle;
 
 import com.example.apirest.R;
 import com.example.apirest.adapter.ViewPagerAdapter;
-import com.example.apirest.fragments.contas.RelatorioContasPagarFragment;
-import com.example.apirest.fragments.contas.RelatorioContasReceberFragment;
+import com.example.apirest.fragments.contas.dia.RelatorioContasPagarDiaFragment;
+import com.example.apirest.fragments.contas.dia.RelatorioContasReceberDiaFragment;
 import com.google.android.material.tabs.TabLayout;
 
-public class RelatorioContasActivity extends AppCompatActivity {
+public class RelatorioContasDiaActivity extends AppCompatActivity {
 
     private TabLayout tab_Layout;
     private ViewPager view_Pager;
@@ -20,7 +20,7 @@ public class RelatorioContasActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_relatorio_contas);
+        setContentView(R.layout.activity_relatorio_contas_dia);
 
         initializerComponent();
         configTabsLayout();
@@ -35,8 +35,8 @@ public class RelatorioContasActivity extends AppCompatActivity {
 
     private void configTabsLayout(){
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
-        viewPagerAdapter.addFragment(new RelatorioContasReceberFragment(), "A receber");
-        viewPagerAdapter.addFragment(new RelatorioContasPagarFragment(), "A Pagar");
+        viewPagerAdapter.addFragment(new RelatorioContasReceberDiaFragment(), "A receber");
+        viewPagerAdapter.addFragment(new RelatorioContasPagarDiaFragment(), "A Pagar");
 
         view_Pager.setAdapter(viewPagerAdapter);
         view_Pager.setSaveEnabled(false);
