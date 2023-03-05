@@ -80,7 +80,7 @@ public class ContasDiaFragment extends Fragment {
         //PEGANDO O VALOR DA DATA ATUAL
         Date d = new Date();
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        formattedDateAtual = "2023-02-14";
+        formattedDateAtual = df.format(d);
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 

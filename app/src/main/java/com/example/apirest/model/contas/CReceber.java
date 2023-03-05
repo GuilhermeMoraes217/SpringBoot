@@ -196,6 +196,9 @@ public class CReceber {
     @Expose
     private Double restante;
 
+    private String nomeEmpresa;
+
+    private String nomePessaReceber;
 
 
     public CReceber(){
@@ -251,6 +254,22 @@ public class CReceber {
         this.retorno_limite_prazo = retorno_limite_prazo;
         this.fk_nfe = fk_nfe;
         this.restante = restante;
+    }
+
+    public String getNomeEmpresa() {
+        return nomeEmpresa;
+    }
+
+    public void setNomeEmpresa(String nomeEmpresa) {
+        this.nomeEmpresa = nomeEmpresa;
+    }
+
+    public String getNomePessaReceber() {
+        return nomePessaReceber;
+    }
+
+    public void setNomePessaReceber(String nomePessaReceber) {
+        this.nomePessaReceber = nomePessaReceber;
     }
 
     public int getCodigo() {

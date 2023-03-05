@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.contas.dia.ContasDiaFragment">
 
     <View
@@ -80,13 +80,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        tools:text="R$ 2.023,00"
                         android:textColor="@color/black"
                         android:textSize="25dp"
                         android:textStyle="bold"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textView" />
+                        app:layout_constraintTop_toBottomOf="@+id/textView"
+                        tools:text="R$ 2.023,00" />
 
                 </LinearLayout>
 
@@ -113,13 +113,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        tools:text="R$ 4.023,00"
                         android:textColor="@color/black"
                         android:textSize="25dp"
                         android:textStyle="bold"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textView98" />
+                        app:layout_constraintTop_toBottomOf="@+id/textView98"
+                        tools:text="R$ 4.023,00" />
 
                 </LinearLayout>
 
@@ -206,8 +206,8 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
                     android:layout_marginTop="8dp"
+                    android:orientation="horizontal"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -218,20 +218,63 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
-                        <TextView
+                        <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Em aberto" />
+                            android:orientation="horizontal">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Vencido" />
+                            <ImageView
+                                android:layout_width="18dp"
+                                android:layout_height="18dp"
+                                android:layout_marginEnd="4dp"
+                                android:src="@drawable/status_amarelo" />
 
-                        <TextView
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Em aberto" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Liquidado" />
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="18dp"
+                                android:layout_height="18dp"
+                                android:layout_marginEnd="4dp"
+
+                                android:src="@drawable/status_vermelho" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Vencido" />
+
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="18dp"
+                                android:layout_height="18dp"
+                                android:layout_marginEnd="4dp"
+
+                                android:src="@drawable/status_verde" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Liquidado" />
+
+                        </LinearLayout>
+
                     </LinearLayout>
 
                     <LinearLayout
@@ -245,22 +288,22 @@
                             android:id="@+id/valorTotalAbertoText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            tools:text="R$ 10.000,00"
-                            android:textColor="@color/black" />
+                            android:textColor="@color/black"
+                            tools:text="R$ 10.000,00" />
 
                         <TextView
                             android:id="@+id/valorTotalVencidoText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            tools:text="R$ 0,00"
-                            android:textColor="@color/black" />
+                            android:textColor="@color/black"
+                            tools:text="R$ 0,00" />
 
                         <TextView
                             android:id="@+id/valorTotalLiquidadoText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            tools:text="R$ 10.000,00"
-                            android:textColor="@color/black" />
+                            android:textColor="@color/black"
+                            tools:text="R$ 10.000,00" />
                     </LinearLayout>
 
                 </LinearLayout>
@@ -329,22 +372,22 @@
                             android:id="@+id/valorTotalAbertoPagarText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            tools:text="R$ 10.000,00"
-                            android:textColor="@color/black" />
+                            android:textColor="@color/black"
+                            tools:text="R$ 10.000,00" />
 
                         <TextView
                             android:id="@+id/valorTotalVencidoPagarText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            tools:text="R$ 0,00"
-                            android:textColor="@color/black" />
+                            android:textColor="@color/black"
+                            tools:text="R$ 0,00" />
 
                         <TextView
                             android:id="@+id/valorTotalLiquidadoPagarText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            tools:text="R$ 10.000,00"
-                            android:textColor="@color/black" />
+                            android:textColor="@color/black"
+                            tools:text="R$ 10.000,00" />
                     </LinearLayout>
 
                 </LinearLayout>
