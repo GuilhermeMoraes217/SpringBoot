@@ -88,6 +88,16 @@
                         app:layout_constraintTop_toBottomOf="@+id/textView"
                         tools:text="R$ 2.023,00" />
 
+                    <ProgressBar
+                        android:id="@+id/progressBarValorReceber"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginTop="8dp"
+                        android:theme="@style/progressBarBlue"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -120,6 +130,15 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/textView98"
                         tools:text="R$ 4.023,00" />
+                    <ProgressBar
+                        android:id="@+id/progressBarValorPagar"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginTop="8dp"
+                        android:theme="@style/progressBarBlue"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
                 </LinearLayout>
 
@@ -130,6 +149,7 @@
                 android:id="@+id/textRelatorioContas"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@drawable/efeito_onda_view"
                 android:layout_marginTop="8dp"
                 android:text="Ver contas"
                 android:textColor="@color/toobarNavegation"
@@ -290,6 +310,14 @@
                             android:layout_height="wrap_content"
                             android:textColor="@color/black"
                             tools:text="R$ 10.000,00" />
+                        <ProgressBar
+                            android:id="@+id/progressBarAberto"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:theme="@style/progressBarBlue"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/textView" />
 
                         <TextView
                             android:id="@+id/valorTotalVencidoText"
@@ -297,6 +325,14 @@
                             android:layout_height="wrap_content"
                             android:textColor="@color/black"
                             tools:text="R$ 0,00" />
+                        <ProgressBar
+                            android:id="@+id/progressBarVencido"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:theme="@style/progressBarBlue"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/textView" />
 
                         <TextView
                             android:id="@+id/valorTotalLiquidadoText"
@@ -304,6 +340,14 @@
                             android:layout_height="wrap_content"
                             android:textColor="@color/black"
                             tools:text="R$ 10.000,00" />
+                        <ProgressBar
+                            android:id="@+id/progressBarLiquidado"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:theme="@style/progressBarBlue"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/textView" />
                     </LinearLayout>
 
                 </LinearLayout>

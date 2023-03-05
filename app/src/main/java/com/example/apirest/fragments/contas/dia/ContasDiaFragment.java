@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.apirest.R;
@@ -54,6 +55,8 @@ public class ContasDiaFragment extends Fragment {
     private Double valorAbertoPagar = 0.0;
     private Double valorVencidoPagar = 0.0;
     private Double valorLiquidadoPagar = 0.0;
+
+    private ProgressBar progressBarValorReceber, progressBarAberto, progressBarVencido, progressBarLiquidado;
 
     Date date1 = null;
     Date date2 = null;
@@ -141,6 +144,11 @@ public class ContasDiaFragment extends Fragment {
                             }
                         } else {
 
+                            progressBarValorReceber.setVisibility(View.GONE);
+                            progressBarAberto.setVisibility(View.GONE);
+                            progressBarVencido.setVisibility(View.GONE);
+                            progressBarLiquidado.setVisibility(View.GONE);
+
                             textTotalContasReceber.setText("R$ " + GetMask.getValor(0.0));
                             valorTotalAbertoText.setText("R$ " + GetMask.getValor(0.0));
                             valorTotalVencidoText.setText("R$ " + GetMask.getValor(0.0));
@@ -154,6 +162,11 @@ public class ContasDiaFragment extends Fragment {
                         }
                     }
                 }
+
+                progressBarValorReceber.setVisibility(View.GONE);
+                progressBarAberto.setVisibility(View.GONE);
+                progressBarVencido.setVisibility(View.GONE);
+                progressBarLiquidado.setVisibility(View.GONE);
 
                 textTotalContasReceber.setText("R$ " + GetMask.getValor(valorReceber));
                 valorTotalAbertoText.setText("R$ " + GetMask.getValor(valorAbertoReceber));
@@ -196,5 +209,11 @@ public class ContasDiaFragment extends Fragment {
         valorTotalAbertoPagarText = view.findViewById(R.id.valorTotalAbertoPagarText);
         valorTotalVencidoPagarText = view.findViewById(R.id.valorTotalVencidoPagarText);
         valorTotalLiquidadoPagarText = view.findViewById(R.id.valorTotalLiquidadoPagarText);
+
+        progressBarValorReceber = view.findViewById(R.id.progressBarValorReceber);
+        progressBarAberto = view.findViewById(R.id.progressBarAberto);
+        progressBarVencido = view.findViewById(R.id.progressBarVencido);
+        progressBarLiquidado = view.findViewById(R.id.progressBarLiquidado);
+
     }
 }
