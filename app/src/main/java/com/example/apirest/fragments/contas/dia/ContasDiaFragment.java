@@ -56,7 +56,7 @@ public class ContasDiaFragment extends Fragment {
     private Double valorVencidoPagar = 0.0;
     private Double valorLiquidadoPagar = 0.0;
 
-    private ProgressBar progressBarValorReceber, progressBarAberto, progressBarVencido, progressBarLiquidado;
+    private ProgressBar progressBarValorReceber, progressBarAberto, progressBarVencido, progressBarLiquidado, progressBarValorPagar;
 
     Date date1 = null;
     Date date2 = null;
@@ -144,6 +144,8 @@ public class ContasDiaFragment extends Fragment {
                             }
                         } else {
 
+                            progressBarValorPagar.setVisibility(View.GONE);
+
                             progressBarValorReceber.setVisibility(View.GONE);
                             progressBarAberto.setVisibility(View.GONE);
                             progressBarVencido.setVisibility(View.GONE);
@@ -162,6 +164,7 @@ public class ContasDiaFragment extends Fragment {
                         }
                     }
                 }
+                progressBarValorPagar.setVisibility(View.GONE);
 
                 progressBarValorReceber.setVisibility(View.GONE);
                 progressBarAberto.setVisibility(View.GONE);
@@ -214,6 +217,8 @@ public class ContasDiaFragment extends Fragment {
         progressBarAberto = view.findViewById(R.id.progressBarAberto);
         progressBarVencido = view.findViewById(R.id.progressBarVencido);
         progressBarLiquidado = view.findViewById(R.id.progressBarLiquidado);
+
+        progressBarValorPagar = view.findViewById(R.id.progressBarValorPagar);
 
     }
 }
