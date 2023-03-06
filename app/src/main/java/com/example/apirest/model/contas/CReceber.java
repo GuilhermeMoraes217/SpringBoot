@@ -3,7 +3,9 @@ package com.example.apirest.model.contas;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class CReceber {
+import java.io.Serializable;
+
+public class CReceber implements Serializable {
 
     @SerializedName(value = "codigo", alternate = "CODIGO")
     @Expose
@@ -199,6 +201,7 @@ public class CReceber {
     private String nomeEmpresa;
 
     private String nomePessaReceber;
+    private String formaPagamento;
 
 
     public CReceber(){
@@ -254,6 +257,14 @@ public class CReceber {
         this.retorno_limite_prazo = retorno_limite_prazo;
         this.fk_nfe = fk_nfe;
         this.restante = restante;
+    }
+
+    public String getFormaPagamento() {
+        return formaPagamento;
+    }
+
+    public void setFormaPagamento(String formaPagamento) {
+        this.formaPagamento = formaPagamento;
     }
 
     public String getNomeEmpresa() {

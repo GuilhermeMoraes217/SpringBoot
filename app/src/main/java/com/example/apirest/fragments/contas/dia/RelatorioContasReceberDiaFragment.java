@@ -1,5 +1,6 @@
 package com.example.apirest.fragments.contas.dia;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -13,12 +14,17 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.apirest.R;
+import com.example.apirest.activity.contas.ContasReceberInformacoesActivity;
 import com.example.apirest.adapter.contas.AdapterRelatorioContasReceberDia;
 import com.example.apirest.adapter.vendas.totalvendas.AdapterRelatorioVendas;
 import com.example.apirest.interfaces.CReceberService;
+import com.example.apirest.interfaces.EmpresasService;
+import com.example.apirest.interfaces.FormaPagamentoService;
 import com.example.apirest.interfaces.PessoasService;
+import com.example.apirest.model.Empresas;
 import com.example.apirest.model.contas.CReceber;
 import com.example.apirest.model.contas.Pessoas;
+import com.example.apirest.model.vendas.FormaPagamento;
 import com.example.apirest.utils.Apis;
 import com.example.apirest.utils.GetMask;
 
@@ -36,6 +42,18 @@ import retrofit2.Response;
 public class RelatorioContasReceberDiaFragment extends Fragment implements AdapterRelatorioContasReceberDia.ItemClickListener {
 
     /**
+     * Atributos que irao receber o popular as classes Forma de Pagamento
+     */
+    FormaPagamentoService formaPagamentoService;
+    List<FormaPagamento> formaPagamentoList = new ArrayList<>();
+
+    /**
+     * Atributos que irao receber o popular as classes Empresa
+     */
+    EmpresasService empresasService;
+    List<Empresas> empresasList = new ArrayList<>();
+
+    /**
      * Atributos que irao receber o popular as classes CReceber
      */
     CReceberService cReceberService;
@@ -49,7 +67,7 @@ public class RelatorioContasReceberDiaFragment extends Fragment implements Adapt
 
 
     /**
-     *ATRIBUTOS ALEATORIOS DO LAYOUT
+     * ATRIBUTOS ALEATORIOS DO LAYOUT
      */
     private TextView totalContasAbertoTextView, valorTotalContasAbertasTextView;
     private RecyclerView recyclerViewContasAbertas;
@@ -59,6 +77,7 @@ public class RelatorioContasReceberDiaFragment extends Fragment implements Adapt
     Date date1 = null;
     Date date2 = null;
     String formattedDateAtual;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -66,8 +85,8 @@ public class RelatorioContasReceberDiaFragment extends Fragment implements Adapt
         View view = inflater.inflate(R.layout.fragment_relatorio_contas_receber, container, false);
 
         inicializaComponentes(view);
+        listFormaPagamento();
         inicializaRecyclerView();
-        listPessoas();
 
         return view;
     }
@@ -82,12 +101,57 @@ public class RelatorioContasReceberDiaFragment extends Fragment implements Adapt
         recyclerViewContasAbertas.setAdapter(adapterRelatorioContasReceberDia);
     }
 
+    public void listFormaPagamento() {
+        formaPagamentoService = Apis.getFormaPagamentoService();
+        Call<List<FormaPagamento>> call = formaPagamentoService.getFormaPagamento();
+        call.enqueue(new Callback<List<FormaPagamento>>() {
+            @Override
+            public void onResponse(Call<List<FormaPagamento>> call, Response<List<FormaPagamento>> response) {
+                formaPagamentoList.clear();
+                if (response.isSuccessful()) {
+                    formaPagamentoList = response.body();
+                }
+                listEmpresas();
+            }
+
+            @Override
+            public void onFailure(Call<List<FormaPagamento>> call, Throwable t) {
+                Log.e("Error:", t.getMessage());
+
+            }
+        });
+
+    }
+
+    public void listEmpresas() {
+        empresasService = Apis.getEmpresasService();
+        Call<List<Empresas>> call = empresasService.getEmpresas();
+        call.enqueue(new Callback<List<Empresas>>() {
+            @Override
+            public void onResponse(Call<List<Empresas>> call, Response<List<Empresas>> response) {
+                empresasList.clear();
+                if (response.isSuccessful()) {
+                    empresasList = response.body();
+                }
+                listPessoas();
+            }
+
+            @Override
+            public void onFailure(Call<List<Empresas>> call, Throwable t) {
+                Log.e("Error:", t.getMessage());
+
+            }
+        });
+
+    }
+
     public void listPessoas() {
         pessoasService = Apis.getPessoasService();
         Call<List<Pessoas>> call = pessoasService.getPessoas();
         call.enqueue(new Callback<List<Pessoas>>() {
             @Override
             public void onResponse(Call<List<Pessoas>> call, Response<List<Pessoas>> response) {
+                pessoasList.clear();
                 if (response.isSuccessful()) {
                     pessoasList = response.body();
                 }
@@ -134,19 +198,25 @@ public class RelatorioContasReceberDiaFragment extends Fragment implements Adapt
         call.enqueue(new Callback<List<CReceber>>() {
             @Override
             public void onResponse(Call<List<CReceber>> call, Response<List<CReceber>> response) {
+                cRecebersList.clear();
                 if (response.isSuccessful()) {
                     Double valorTotalContasReceber = 0.0;
                     List<CReceber> cRecebers1 = response.body();
 
                     for (CReceber cReceber : cRecebers1) {
                         convertendoStringInDate(cReceber.getDtvencimento()); // RECEBENDOS AS DATAS EM FORMATO DATE
-                        for(Pessoas pessoas : pessoasList){
-                            if (formattedDateAtual.equals(cReceber.getData())) {
-                                if (cReceber.getFkcliente() == pessoas.getCodigo() && !cReceber.getSituacao().equals("T")){
-                                    valorTotalContasReceber += cReceber.getVl_restante();
-                                    cReceber.setNomeEmpresa(pessoas.getRazao());
-                                    cReceber.setNomePessaReceber(pessoas.getFantasia());
-                                    cRecebersList.add(cReceber);
+                        if (formattedDateAtual.equals(cReceber.getData())) {
+                            for (Pessoas pessoas : pessoasList) {
+                                for (FormaPagamento formaPagamento : formaPagamentoList) {
+                                    for (Empresas empresas : empresasList) {
+                                        if (cReceber.getFpg_venda() == formaPagamento.getCodigo() && empresas.getCodigo() == cReceber.getFkempresa() && cReceber.getFkcliente() == pessoas.getCodigo() && !cReceber.getSituacao().equals("T")) {
+                                            valorTotalContasReceber += cReceber.getVl_restante();
+                                            cReceber.setNomeEmpresa(empresas.getRazao());
+                                            cReceber.setNomePessaReceber(pessoas.getFantasia());
+                                            cReceber.setFormaPagamento(formaPagamento.getDescricao());
+                                            cRecebersList.add(cReceber);
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -159,8 +229,6 @@ public class RelatorioContasReceberDiaFragment extends Fragment implements Adapt
 
                     adapterRelatorioContasReceberDia.notifyDataSetChanged();
                 }
-
-
             }
 
             @Override
@@ -180,6 +248,8 @@ public class RelatorioContasReceberDiaFragment extends Fragment implements Adapt
 
     @Override
     public void onClick(CReceber cReceber) {
-
+        Intent intent = new Intent(getActivity(), ContasReceberInformacoesActivity.class);
+        intent.putExtra("RelatorioContasReceberSelecionado", cReceber);
+        startActivity(intent);
     }
 }
