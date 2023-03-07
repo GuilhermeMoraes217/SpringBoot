@@ -58,7 +58,7 @@ public class AdapterRelatorioContasReceberDia extends RecyclerView.Adapter<Adapt
         holder.imagemStatus.setBackgroundResource(R.drawable.status_amarelo);
         holder.idContaAbertaTextView.setText( "#" + cReceber.getCodigoCreber() + " - "+ cReceber.getHistoricoCReceber());
         holder.nomePessoasContaReceberTextView.setText(cReceber.getNomePessoasContaCReceber());
-        holder.nomeEmpresaTextView.setText(cReceber.getNomeEmpresa());
+        holder.nomeEmpresaTextView.setText(cReceber.getNomeEmpresaCReceber());
         holder.valorContaRceberTextView.setText("R$ " + GetMask.getValor(valorTotalContaReceber));
         holder.statusTexView.setText("Em aberto");
 

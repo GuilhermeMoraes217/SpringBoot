@@ -36,7 +36,7 @@ public class RelatorioContasReceberInformacoesFragment extends Fragment {
 
     public void exibiComponentes () {
         codigoNomePessoaReceberTextView.setText("#" + receberSelecionado.getCodigo() + " - " + receberSelecionado.getNomePessoasContaCReceber());
-        nomeEmpresaTextView.setText(receberSelecionado.getNomeEmpresa());
+        nomeEmpresaTextView.setText(receberSelecionado.getNomeEmpresaCReceber());
         idStatusTextView.setText("Status - Em aberto");
 
         idDocumento.setText(receberSelecionado.getDocCReber());

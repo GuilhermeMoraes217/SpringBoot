@@ -12,27 +12,27 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.apirest.R;
-import com.example.apirest.model.vendas.VendasDetalhes;
+import com.example.apirest.model.contas.CReceber;
 import com.example.apirest.utils.GetMask;
 
 import java.util.List;
 
 public class AdapterInformacaoContaParcelas extends RecyclerView.Adapter<AdapterInformacaoContaParcelas.MyViewHolder> {
 
-    private List<VendasDetalhes> vendasDetalhes;
+    private List<CReceber> cReceberList;
     private Context context;
 
     ItemClickListener itemClickListener;
 
 
-    public AdapterInformacaoContaParcelas(List<VendasDetalhes> vendasDetalhes, Context context, ItemClickListener onClickListener) {
-        this.vendasDetalhes = vendasDetalhes;
+    public AdapterInformacaoContaParcelas(List<CReceber> cReceberList, Context context, ItemClickListener onClickListener) {
+        this.cReceberList = cReceberList;
         this.context = context;
         this.itemClickListener = onClickListener;
     }
 
-    public List<VendasDetalhes> getVendasDetalhes() {
-        return vendasDetalhes;
+    public List<CReceber> getcReceberList() {
+        return cReceberList;
     }
 
     @NonNull
@@ -44,33 +44,41 @@ public class AdapterInformacaoContaParcelas extends RecyclerView.Adapter<Adapter
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        VendasDetalhes vendasDetalhes1 = vendasDetalhes.get(position);
+        CReceber cReceber = cReceberList.get(position);
 
         holder.posicaoProduto.setText(Integer.toString(position + 1) + ".");
-        holder.nomeProduto.setText((vendasDetalhes1.getNomeProduto()));
-        holder.codigoBarra.setText(vendasDetalhes1.getCod_barra());
-        holder.referencia.setText((vendasDetalhes1.getReferenciaProduto()));
+        holder.docReceber.setText((cReceber.getDoc()));
+        if (cReceber.getSituacao().equals("T")) {
+            holder.statusReceber.setText("Liquidado");
+            holder.valorPagoTotalReceber.setText("Quitado: R$" + GetMask.getValor(((cReceber.getValor() + cReceber.getJuros()) - cReceber.getDesconto()) - cReceber.getVrecebido()));
 
-        holder.valorCada.setText("R$" + GetMask.getValor(vendasDetalhes1.getPreco()) + " cada • ");
-        holder.valorunidade.setText(Double.toString(vendasDetalhes1.getQtd()) + " Unidade");
-        holder.textViewValorProduto.setText("R$" + GetMask.getValor(vendasDetalhes1.getValor_item()));
+        } else {
+            holder.statusReceber.setText("Em aberto");
+            holder.valorPagoTotalReceber.setText("Valor Restante: R$" + GetMask.getValor(((cReceber.getValor() + cReceber.getJuros()) - cReceber.getDesconto()) - cReceber.getVrecebido()));
+        }
 
-        holder.itemView.setOnClickListener(view -> itemClickListener.onClick(vendasDetalhes1));
+        holder.dataReceber.setText((cReceber.getDtvencimento()));
+        holder.valorParcelaReceber.setText("R$" + GetMask.getValor(cReceber.getValor()));
+        holder.valorPagoReceber.setText("R$" + GetMask.getValor(cReceber.getVrecebido()));
+        holder.valorDesconto.setText("R$" + GetMask.getValor(cReceber.getDesconto()));
+        holder.valorJuros.setText("R$" + GetMask.getValor(cReceber.getJuros()));
+
+        holder.itemView.setOnClickListener(view -> itemClickListener.onClick(cReceber));
 
     }
 
     @Override
     public int getItemCount() {
-        return vendasDetalhes.size();
+        return cReceberList.size();
     }
 
     public interface ItemClickListener {
-        void onClick ( VendasDetalhes relatorioVendas );
+        void onClick ( CReceber relatorioVendas );
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView nomeProduto, codigoBarra, referencia, valorCada, valorunidade, textViewValorProduto, posicaoProduto;
+        TextView docReceber, statusReceber, dataReceber, valorParcelaReceber, valorPagoReceber, valorPagoTotalReceber, posicaoProduto, valorDesconto, valorJuros;
         ImageView imagemStatus;
 
         ConstraintLayout constraintLayout;
@@ -78,13 +86,16 @@ public class AdapterInformacaoContaParcelas extends RecyclerView.Adapter<Adapter
         public MyViewHolder(View itemView) {
             super(itemView);
 
-            nomeProduto = itemView.findViewById(R.id.textView16);
-            codigoBarra = itemView.findViewById(R.id.textViewCodigoBarra);
-            referencia = itemView.findViewById(R.id.textViewReferencia);
+            docReceber = itemView.findViewById(R.id.textView16);
+            statusReceber = itemView.findViewById(R.id.textViewCodigoBarra);
+            dataReceber = itemView.findViewById(R.id.textViewReferencia);
 
-            valorCada = itemView.findViewById(R.id.textView17);
-            valorunidade = itemView.findViewById(R.id.textView46);
-            textViewValorProduto = itemView.findViewById(R.id.textViewValorProduto);
+            valorParcelaReceber = itemView.findViewById(R.id.textView46);
+            valorPagoReceber = itemView.findViewById(R.id.valorPagoTextView);
+            valorPagoTotalReceber = itemView.findViewById(R.id.textViewValorProduto);
+            valorDesconto = itemView.findViewById(R.id.valorDescontoTextView);
+            valorJuros = itemView.findViewById(R.id.valorJurosTextView);
+
             posicaoProduto = itemView.findViewById(R.id.textView45);
         }
     }

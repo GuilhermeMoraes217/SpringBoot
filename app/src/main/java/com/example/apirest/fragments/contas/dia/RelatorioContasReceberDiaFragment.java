@@ -89,8 +89,6 @@ public class RelatorioContasReceberDiaFragment extends Fragment implements Adapt
     Date date2 = null;
     String formattedDateAtual;
 
-    Boolean contem = false;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -105,7 +103,7 @@ public class RelatorioContasReceberDiaFragment extends Fragment implements Adapt
     }
 
     /**
-     * Método que inicializa o recycler view do relatorio de vendas
+     * Método que inicializa o recycler view do relatorio de vendas e Creceber
      */
     private void inicializaRecyclerView() {
         recyclerViewContasAbertas.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -248,7 +246,7 @@ public class RelatorioContasReceberDiaFragment extends Fragment implements Adapt
                                             if ( vendasMaster.getCodigo() == cReceber.getFk_venda() && cReceber.getFpg_venda() == formaPagamento.getCodigo() && empresas.getCodigo() == cReceber.getFkempresa() && cReceber.getFkcliente() == pessoas.getCodigo() && !cReceber.getSituacao().equals("T")) {
                                                 valorTotalContasReceber += cReceber.getVl_restante();
 
-                                                vendasMaster.setNomeEmpresa(empresas.getRazao());
+                                                vendasMaster.setNomeEmpresaCReceber(empresas.getRazao());
                                                 vendasMaster.setNomePessoasContaCReceber(pessoas.getFantasia());
                                                 vendasMaster.setFormapagamentoCRecerber(formaPagamento.getDescricao());
                                                 vendasMaster.setHistoricoCReceber(cReceber.getHistorico());

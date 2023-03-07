@@ -52,6 +52,7 @@
                 android:id="@+id/textView18"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:padding="5dp"
                 android:layout_marginTop="4dp"
                 android:text="Status: "
                 android:textSize="16dp"
@@ -73,6 +74,7 @@
                 android:id="@+id/textView19"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:padding="5dp"
                 android:layout_marginTop="4dp"
                 android:text="Data vencimento: "
                 android:textSize="16dp"
@@ -95,6 +97,7 @@
                 android:id="@+id/textView17"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:padding="5dp"
                 android:text="Valor parcela: "
                 android:textSize="16dp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -104,41 +107,87 @@
                 android:id="@+id/textView46"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="R$ 10,00"
                 android:textColor="@color/black"
                 android:textSize="16dp"
+                app:layout_constraintBottom_toBottomOf="@+id/textView17"
                 app:layout_constraintStart_toEndOf="@+id/textView17"
-                app:layout_constraintTop_toTopOf="@+id/textView17" />
+                app:layout_constraintTop_toTopOf="@+id/textView17"
+                tools:text="R$ 10,00" />
 
             <TextView
                 android:id="@+id/textView84"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:padding="5dp"
                 android:text="Valor pago: "
                 android:textSize="16dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView17" />
 
             <TextView
+                android:id="@+id/valorPagoTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
                 android:textSize="16dp"
+                app:layout_constraintBottom_toBottomOf="@+id/textView84"
                 app:layout_constraintStart_toEndOf="@+id/textView84"
-                app:layout_constraintTop_toBottomOf="@+id/textView46"
+                app:layout_constraintTop_toTopOf="@+id/textView84"
+                tools:text="R$ 20,00" />
+
+            <TextView
+                android:id="@+id/textView85"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="Desconto: "
+                android:textSize="16dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView84" />
+
+            <TextView
+                android:id="@+id/valorDescontoTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="16dp"
+                app:layout_constraintBottom_toBottomOf="@+id/textView85"
+                app:layout_constraintStart_toEndOf="@+id/textView84"
+                app:layout_constraintTop_toTopOf="@+id/textView85"
+                tools:text="R$ 20,00" />
+
+            <TextView
+                android:id="@+id/textView86"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="Juros: "
+                android:textSize="16dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView85" />
+
+            <TextView
+                android:id="@+id/valorJurosTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="16dp"
+                app:layout_constraintBottom_toBottomOf="@+id/textView86"
+                app:layout_constraintStart_toEndOf="@+id/textView86"
+                app:layout_constraintTop_toTopOf="@+id/textView86"
                 tools:text="R$ 20,00" />
 
             <TextView
                 android:id="@+id/textViewValorProduto"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginVertical="16dp"
                 android:text="R$ 7,50"
                 android:textColor="@color/black"
                 android:textSize="20dp"
-                android:layout_marginVertical="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView46" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/valorJurosTextView" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

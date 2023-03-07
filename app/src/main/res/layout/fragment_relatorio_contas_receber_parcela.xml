@@ -221,7 +221,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:paddingVertical="10dp"
-                android:text="2 itens no pedido"
+                tools:text="2 parcelas na conta"
                 android:textColor="@color/black"
                 android:textSize="17dp"
                 android:textStyle="bold"
