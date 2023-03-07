@@ -13,6 +13,9 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".activity.contas.ContasPagarInformacoesActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.contas.ContasReceberInformacoesActivity"
             android:exported="false" />
         <activity

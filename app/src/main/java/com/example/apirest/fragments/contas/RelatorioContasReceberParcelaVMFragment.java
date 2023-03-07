@@ -1,6 +1,5 @@
-package com.example.apirest.fragments.contas.dia;
+package com.example.apirest.fragments.contas;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -11,20 +10,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.apirest.R;
-import com.example.apirest.activity.contas.ContasReceberInformacoesActivity;
-import com.example.apirest.adapter.contas.AdapterRelatorioContasReceberDia;
-import com.example.apirest.adapter.vendas.totalvendas.AdapterRelatorioVendas;
+import com.example.apirest.adapter.contas.AdapterInformacaoContaParcelas;
 import com.example.apirest.interfaces.CReceberService;
 import com.example.apirest.interfaces.EmpresasService;
 import com.example.apirest.interfaces.FormaPagamentoService;
 import com.example.apirest.interfaces.PessoasService;
-import com.example.apirest.interfaces.VendasMasterService;
 import com.example.apirest.model.Empresas;
-import com.example.apirest.model.Grupos;
 import com.example.apirest.model.contas.CReceber;
 import com.example.apirest.model.contas.Pessoas;
 import com.example.apirest.model.vendas.FormaPagamento;
@@ -43,21 +37,12 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class RelatorioContasReceberDiaFragment extends Fragment implements AdapterRelatorioContasReceberDia.ItemClickListener {
-
+public class RelatorioContasReceberParcelaVMFragment extends Fragment implements AdapterInformacaoContaParcelas.ItemClickListener {
     /**
      * Atributos que irao receber o popular as classes Forma de Pagamento
      */
     FormaPagamentoService formaPagamentoService;
     List<FormaPagamento> formaPagamentoList = new ArrayList<>();
-
-    /**
-     * Atributos que irao receber o popular as classes Vendas Master
-     */
-    VendasMasterService vendasMasterService;
-    List<VendasMaster> vendasMasterList = new ArrayList<>();
-    List<VendasMaster> updateVendasMasterList = new ArrayList<>();
-    List<VendasMaster> updateVendasMasterList2 = new ArrayList<>();
 
     /**
      * Atributos que irao receber o popular as classes Empresa
@@ -77,16 +62,16 @@ public class RelatorioContasReceberDiaFragment extends Fragment implements Adapt
     PessoasService pessoasService;
     List<Pessoas> pessoasList = new ArrayList<>();
 
-
     /**
-     * ATRIBUTOS ALEATORIOS DO LAYOUT
+     * Atributos variados do layout
      */
-    private TextView totalContasAbertoTextView, valorTotalContasAbertasTextView, textInfo;
-    private RecyclerView recyclerViewContasAbertas;
-    private ProgressBar progressBar2;
+    VendasMaster receberSelecionado;
+    private RecyclerView recyclerViewListParcelas;
+    private TextView parcelasNaContaTextView, valorTotalAcrescimoTextView, valorTotalProdutoTextView, valorTotalNominalTextView,
+            valorTotalPagoTextView,valorTotalDescontoTextView, valorTotalmultaTextView, valorTotalJurosTextView, valorTotalTaxaFinanceiraTextView, textViewValorTotalTextView ;
 
-    AdapterRelatorioContasReceberDia adapterRelatorioContasReceberDia;
-
+    AdapterInformacaoContaParcelas adapterInformacaoContaParcelas;
+    Double valorTotalContasReceber = 0.0;
     Date date1 = null;
     Date date2 = null;
     String formattedDateAtual;
@@ -95,10 +80,11 @@ public class RelatorioContasReceberDiaFragment extends Fragment implements Adapt
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_relatorio_contas_receber, container, false);
-
+        View view = inflater.inflate(R.layout.fragment_relatorio_contas_receber_parcela, container, false);
+        Bundle bundle = getActivity().getIntent().getExtras();
+        receberSelecionado = (VendasMaster) bundle.getSerializable("RelatorioContasReceberSelecionado");
         inicializaComponentes(view);
-        listvendasMaster();
+        listFormaPagamento();
         inicializaRecyclerView();
 
         return view;
@@ -108,32 +94,10 @@ public class RelatorioContasReceberDiaFragment extends Fragment implements Adapt
      * Método que inicializa o recycler view do relatorio de vendas e Creceber
      */
     private void inicializaRecyclerView() {
-        recyclerViewContasAbertas.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerViewContasAbertas.setHasFixedSize(true);
-        adapterRelatorioContasReceberDia = new AdapterRelatorioContasReceberDia(updateVendasMasterList2, cRecebersList, getContext(), this);
-        recyclerViewContasAbertas.setAdapter(adapterRelatorioContasReceberDia);
-    }
-
-    public void listvendasMaster() {
-        vendasMasterService = Apis.getVendasMasterService();
-        Call<List<VendasMaster>> call = vendasMasterService.getVendasMaster();
-        call.enqueue(new Callback<List<VendasMaster>>() {
-            @Override
-            public void onResponse(Call<List<VendasMaster>> call, Response<List<VendasMaster>> response) {
-                vendasMasterList.clear();
-                if (response.isSuccessful()) {
-                    vendasMasterList = response.body();
-                }
-                listFormaPagamento();
-            }
-
-            @Override
-            public void onFailure(Call<List<VendasMaster>> call, Throwable t) {
-                Log.e("Error:", t.getMessage());
-
-            }
-        });
-
+        recyclerViewListParcelas.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerViewListParcelas.setHasFixedSize(true);
+        adapterInformacaoContaParcelas = new AdapterInformacaoContaParcelas(cRecebersList, getContext(), this);
+        recyclerViewListParcelas.setAdapter(adapterInformacaoContaParcelas);
     }
 
     public void listFormaPagamento() {
@@ -210,7 +174,7 @@ public class RelatorioContasReceberDiaFragment extends Fragment implements Adapt
         Date d = new Date();
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         //formattedDateAtual = df.format(d);
-        formattedDateAtual = df.format(d);
+        formattedDateAtual = "2023-03-02";
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -244,49 +208,25 @@ public class RelatorioContasReceberDiaFragment extends Fragment implements Adapt
                             for (Pessoas pessoas : pessoasList) {
                                 for (FormaPagamento formaPagamento : formaPagamentoList) {
                                     for (Empresas empresas : empresasList) {
-                                        for (VendasMaster vendasMaster : vendasMasterList) {
-                                            if ( vendasMaster.getCodigo() == cReceber.getFk_venda() && cReceber.getFpg_venda() == formaPagamento.getCodigo() && empresas.getCodigo() == cReceber.getFkempresa() && cReceber.getFkcliente() == pessoas.getCodigo() && !cReceber.getSituacao().equals("T")) {
-                                                valorTotalContasReceber += cReceber.getVl_restante();
+                                        if (cReceber.getFpg_venda() == formaPagamento.getCodigo() && empresas.getCodigo() == cReceber.getFkempresa() && cReceber.getFkcliente() == pessoas.getCodigo()) {
+                                            valorTotalContasReceber += cReceber.getVl_restante();
 
-                                                vendasMaster.setNomeEmpresaCReceber(empresas.getRazao());
-                                                vendasMaster.setNomePessoasContaCReceber(pessoas.getFantasia());
-                                                vendasMaster.setFormapagamentoCRecerber(formaPagamento.getDescricao());
-                                                vendasMaster.setHistoricoCReceber(cReceber.getHistorico());
-                                                vendasMaster.setCodigoCreber(cReceber.getCodigo());
-                                                vendasMaster.setDocCReber(cReceber.getDoc());
-                                                vendasMaster.setDataCRecerber(cReceber.getData());
+                                            cReceber.setNomeEmpresa(empresas.getRazao());
+                                            cReceber.setNomePessaReceber(pessoas.getFantasia());
+                                            cReceber.setFormaPagamento(formaPagamento.getDescricao());
 
-                                                cRecebersList.add(cReceber);
-                                                updateVendasMasterList.add(vendasMaster);
-                                            }
+                                            cRecebersList.add(cReceber);
                                         }
                                     }
                                 }
                             }
-                        } else {
-                            progressBar2.setVisibility(View.GONE);
-                            textInfo.setText("Nenhuma conta a receber");
-
-                            totalContasAbertoTextView.setText(" 0 contas");
-                            valorTotalContasAbertasTextView.setText("R$ " + GetMask.getValor(0.0));
                         }
                     }
-
-                    for (VendasMaster vendasMaster : updateVendasMasterList) {
-                        if (!updateVendasMasterList2.contains(vendasMaster)) {
-                            updateVendasMasterList2.add(vendasMaster);
-                        }
+                    if (cRecebersList.size() > 0) {
+                        parcelasNaContaTextView.setText(Integer.toString(cRecebersList.size()) + " parcelas na conta");
+                        textViewValorTotalTextView.setText("R$ " + GetMask.getValor(valorTotalContasReceber));
                     }
-
-                    if (updateVendasMasterList2.size() > 0) {
-                        progressBar2.setVisibility(View.GONE);
-                        textInfo.setText(null);
-
-                        totalContasAbertoTextView.setText(Integer.toString(updateVendasMasterList2.size()) + " contas");
-                        valorTotalContasAbertasTextView.setText("R$ " + GetMask.getValor(valorTotalContasReceber));
-                    }
-
-                    adapterRelatorioContasReceberDia.notifyDataSetChanged();
+                    adapterInformacaoContaParcelas.notifyDataSetChanged();
                 }
             }
 
@@ -300,17 +240,21 @@ public class RelatorioContasReceberDiaFragment extends Fragment implements Adapt
     }
 
     public void inicializaComponentes(View view) {
-        totalContasAbertoTextView = view.findViewById(R.id.totalContasAbertoTextView);
-        valorTotalContasAbertasTextView = view.findViewById(R.id.textView15);
-        recyclerViewContasAbertas = view.findViewById(R.id.recyclerViewContasAbertas);
-        textInfo = view.findViewById(R.id.textInfo);
-        progressBar2 = view.findViewById(R.id.progressBar2);
+        recyclerViewListParcelas = view.findViewById(R.id.recyclerView);
+        parcelasNaContaTextView = view.findViewById(R.id.textView44);
+        valorTotalProdutoTextView = view.findViewById(R.id.textView37);
+        valorTotalNominalTextView = view.findViewById(R.id.textView38);
+        valorTotalPagoTextView = view.findViewById(R.id.textView39);
+        valorTotalAcrescimoTextView = view.findViewById(R.id.textView40);
+        valorTotalDescontoTextView = view.findViewById(R.id.textView41);
+        valorTotalmultaTextView = view.findViewById(R.id.textView42);
+        valorTotalJurosTextView = view.findViewById(R.id.textView43);
+        valorTotalTaxaFinanceiraTextView = view.findViewById(R.id.textViewValorTotalFcp);
+        textViewValorTotalTextView = view.findViewById(R.id.textViewValorTotal);
     }
 
     @Override
-    public void onClick(VendasMaster cReceber) {
-        Intent intent = new Intent(getActivity(), ContasReceberInformacoesActivity.class);
-        intent.putExtra("RelatorioContasReceberSelecionado", cReceber);
-        startActivity(intent);
+    public void onClick(CReceber relatorioVendas) {
+
     }
 }

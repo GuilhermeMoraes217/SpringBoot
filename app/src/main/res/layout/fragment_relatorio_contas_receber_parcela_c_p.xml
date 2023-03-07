@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".fragments.contas.RelatorioContasReceberParcelaVMFragment">
+    tools:context=".fragments.contas.RelatorioContasReceberParcelaCPFragment">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -244,5 +244,6 @@
 
 
     </androidx.core.widget.NestedScrollView>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

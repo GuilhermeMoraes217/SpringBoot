@@ -1,6 +1,5 @@
 package com.example.apirest.interfaces;
 
-import com.example.apirest.model.Persona;
 import com.example.apirest.model.contas.CPagar;
 
 import java.util.List;
@@ -14,7 +13,7 @@ import retrofit2.http.Path;
 public interface CPagarService {
 
     @GET("listarCpagar")
-    Call<List<CPagar>> getPersonas();
+    Call<List<CPagar>> getCpagar();
 
     @POST("agregar")
     Call<CPagar>addPersona(@Body CPagar cPagar);

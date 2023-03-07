@@ -14,7 +14,9 @@ import android.widget.TextView;
 
 import com.example.apirest.R;
 import com.example.apirest.activity.contas.RelatorioContasDiaActivity;
+import com.example.apirest.interfaces.CPagarService;
 import com.example.apirest.interfaces.CReceberService;
+import com.example.apirest.model.contas.CPagar;
 import com.example.apirest.model.contas.CReceber;
 import com.example.apirest.utils.Apis;
 import com.example.apirest.utils.GetMask;
@@ -31,6 +33,12 @@ import retrofit2.Response;
 
 
 public class ContasDiaFragment extends Fragment {
+
+    /**
+     * Atributos que irao receber o popular as classes CCompra
+     */
+    CPagarService cPagarService;
+    List<CPagar> cPagarList = new ArrayList<>();
 
     /**
      * Atributos que irao receber o popular as classes CReceber
@@ -56,7 +64,7 @@ public class ContasDiaFragment extends Fragment {
     private Double valorVencidoPagar = 0.0;
     private Double valorLiquidadoPagar = 0.0;
 
-    private ProgressBar progressBarValorReceber, progressBarAberto, progressBarVencido, progressBarLiquidado, progressBarValorPagar;
+    private ProgressBar progressBarValorReceber, progressBarAberto, progressBarVencido, progressBarLiquidado, progressBarValorPagar, progressBarAbertoPagar, progressBarVencidoPagar, progressBarLiquidadoPagar;
 
     Date date1 = null;
     Date date2 = null;
@@ -71,6 +79,7 @@ public class ContasDiaFragment extends Fragment {
 
         inicializaComponentes(view);
         listCReceber();
+        listCCompra();
         iniciaCliques(view);
 
 
@@ -143,9 +152,6 @@ public class ContasDiaFragment extends Fragment {
 
                             }
                         } else {
-
-                            progressBarValorPagar.setVisibility(View.GONE);
-
                             progressBarValorReceber.setVisibility(View.GONE);
                             progressBarAberto.setVisibility(View.GONE);
                             progressBarVencido.setVisibility(View.GONE);
@@ -155,6 +161,72 @@ public class ContasDiaFragment extends Fragment {
                             valorTotalAbertoText.setText("R$ " + GetMask.getValor(0.0));
                             valorTotalVencidoText.setText("R$ " + GetMask.getValor(0.0));
                             valorTotalLiquidadoText.setText("R$ " + GetMask.getValor(0.0));
+                        }
+                    }
+                }
+                progressBarValorReceber.setVisibility(View.GONE);
+                progressBarAberto.setVisibility(View.GONE);
+                progressBarVencido.setVisibility(View.GONE);
+                progressBarLiquidado.setVisibility(View.GONE);
+
+                textTotalContasReceber.setText("R$ " + GetMask.getValor(valorReceber));
+                valorTotalAbertoText.setText("R$ " + GetMask.getValor(valorAbertoReceber));
+                valorTotalVencidoText.setText("R$ " + GetMask.getValor(valorVencidoReceber));
+                valorTotalLiquidadoText.setText("R$ " + GetMask.getValor(valorLiquidadoReceber));
+            }
+
+            @Override
+            public void onFailure(Call<List<CReceber>> call, Throwable t) {
+                Log.e("Error:", t.getMessage());
+
+            }
+        });
+
+    }
+
+    public void listCCompra() {
+        cPagarService = Apis.getCPagarService();
+        Call<List<CPagar>> call = cPagarService.getCpagar();
+        call.enqueue(new Callback<List<CPagar>>() {
+            @Override
+            public void onResponse(Call<List<CPagar>> call, Response<List<CPagar>> response) {
+                if (response.isSuccessful()) {
+                    zerandoValoresContas(); // ZERANDO OS VALORES DAS CONTAS
+
+                    List<CPagar> pagarList = response.body();
+
+                    for (CPagar cPagar : pagarList) {
+                        convertendoStringInDate(cPagar.getDtvencimento()); // RECEBENDOS AS DATAS EM FORMATO DATE
+
+                        if (formattedDateAtual.equals(cPagar.getData())) {
+                            if (!cPagar.getSituacao().equals("T")) {
+                                /**
+                                 * VALORES A PAGAR E VALORES A PAGAR ABERTOS
+                                 */
+                                valorPagar += cPagar.getVl_restante();
+                                valorAbertoPagar += cPagar.getVl_restante();
+                            }
+
+                            if (cPagar.getSituacao().equals("T")) {
+                                /**
+                                 * VALORES LIQUIDADOS
+                                 */
+                                valorLiquidadoPagar += cPagar.getVlpago();
+                            }
+
+                            if (date1.compareTo(date2) > 0 && !cPagar.getSituacao().equals("T")) {
+                                System.out.println("Date1 is after Date2");
+                                /**
+                                 * VALORES VENCIDOS
+                                 */
+                                valorVencidoPagar += cPagar.getVl_restante();
+                            }
+                        } else {
+
+                            progressBarValorPagar.setVisibility(View.GONE);
+                            progressBarAbertoPagar.setVisibility(View.GONE);
+                            progressBarVencidoPagar.setVisibility(View.GONE);
+                            progressBarLiquidadoPagar.setVisibility(View.GONE);
 
 
                             valorTotalContasPagar.setText("R$ " + GetMask.getValor(0.0));
@@ -165,17 +237,9 @@ public class ContasDiaFragment extends Fragment {
                     }
                 }
                 progressBarValorPagar.setVisibility(View.GONE);
-
-                progressBarValorReceber.setVisibility(View.GONE);
-                progressBarAberto.setVisibility(View.GONE);
-                progressBarVencido.setVisibility(View.GONE);
-                progressBarLiquidado.setVisibility(View.GONE);
-
-                textTotalContasReceber.setText("R$ " + GetMask.getValor(valorReceber));
-                valorTotalAbertoText.setText("R$ " + GetMask.getValor(valorAbertoReceber));
-                valorTotalVencidoText.setText("R$ " + GetMask.getValor(valorVencidoReceber));
-                valorTotalLiquidadoText.setText("R$ " + GetMask.getValor(valorLiquidadoReceber));
-
+                progressBarAbertoPagar.setVisibility(View.GONE);
+                progressBarVencidoPagar.setVisibility(View.GONE);
+                progressBarLiquidadoPagar.setVisibility(View.GONE);
 
                 valorTotalContasPagar.setText("R$ " + GetMask.getValor(valorPagar));
                 valorTotalAbertoPagarText.setText("R$ " + GetMask.getValor(valorAbertoPagar));
@@ -184,7 +248,7 @@ public class ContasDiaFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<List<CReceber>> call, Throwable t) {
+            public void onFailure(Call<List<CPagar>> call, Throwable t) {
                 Log.e("Error:", t.getMessage());
 
             }
@@ -219,6 +283,9 @@ public class ContasDiaFragment extends Fragment {
         progressBarLiquidado = view.findViewById(R.id.progressBarLiquidado);
 
         progressBarValorPagar = view.findViewById(R.id.progressBarValorPagar);
+        progressBarAbertoPagar = view.findViewById(R.id.progressBarAbertoPagar);
+        progressBarVencidoPagar = view.findViewById(R.id.progressBarVencidoPagar);
+        progressBarLiquidadoPagar = view.findViewById(R.id.progressBarLiquidadoPagar);
 
     }
 }

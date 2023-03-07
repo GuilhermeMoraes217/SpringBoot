@@ -3,12 +3,13 @@ package com.example.apirest.model.contas;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class CCompra {
+import java.io.Serializable;
+
+public class CCompra implements Serializable {
 
     @SerializedName(value = "id", alternate = "ID")
     @Expose
     private int id;
-
     @SerializedName(value = "id_empresa", alternate = "ID_EMPRESA")
     @Expose
     private int id_empresa;
@@ -118,6 +119,10 @@ public class CCompra {
     @Expose
     private Double base_fcp;
 
+    private String nomeEmpresaCPagar, nomeEmpresaDevendoCPagar, historicoCPagar, docCPagar, dataCPagar;
+
+    private int codigoCPagar;
+
     public CCompra(){
 
     }
@@ -160,6 +165,54 @@ public class CCompra {
         this.leu_duplicada = leu_duplicada;
         this.nome = nome;
         this.base_fcp = base_fcp;
+    }
+
+    public String getNomeEmpresaCPagar() {
+        return nomeEmpresaCPagar;
+    }
+
+    public void setNomeEmpresaCPagar(String nomeEmpresaCPagar) {
+        this.nomeEmpresaCPagar = nomeEmpresaCPagar;
+    }
+
+    public String getNomeEmpresaDevendoCPagar() {
+        return nomeEmpresaDevendoCPagar;
+    }
+
+    public void setNomeEmpresaDevendoCPagar(String nomeEmpresaDevendoCPagar) {
+        this.nomeEmpresaDevendoCPagar = nomeEmpresaDevendoCPagar;
+    }
+
+    public String getHistoricoCPagar() {
+        return historicoCPagar;
+    }
+
+    public void setHistoricoCPagar(String historicoCPagar) {
+        this.historicoCPagar = historicoCPagar;
+    }
+
+    public String getDocCPagar() {
+        return docCPagar;
+    }
+
+    public void setDocCPagar(String docCPagar) {
+        this.docCPagar = docCPagar;
+    }
+
+    public String getDataCPagar() {
+        return dataCPagar;
+    }
+
+    public void setDataCPagar(String dataCPagar) {
+        this.dataCPagar = dataCPagar;
+    }
+
+    public int getCodigoCPagar() {
+        return codigoCPagar;
+    }
+
+    public void setCodigoCPagar(int codigoCPagar) {
+        this.codigoCPagar = codigoCPagar;
     }
 
     public int getId() {

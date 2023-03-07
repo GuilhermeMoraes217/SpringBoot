@@ -13,14 +13,15 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.apirest.R;
-import com.example.apirest.adapter.contas.AdapterInformacaoContaParcelas;
-import com.example.apirest.adapter.contas.AdapterRelatorioContasReceberDia;
-import com.example.apirest.interfaces.CReceberService;
+import com.example.apirest.adapter.contas.AdapterInformacaoContaParcelasCP;
+import com.example.apirest.interfaces.CCompraService;
+import com.example.apirest.interfaces.CPagarService;
 import com.example.apirest.interfaces.EmpresasService;
 import com.example.apirest.interfaces.FormaPagamentoService;
 import com.example.apirest.interfaces.PessoasService;
 import com.example.apirest.model.Empresas;
-import com.example.apirest.model.contas.CReceber;
+import com.example.apirest.model.contas.CCompra;
+import com.example.apirest.model.contas.CPagar;
 import com.example.apirest.model.contas.Pessoas;
 import com.example.apirest.model.vendas.FormaPagamento;
 import com.example.apirest.model.vendas.VendasMaster;
@@ -38,12 +39,20 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class RelatorioContasReceberParcelaFragment extends Fragment implements AdapterInformacaoContaParcelas.ItemClickListener {
+public class RelatorioContasReceberParcelaCPFragment extends Fragment implements AdapterInformacaoContaParcelasCP.ItemClickListener {
     /**
      * Atributos que irao receber o popular as classes Forma de Pagamento
      */
     FormaPagamentoService formaPagamentoService;
     List<FormaPagamento> formaPagamentoList = new ArrayList<>();
+
+    /**
+     * Atributos que irao receber o popular as classes CComprar
+     */
+    CCompraService cCompraService;
+    List<CCompra> cCompraList = new ArrayList<>();
+    List<CCompra> updatecCompraList1 = new ArrayList<>();
+    List<CCompra> updatecCompraList2 = new ArrayList<>();
 
     /**
      * Atributos que irao receber o popular as classes Empresa
@@ -52,11 +61,11 @@ public class RelatorioContasReceberParcelaFragment extends Fragment implements A
     List<Empresas> empresasList = new ArrayList<>();
 
     /**
-     * Atributos que irao receber o popular as classes CReceber
+     * Atributos que irao receber o popular as classes CPagar
      */
-    CReceberService cReceberService;
-    List<CReceber> cRecebersList = new ArrayList<>();
-    List<CReceber> updateListReceber = new ArrayList<>();
+    CPagarService cPagarService;
+    List<CPagar> cPagarList = new ArrayList<>();
+    List<CPagar> updateListCPagar = new ArrayList<>();
     /**
      * Atributos que irao receber o popular as classes Pessoas
      */
@@ -66,39 +75,63 @@ public class RelatorioContasReceberParcelaFragment extends Fragment implements A
     /**
      * Atributos variados do layout
      */
-    VendasMaster receberSelecionado;
+    CCompra receberSelecionado;
     private RecyclerView recyclerViewListParcelas;
     private TextView parcelasNaContaTextView, valorTotalAcrescimoTextView, valorTotalProdutoTextView, valorTotalNominalTextView,
             valorTotalPagoTextView,valorTotalDescontoTextView, valorTotalmultaTextView, valorTotalJurosTextView, valorTotalTaxaFinanceiraTextView, textViewValorTotalTextView ;
 
-    AdapterInformacaoContaParcelas adapterInformacaoContaParcelas;
+    AdapterInformacaoContaParcelasCP adapterInformacaoContaParcelasCP;
     Double valorTotalContasReceber = 0.0;
     Date date1 = null;
     Date date2 = null;
     String formattedDateAtual;
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_relatorio_contas_receber_parcela, container, false);
+        View view = inflater.inflate(R.layout.fragment_relatorio_contas_receber_parcela_c_p, container, false);
+
         Bundle bundle = getActivity().getIntent().getExtras();
-        receberSelecionado = (VendasMaster) bundle.getSerializable("RelatorioContasReceberSelecionado");
+        receberSelecionado = (CCompra) bundle.getSerializable("RelatorioContasReceberSelecionado");
         inicializaComponentes(view);
-        listFormaPagamento();
+        listCCompra();
         inicializaRecyclerView();
 
         return view;
     }
 
     /**
-     * Método que inicializa o recycler view do relatorio de vendas e Creceber
+     * Método que inicializa o recycler view do relatorio de Cpagar e CCompra
      */
     private void inicializaRecyclerView() {
         recyclerViewListParcelas.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerViewListParcelas.setHasFixedSize(true);
-        adapterInformacaoContaParcelas = new AdapterInformacaoContaParcelas(cRecebersList, getContext(), this);
-        recyclerViewListParcelas.setAdapter(adapterInformacaoContaParcelas);
+        adapterInformacaoContaParcelasCP = new AdapterInformacaoContaParcelasCP(cPagarList, getContext(), this);
+        recyclerViewListParcelas.setAdapter(adapterInformacaoContaParcelasCP);
+    }
+
+    public void listCCompra() {
+        cCompraService = Apis.getCCompraService();
+        Call<List<CCompra>> call = cCompraService.getCcompra();
+        call.enqueue(new Callback<List<CCompra>>() {
+            @Override
+            public void onResponse(Call<List<CCompra>> call, Response<List<CCompra>> response) {
+                cCompraList.clear();
+                if (response.isSuccessful()) {
+                    cCompraList = response.body();
+                }
+                listFormaPagamento();
+            }
+
+            @Override
+            public void onFailure(Call<List<CCompra>> call, Throwable t) {
+                Log.e("Error:", t.getMessage());
+
+            }
+        });
+
     }
 
     public void listFormaPagamento() {
@@ -155,7 +188,7 @@ public class RelatorioContasReceberParcelaFragment extends Fragment implements A
                 if (response.isSuccessful()) {
                     pessoasList = response.body();
                 }
-                listCReceber();
+                listCPagar();
 
             }
 
@@ -175,7 +208,7 @@ public class RelatorioContasReceberParcelaFragment extends Fragment implements A
         Date d = new Date();
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         //formattedDateAtual = df.format(d);
-        formattedDateAtual = "2023-03-02";
+        formattedDateAtual = df.format(d);
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -192,47 +225,56 @@ public class RelatorioContasReceberParcelaFragment extends Fragment implements A
 
     }
 
-    public void listCReceber() {
-        cReceberService = Apis.getCReceberService();
-        Call<List<CReceber>> call = cReceberService.getrebecer();
-        call.enqueue(new Callback<List<CReceber>>() {
+    public void listCPagar() {
+        cPagarService = Apis.getCPagarService();
+        Call<List<CPagar>> call = cPagarService.getCpagar();
+        call.enqueue(new Callback<List<CPagar>>() {
             @Override
-            public void onResponse(Call<List<CReceber>> call, Response<List<CReceber>> response) {
-                cRecebersList.clear();
+            public void onResponse(Call<List<CPagar>> call, Response<List<CPagar>> response) {
+                cPagarList.clear();
                 if (response.isSuccessful()) {
-                    Double valorTotalContasReceber = 0.0;
-                    List<CReceber> cRecebers1 = response.body();
+                    Double valorTotalContasPagar = 0.0;
+                    List<CPagar> cPagars = response.body();
 
-                    for (CReceber cReceber : cRecebers1) {
-                        convertendoStringInDate(cReceber.getDtvencimento()); // RECEBENDOS AS DATAS EM FORMATO DATE
-                        if (formattedDateAtual.equals(cReceber.getData())) {
-                            for (Pessoas pessoas : pessoasList) {
-                                for (FormaPagamento formaPagamento : formaPagamentoList) {
-                                    for (Empresas empresas : empresasList) {
-                                        if (cReceber.getFpg_venda() == formaPagamento.getCodigo() && empresas.getCodigo() == cReceber.getFkempresa() && cReceber.getFkcliente() == pessoas.getCodigo()) {
-                                            valorTotalContasReceber += cReceber.getVl_restante();
+                    for (CPagar cPagar : cPagars) {
+                        convertendoStringInDate(cPagar.getDtvencimento()); // RECEBENDOS AS DATAS EM FORMATO DATE
+                        if (formattedDateAtual.equals(cPagar.getData())) {
+                            for (Empresas empresas : empresasList) {
+                                for (CCompra cCompra : cCompraList) {
+                                    if (cCompra.getId() == cPagar.getFk_compra() &&
+                                            empresas.getCodigo() == cPagar.getFkempresa()) {
 
-                                            cReceber.setNomeEmpresa(empresas.getRazao());
-                                            cReceber.setNomePessaReceber(pessoas.getFantasia());
-                                            cReceber.setFormaPagamento(formaPagamento.getDescricao());
+                                        // && cPagar.getFpg_venda() == formaPagamento.getCodigo()
+                                        //cCompra.setFormapagamentoCRecerber(formaPagamento.getDescricao());
+                                        valorTotalContasPagar += cPagar.getVl_restante();
 
-                                            cRecebersList.add(cReceber);
-                                        }
+                                        cCompra.setCodigoCPagar(cCompra.getId());
+                                        cCompra.setNomeEmpresaCPagar(empresas.getRazao());
+                                        cCompra.setNomeEmpresaDevendoCPagar(cCompra.getNome());
+                                        cCompra.setHistoricoCPagar(cPagar.getHistorico());
+                                        cCompra.setDocCPagar(cPagar.getDoc());
+                                        cCompra.setDataCPagar(cPagar.getData());
+
+                                        cPagarList.add(cPagar);
+                                        updatecCompraList1.add(cCompra);
+
                                     }
                                 }
                             }
+                        } else {
+                            textViewValorTotalTextView.setText("R$ 0,00");
                         }
                     }
-                    if (cRecebersList.size() > 0) {
-                        parcelasNaContaTextView.setText(Integer.toString(cRecebersList.size()) + " parcelas na conta");
-                        textViewValorTotalTextView.setText("R$ " + GetMask.getValor(valorTotalContasReceber));
+                    if (cPagarList.size() > 0) {
+                        textViewValorTotalTextView.setText("R$ " + GetMask.getValor(valorTotalContasPagar));
                     }
-                    adapterInformacaoContaParcelas.notifyDataSetChanged();
+
+                    adapterInformacaoContaParcelasCP.notifyDataSetChanged();
                 }
             }
 
             @Override
-            public void onFailure(Call<List<CReceber>> call, Throwable t) {
+            public void onFailure(Call<List<CPagar>> call, Throwable t) {
                 Log.e("Error:", t.getMessage());
 
             }
@@ -255,7 +297,7 @@ public class RelatorioContasReceberParcelaFragment extends Fragment implements A
     }
 
     @Override
-    public void onClick(CReceber relatorioVendas) {
+    public void onClick(CPagar relatorioVendas) {
 
     }
 }

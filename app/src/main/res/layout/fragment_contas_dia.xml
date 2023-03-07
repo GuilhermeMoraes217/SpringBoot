@@ -389,20 +389,62 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
-                        <TextView
+                        <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Em aberto" />
+                            android:orientation="horizontal">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Vencido" />
+                            <ImageView
+                                android:layout_width="18dp"
+                                android:layout_height="18dp"
+                                android:layout_marginEnd="4dp"
+                                android:src="@drawable/status_amarelo" />
 
-                        <TextView
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Em aberto" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Liquidado" />
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="18dp"
+                                android:layout_height="18dp"
+                                android:layout_marginEnd="4dp"
+                                android:src="@drawable/status_vermelho" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Vencido" />
+
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="18dp"
+                                android:layout_height="18dp"
+                                android:layout_marginEnd="4dp"
+
+                                android:src="@drawable/status_verde" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Liquidado" />
+
+                        </LinearLayout>
+
                     </LinearLayout>
 
                     <LinearLayout
@@ -418,6 +460,11 @@
                             android:layout_height="wrap_content"
                             android:textColor="@color/black"
                             tools:text="R$ 10.000,00" />
+                        <ProgressBar
+                            android:id="@+id/progressBarAbertoPagar"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:theme="@style/progressBarBlue"/>
 
                         <TextView
                             android:id="@+id/valorTotalVencidoPagarText"
@@ -425,6 +472,11 @@
                             android:layout_height="wrap_content"
                             android:textColor="@color/black"
                             tools:text="R$ 0,00" />
+                        <ProgressBar
+                            android:id="@+id/progressBarVencidoPagar"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:theme="@style/progressBarBlue"/>
 
                         <TextView
                             android:id="@+id/valorTotalLiquidadoPagarText"
@@ -432,6 +484,11 @@
                             android:layout_height="wrap_content"
                             android:textColor="@color/black"
                             tools:text="R$ 10.000,00" />
+                        <ProgressBar
+                            android:id="@+id/progressBarLiquidadoPagar"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:theme="@style/progressBarBlue"/>
                     </LinearLayout>
 
                 </LinearLayout>

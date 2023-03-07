@@ -10,11 +10,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.apirest.R;
-import com.example.apirest.model.contas.CReceber;
 import com.example.apirest.model.vendas.VendasMaster;
 
 
-public class RelatorioContasReceberInformacoesFragment extends Fragment {
+public class RelatorioContasReceberInformacoesVMFragment extends Fragment {
 
     /**
      * Atributos Variados do Layout
