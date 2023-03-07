@@ -39,7 +39,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                tools:text="ração caes adulto - family plus 25kg"
+                tools:text="DOC/2"
                 android:textAllCaps="true"
                 android:textColor="@color/black"
                 android:textSize="16dp"
@@ -53,7 +53,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="Código de barras: "
+                android:text="Status: "
                 android:textSize="16dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView16" />
@@ -62,7 +62,8 @@
                 android:id="@+id/textViewCodigoBarra"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="78788"
+                tools:text="Em aberto"
+                android:textColor="@color/black"
                 android:textSize="16dp"
                 app:layout_constraintBottom_toBottomOf="@+id/textView18"
                 app:layout_constraintStart_toEndOf="@+id/textView18"
@@ -73,7 +74,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="Referencia: "
+                android:text="Data vencimento: "
                 android:textSize="16dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView18" />
@@ -83,7 +84,8 @@
                 android:id="@+id/textViewReferencia"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="78785558"
+                tools:text="06/03/2022"
+                android:textColor="@color/black"
                 android:textSize="16dp"
                 app:layout_constraintBottom_toBottomOf="@+id/textView19"
                 app:layout_constraintStart_toEndOf="@+id/textView19"
@@ -93,26 +95,44 @@
                 android:id="@+id/textView17"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="R$ 7,50 cada • "
+                android:text="Valor parcela: "
                 android:textSize="16dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView19" />
-
 
             <TextView
                 android:id="@+id/textView46"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="2 quantidade"
+                tools:text="R$ 10,00"
+                android:textColor="@color/black"
                 android:textSize="16dp"
                 app:layout_constraintStart_toEndOf="@+id/textView17"
                 app:layout_constraintTop_toTopOf="@+id/textView17" />
 
             <TextView
+                android:id="@+id/textView84"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Valor pago: "
+                android:textSize="16dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView17" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="16dp"
+                app:layout_constraintStart_toEndOf="@+id/textView84"
+                app:layout_constraintTop_toBottomOf="@+id/textView46"
+                tools:text="R$ 20,00" />
+
+            <TextView
                 android:id="@+id/textViewValorProduto"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="R$ 7,50"
+                android:text="R$ 7,50"
                 android:textColor="@color/black"
                 android:textSize="20dp"
                 android:layout_marginVertical="16dp"

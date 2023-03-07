@@ -9,6 +9,7 @@ import android.os.Bundle;
 import com.example.apirest.R;
 import com.example.apirest.adapter.ViewPagerAdapter;
 import com.example.apirest.fragments.contas.RelatorioContasReceberInformacoesFragment;
+import com.example.apirest.fragments.contas.RelatorioContasReceberParcelaFragment;
 import com.example.apirest.fragments.contas.dia.RelatorioContasPagarDiaFragment;
 import com.example.apirest.fragments.contas.dia.RelatorioContasReceberDiaFragment;
 import com.example.apirest.model.contas.CReceber;
@@ -35,7 +36,7 @@ public class ContasReceberInformacoesActivity extends AppCompatActivity {
     private void configTabsLayout(){
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
         viewPagerAdapter.addFragment(new RelatorioContasReceberInformacoesFragment(), "Informações");
-        viewPagerAdapter.addFragment(new RelatorioContasReceberInformacoesFragment(), "Parcelas");
+        viewPagerAdapter.addFragment(new RelatorioContasReceberParcelaFragment(), "Parcelas");
 
         view_Pager.setAdapter(viewPagerAdapter);
         view_Pager.setSaveEnabled(false);

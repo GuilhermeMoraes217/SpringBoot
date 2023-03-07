@@ -20,19 +20,24 @@ import java.util.List;
 
 public class AdapterRelatorioContasReceberDia extends RecyclerView.Adapter<AdapterRelatorioContasReceberDia.MyViewHolder> {
 
-    private List<CReceber> cReceberList;
+    private List<VendasMaster> cReceberList;
+    private List<CReceber> cRecebersDAO;
+
+    private Double valorTotalContaReceber = 0.0;
+
     private Context context;
 
     ItemClickListener itemClickListener;
 
 
-    public AdapterRelatorioContasReceberDia(List<CReceber> cReceberList, Context context, ItemClickListener onClickListener) {
+    public AdapterRelatorioContasReceberDia(List<VendasMaster> cReceberList, List<CReceber> cRecebersDAO, Context context, ItemClickListener onClickListener) {
         this.cReceberList = cReceberList;
+        this.cRecebersDAO = cRecebersDAO;
         this.context = context;
         this.itemClickListener = onClickListener;
     }
 
-    public List<CReceber> getcReceberList() {
+    public List<VendasMaster> getcReceberList() {
         return cReceberList;
     }
 
@@ -45,13 +50,16 @@ public class AdapterRelatorioContasReceberDia extends RecyclerView.Adapter<Adapt
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        CReceber cReceber = cReceberList.get(position);
+        VendasMaster cReceber = cReceberList.get(position);
+        for (CReceber cReceber1 : cRecebersDAO) {
+            valorTotalContaReceber += cReceber1.getVl_restante();
+        }
 
         holder.imagemStatus.setBackgroundResource(R.drawable.status_amarelo);
-        holder.idContaAbertaTextView.setText( "#" + cReceber.getCodigo() + " - "+ cReceber.getHistorico());
-        holder.nomePessoasContaReceberTextView.setText(cReceber.getNomePessaReceber());
+        holder.idContaAbertaTextView.setText( "#" + cReceber.getCodigoCreber() + " - "+ cReceber.getHistoricoCReceber());
+        holder.nomePessoasContaReceberTextView.setText(cReceber.getNomePessoasContaCReceber());
         holder.nomeEmpresaTextView.setText(cReceber.getNomeEmpresa());
-        holder.valorContaRceberTextView.setText("R$ " + GetMask.getValor(cReceber.getVl_restante()));
+        holder.valorContaRceberTextView.setText("R$ " + GetMask.getValor(valorTotalContaReceber));
         holder.statusTexView.setText("Em aberto");
 
 
@@ -66,7 +74,7 @@ public class AdapterRelatorioContasReceberDia extends RecyclerView.Adapter<Adapt
     }
 
     public interface ItemClickListener {
-        void onClick ( CReceber cReceber );
+        void onClick ( VendasMaster cReceber );
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {

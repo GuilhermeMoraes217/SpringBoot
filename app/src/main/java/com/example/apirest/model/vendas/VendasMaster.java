@@ -1,5 +1,7 @@
 package com.example.apirest.model.vendas;
 
+import android.widget.TextView;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -154,6 +156,13 @@ public class VendasMaster implements Serializable {
 
     private String nomeEmpresa;
 
+    private String idContaAbertaCReceber, nomePessoasContaCReceber, nomeEmpresaCReceber, valorContaCReceber, statusCReceber, formapagamentoCRecerber;
+
+    private String historicoCReceber, docCReber, dataCRecerber;
+    private int codigoCreber;
+    private double vl_restanteCreber;
+
+
 
     public VendasMaster() {
 
@@ -196,6 +205,94 @@ public class VendasMaster implements Serializable {
         this.fk_mesa = fk_mesa;
         this.nome = nome;
         this.tela = tela;
+    }
+
+    public String getDocCReber() {
+        return docCReber;
+    }
+
+    public void setDocCReber(String docCReber) {
+        this.docCReber = docCReber;
+    }
+
+    public String getDataCRecerber() {
+        return dataCRecerber;
+    }
+
+    public void setDataCRecerber(String dataCRecerber) {
+        this.dataCRecerber = dataCRecerber;
+    }
+
+    public String getHistoricoCReceber() {
+        return historicoCReceber;
+    }
+
+    public void setHistoricoCReceber(String historicoCReceber) {
+        this.historicoCReceber = historicoCReceber;
+    }
+
+    public int getCodigoCreber() {
+        return codigoCreber;
+    }
+
+    public void setCodigoCreber(int codigoCreber) {
+        this.codigoCreber = codigoCreber;
+    }
+
+    public double getVl_restanteCreber() {
+        return vl_restanteCreber;
+    }
+
+    public void setVl_restanteCreber(double vl_restanteCreber) {
+        this.vl_restanteCreber = vl_restanteCreber;
+    }
+
+    public String getFormapagamentoCRecerber() {
+        return formapagamentoCRecerber;
+    }
+
+    public void setFormapagamentoCRecerber(String formapagamentoCRecerber) {
+        this.formapagamentoCRecerber = formapagamentoCRecerber;
+    }
+
+    public String getIdContaAbertaCReceber() {
+        return idContaAbertaCReceber;
+    }
+
+    public void setIdContaAbertaCReceber(String idContaAbertaCReceber) {
+        this.idContaAbertaCReceber = idContaAbertaCReceber;
+    }
+
+    public String getNomePessoasContaCReceber() {
+        return nomePessoasContaCReceber;
+    }
+
+    public void setNomePessoasContaCReceber(String nomePessoasContaCReceber) {
+        this.nomePessoasContaCReceber = nomePessoasContaCReceber;
+    }
+
+    public String getNomeEmpresaCReceber() {
+        return nomeEmpresaCReceber;
+    }
+
+    public void setNomeEmpresaCReceber(String nomeEmpresaCReceber) {
+        this.nomeEmpresaCReceber = nomeEmpresaCReceber;
+    }
+
+    public String getValorContaCReceber() {
+        return valorContaCReceber;
+    }
+
+    public void setValorContaCReceber(String valorContaCReceber) {
+        this.valorContaCReceber = valorContaCReceber;
+    }
+
+    public String getStatusCReceber() {
+        return statusCReceber;
+    }
+
+    public void setStatusCReceber(String statusCReceber) {
+        this.statusCReceber = statusCReceber;
     }
 
     public String getNomeEmpresa() {

@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.example.apirest.R;
 import com.example.apirest.model.contas.CReceber;
+import com.example.apirest.model.vendas.VendasMaster;
 
 
 public class RelatorioContasReceberInformacoesFragment extends Fragment {
@@ -19,7 +20,7 @@ public class RelatorioContasReceberInformacoesFragment extends Fragment {
      * Atributos Variados do Layout
      */
     private TextView codigoNomePessoaReceberTextView, nomeEmpresaTextView, idStatusTextView, idDocumento, idDataEmissao, idFormaPagamento, idHistorico;
-    CReceber receberSelecionado;
+    VendasMaster receberSelecionado;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -27,21 +28,21 @@ public class RelatorioContasReceberInformacoesFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_relatorio_contas_receber_informacoes, container, false);
         Bundle bundle = getActivity().getIntent().getExtras();
-        receberSelecionado = (CReceber) bundle.getSerializable("RelatorioContasReceberSelecionado");
+        receberSelecionado = (VendasMaster) bundle.getSerializable("RelatorioContasReceberSelecionado");
         inicializaComponentes(view);
         exibiComponentes();
         return view;
     }
 
     public void exibiComponentes () {
-        codigoNomePessoaReceberTextView.setText("#" + receberSelecionado.getCodigo() + " - " + receberSelecionado.getNomePessaReceber());
+        codigoNomePessoaReceberTextView.setText("#" + receberSelecionado.getCodigo() + " - " + receberSelecionado.getNomePessoasContaCReceber());
         nomeEmpresaTextView.setText(receberSelecionado.getNomeEmpresa());
         idStatusTextView.setText("Status - Em aberto");
 
-        idDocumento.setText(receberSelecionado.getDoc());
-        idDataEmissao.setText(receberSelecionado.getData());
-        idFormaPagamento.setText(receberSelecionado.getFormaPagamento());
-        idHistorico.setText(receberSelecionado.getHistorico());
+        idDocumento.setText(receberSelecionado.getDocCReber());
+        idDataEmissao.setText(receberSelecionado.getDataCRecerber());
+        idFormaPagamento.setText(receberSelecionado.getFormapagamentoCRecerber());
+        idHistorico.setText(receberSelecionado.getHistoricoCReceber());
     }
 
     public void inicializaComponentes(View view) {

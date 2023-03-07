@@ -17,24 +17,24 @@ import com.example.apirest.interfaces.VendasfpgService;
 
 public class Apis {
 
-    // 10.0.0.132 LABEX
-    // 192.168.1.107  SIGATEC
-    // 192.168.1.107 Casa - notebook
-    // 192.168.1.107 Casa - desktop
-    public static final String URL_001="http://192.168.1.107:8080/personas/";
-    public static final String URL_002="http://192.168.1.107:8080/vendasmaster/";
-    public static final String URL_003="http://192.168.1.107:8080/vendasformapagamento/";
-    public static final String URL_004="http://192.168.1.107:8080/formapagamento/";
-    public static final String URL_005="http://192.168.1.107:8080/empresas/";
-    public static final String URL_006="http://192.168.1.107:8080/vendasdetalhes/";
-    public static final String URL_007="http://192.168.1.107:8080/produtos/";
-    public static final String URL_008="http://192.168.1.107:8080/grupos/";
-    public static final String URL_009="http://192.168.1.107:8080/cpagar/";
-    public static final String URL_010="http://192.168.1.107:8080/cpagamento/";
-    public static final String URL_011="http://192.168.1.107:8080/creceber/";
-    public static final String URL_012="http://192.168.1.107:8080/crecebimento/";
-    public static final String URL_013="http://192.168.1.107:8080/crecebimentolote/";
-    public static final String URL_014="http://192.168.1.107:8080/pessoas/";
+    // 10.0.0.126 LABEX
+    // 10.0.0.126  SIGATEC
+    // 10.0.0.126 Casa - notebook
+    // 10.0.0.126 Casa - desktop
+    public static final String URL_001="http://10.0.0.126:8080/personas/";
+    public static final String URL_002="http://10.0.0.126:8080/vendasmaster/";
+    public static final String URL_003="http://10.0.0.126:8080/vendasformapagamento/";
+    public static final String URL_004="http://10.0.0.126:8080/formapagamento/";
+    public static final String URL_005="http://10.0.0.126:8080/empresas/";
+    public static final String URL_006="http://10.0.0.126:8080/vendasdetalhes/";
+    public static final String URL_007="http://10.0.0.126:8080/produtos/";
+    public static final String URL_008="http://10.0.0.126:8080/grupos/";
+    public static final String URL_009="http://10.0.0.126:8080/cpagar/";
+    public static final String URL_010="http://10.0.0.126:8080/cpagamento/";
+    public static final String URL_011="http://10.0.0.126:8080/creceber/";
+    public static final String URL_012="http://10.0.0.126:8080/crecebimento/";
+    public static final String URL_013="http://10.0.0.126:8080/crecebimentolote/";
+    public static final String URL_014="http://10.0.0.126:8080/pessoas/";
 
     public static PersonaService getPersonaService(){
         return  Gestao.getClient(URL_001).create(PersonaService.class);
