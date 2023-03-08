@@ -110,7 +110,7 @@ public class VendasDiaFragment extends Fragment {
         inicializaComponentes(view);
         InitCliques(view);
 
-        listPersons();
+        //listPersons();
         RecuperaListVendasMaster();
 
         return view;

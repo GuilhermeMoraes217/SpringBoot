@@ -13,6 +13,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.apirest.R;
+import com.example.apirest.activity.contas.ano.RelatorioContasAnoActivity;
 import com.example.apirest.activity.contas.dia.RelatorioContasDiaActivity;
 import com.example.apirest.interfaces.CPagarService;
 import com.example.apirest.interfaces.CReceberService;
@@ -305,7 +306,7 @@ public class ContasAnoFragment extends Fragment {
     private void iniciaCliques(View view) {
 
         textRelatorioContas.setOnClickListener(view1 -> {
-            Intent intent = new Intent(getActivity(), RelatorioContasDiaActivity.class);
+            Intent intent = new Intent(getActivity(), RelatorioContasAnoActivity.class);
             startActivity(intent);
         });
     }

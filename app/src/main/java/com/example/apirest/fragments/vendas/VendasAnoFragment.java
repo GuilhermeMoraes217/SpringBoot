@@ -120,7 +120,7 @@ public class VendasAnoFragment extends Fragment {
         recuperaDataSemana();
         InitCliques(view);
 
-        listPersons();
+        //listPersons();
         RecuperaListVendasMaster();
 
         return view;

@@ -47,7 +47,7 @@ public class AdapterInformacaoContaParcelas extends RecyclerView.Adapter<Adapter
         CReceber cReceber = cReceberList.get(position);
 
         holder.posicaoProduto.setText(Integer.toString(position + 1) + ".");
-        holder.docReceber.setText((cReceber.getDoc()));
+        holder.docReceber.setText(("DOC " + cReceber.getDoc()));
         if (cReceber.getSituacao().equals("T")) {
             holder.statusReceber.setText("Liquidado");
             holder.valorPagoTotalReceber.setText("Quitado: R$" + GetMask.getValor(((cReceber.getValor() + cReceber.getJuros()) - cReceber.getDesconto()) - cReceber.getVrecebido()));

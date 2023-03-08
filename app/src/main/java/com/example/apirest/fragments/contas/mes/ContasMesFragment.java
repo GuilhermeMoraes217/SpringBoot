@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.example.apirest.R;
 import com.example.apirest.activity.contas.dia.RelatorioContasDiaActivity;
+import com.example.apirest.activity.contas.mes.RelatorioContasMesActivity;
 import com.example.apirest.interfaces.CPagarService;
 import com.example.apirest.interfaces.CReceberService;
 import com.example.apirest.model.contas.CPagar;
@@ -126,6 +127,7 @@ public class ContasMesFragment extends Fragment {
 
         printDatesInMonth( year,  month,  day);
     }
+
     public void convertendoStringInDate(String dataVecimento) {
         // FUNCAO QUE RECUPERA A DATA ATUAL E DATA DE VENCIMENTO DO BANCO E CONVERTE DE STRING PARA DATE
 
@@ -300,7 +302,7 @@ public class ContasMesFragment extends Fragment {
     private void iniciaCliques(View view) {
 
         textRelatorioContas.setOnClickListener(view1 -> {
-            Intent intent = new Intent(getActivity(), RelatorioContasDiaActivity.class);
+            Intent intent = new Intent(getActivity(), RelatorioContasMesActivity.class);
             startActivity(intent);
         });
     }

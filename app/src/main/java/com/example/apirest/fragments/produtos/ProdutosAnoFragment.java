@@ -110,7 +110,7 @@ public class ProdutosAnoFragment extends Fragment {
         recuperaDataSemana();
         inicializaCliques(view);
         RecuperaListProdutos();
-        listPersons();
+        //listPersons();
 
         return view;
     }
@@ -380,12 +380,6 @@ public class ProdutosAnoFragment extends Fragment {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onResume() {
-        listPersons();
-        super.onResume();
     }
 
     public void inicializaComponentes(View view) {

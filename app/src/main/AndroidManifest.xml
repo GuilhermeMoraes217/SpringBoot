@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.apirest" >
+    package="com.example.apirest">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -11,7 +11,22 @@
         android:roundIcon="@drawable/logo_sigtec"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:usesCleartextTraffic="true" >
+        android:usesCleartextTraffic="true">
+        <activity
+            android:name=".activity.contas.ano.ContasReceberInformacoesAnoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.contas.ano.RelatorioContasAnoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.contas.mes.ContasPagarInformacoesMesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.contas.mes.ContasReceberInformacoesMesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.contas.mes.RelatorioContasMesActivity"
+            android:exported="false" />
         <activity
             android:name=".activity.contas.semana.ContasPagarInformacoesSemanaActivity"
             android:exported="false" />
@@ -110,42 +125,42 @@
             android:exported="false" />
         <activity
             android:name=".activity.checkout.MovimentacaoCaixaActivity"
-            android:exported="false" >
+            android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
             android:name=".activity.vendas.InformacoesPedidoVendaActivity"
-            android:exported="false" >
+            android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
             android:name=".activity.vendas.dia.RelatorioDeVendasDiaActivity"
-            android:exported="false" >
+            android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
             android:name=".activity.produtos.dia.RelatorioDeProdutosVendasDiaActivity"
-            android:exported="false" >
+            android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
             android:name=".activity.NavetagionActivity"
-            android:exported="false" >
+            android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
             android:name=".activity.HomeActivity"
-            android:exported="false" >
+            android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -154,7 +169,7 @@
             android:name=".activity.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar" >
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -163,7 +178,7 @@
         </activity>
         <activity
             android:name=".activity.empresa.PersonaActivity"
-            android:label="Nuevo Usuario" >
+            android:label="Nuevo Usuario">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.MainActivity" />

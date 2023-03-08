@@ -108,7 +108,7 @@ public class ProdutosDiaFragment extends Fragment {
         inicializaComponentes(view);
         inicializaCliques(view);
         RecuperaListProdutos();
-        listPersons();
+        //listPersons();
 
         return view;
     }
@@ -342,12 +342,6 @@ public class ProdutosDiaFragment extends Fragment {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onResume() {
-        listPersons();
-        super.onResume();
     }
 
     public void inicializaComponentes(View view) {
