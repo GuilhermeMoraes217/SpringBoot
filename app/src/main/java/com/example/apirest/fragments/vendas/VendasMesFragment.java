@@ -109,7 +109,6 @@ public class VendasMesFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_vendas_mes, container, false);
 
         InitComponentes(view);
-        inicializaData();
         recuperaDataSemana();
         InitCliques(view);
 

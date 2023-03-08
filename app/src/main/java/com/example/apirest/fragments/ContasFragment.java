@@ -12,7 +12,10 @@ import android.view.ViewGroup;
 
 import com.example.apirest.R;
 import com.example.apirest.adapter.ViewPagerAdapter;
+import com.example.apirest.fragments.contas.ano.ContasAnoFragment;
 import com.example.apirest.fragments.contas.dia.ContasDiaFragment;
+import com.example.apirest.fragments.contas.mes.ContasMesFragment;
+import com.example.apirest.fragments.contas.semana.ContasSemanaFragment;
 import com.google.android.material.tabs.TabLayout;
 
 
@@ -40,9 +43,9 @@ public class ContasFragment extends Fragment {
     private void configTabsLayout(){
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getChildFragmentManager());
         viewPagerAdapter.addFragment(new ContasDiaFragment(), "Dia");
-        viewPagerAdapter.addFragment(new ContasDiaFragment(), "Semana");
-        viewPagerAdapter.addFragment(new ContasDiaFragment(), "Mes");
-        viewPagerAdapter.addFragment(new ContasDiaFragment(), "Ano");
+        viewPagerAdapter.addFragment(new ContasSemanaFragment(), "Semana");
+        viewPagerAdapter.addFragment(new ContasMesFragment(), "Mes");
+        viewPagerAdapter.addFragment(new ContasAnoFragment(), "Ano");
 
         view_Pager.setAdapter(viewPagerAdapter);
         view_Pager.setSaveEnabled(false);

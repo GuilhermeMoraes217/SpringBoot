@@ -108,7 +108,6 @@ public class VendasSemanaFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_vendas_semana, container, false);
 
         inicializaComponentes(view);
-        inicializaData();
         recuperaDataSemana();
         InitCliques(view);
 
@@ -129,32 +128,6 @@ public class VendasSemanaFragment extends Fragment {
         }
         return week;
     }
-
-    private void inicializaData() {
-        LocalDate today = null;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            today = LocalDate.now(ZoneId.of("America/Sao_Paulo"));
-        }
-        LocalDate weekStart = null;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            weekStart = today.with(TemporalAdjusters.previousOrSame(DayOfWeek.SUNDAY));
-        }
-        List<LocalDate> thisWeek = weekStarting(weekStart);
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-
-            lastWeek = weekStarting(weekStart.minusWeeks(1));
-
-        }
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            List<LocalDate> twoWeeksAgo = weekStarting(weekStart.minusWeeks(2));
-        }
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            List<LocalDate> threeWeeksAgo = weekStarting(weekStart.minusWeeks(3));
-        }
-
-
-    }
-
     public static void printDatesInMonth(int year, int month, int day) {
         stringsData.clear();
         SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
@@ -179,7 +152,6 @@ public class VendasSemanaFragment extends Fragment {
         Log.i("", "" + stringsData);
 
     }
-
 
     private void recuperaDataSemana () {
         int year= 0;
