@@ -1,4 +1,4 @@
-package com.example.apirest.fragments.contas.dia;
+package com.example.apirest.fragments.contas.semana;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -32,7 +32,10 @@ import com.example.apirest.utils.GetMask;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -41,8 +44,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class RelatorioContasReceberDiaFragment extends Fragment implements AdapterRelatorioContasReceberDia.ItemClickListener {
-
+public class RelatorioContasReceberSemanaFragment extends Fragment implements AdapterRelatorioContasReceberDia.ItemClickListener {
     /**
      * Atributos que irao receber o popular as classes Forma de Pagamento
      */
@@ -79,6 +81,8 @@ public class RelatorioContasReceberDiaFragment extends Fragment implements Adapt
     /**
      * ATRIBUTOS ALEATORIOS DO LAYOUT
      */
+    static List<String> stringsData = new ArrayList<>();
+
     private TextView totalContasAbertoTextView, valorTotalContasAbertasTextView, textInfo;
     private RecyclerView recyclerViewContasAbertas;
     private ProgressBar progressBar2;
@@ -89,15 +93,18 @@ public class RelatorioContasReceberDiaFragment extends Fragment implements Adapt
     Date date2 = null;
     String formattedDateAtual;
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_relatorio_contas_receber, container, false);
+        View view = inflater.inflate(R.layout.fragment_relatorio_contas_receber_semana, container, false);
 
         inicializaComponentes(view);
+        recuperaDataSemana();
         listvendasMaster();
         inicializaRecyclerView();
+
 
         return view;
     }
@@ -224,6 +231,54 @@ public class RelatorioContasReceberDiaFragment extends Fragment implements Adapt
 
     }
 
+    public static void printDatesInMonth(int year, int month, int day) {
+        stringsData.clear();
+        SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar cal = Calendar.getInstance();
+        cal.clear();
+        int daysInMonth = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
+        if (day > 7) {
+            cal.set(year, month - 1, day - 7);
+            for (int i = day - 7; i < day; i++) {
+                //System.out.println(fmt.format(cal.getTime()));
+                cal.add(Calendar.DAY_OF_MONTH, 1);
+                stringsData.add(fmt.format(cal.getTime()));
+            }
+        } else {
+            cal.set(year, month - 1, 0);
+            for (int i = 0; i < day; i++) {
+                //System.out.println(fmt.format(cal.getTime()));
+                cal.add(Calendar.DAY_OF_MONTH, 1);
+                stringsData.add(fmt.format(cal.getTime()));
+            }
+        }
+        Log.i("", "" + stringsData);
+
+    }
+
+    private void recuperaDataSemana() {
+        int year = 0;
+        int month = 0;
+        int day = 0;
+
+        Date date = new Date();
+        LocalDate date1 = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            date1 = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        }
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            year = date1.getYear();
+        }
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            month = date1.getMonthValue();
+        }
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            day = date1.getDayOfMonth();
+        }
+
+        printDatesInMonth(year, month, day);
+    }
+
     public void listCReceber() {
         cReceberService = Apis.getCReceberService();
         Call<List<CReceber>> call = cReceberService.getrebecer();
@@ -237,35 +292,37 @@ public class RelatorioContasReceberDiaFragment extends Fragment implements Adapt
 
                     for (CReceber cReceber : cRecebers1) {
                         convertendoStringInDate(cReceber.getDtvencimento()); // RECEBENDOS AS DATAS EM FORMATO DATE
-                        if (formattedDateAtual.equals(cReceber.getData())) {
-                            for (Pessoas pessoas : pessoasList) {
-                                for (FormaPagamento formaPagamento : formaPagamentoList) {
-                                    for (Empresas empresas : empresasList) {
-                                        for (VendasMaster vendasMaster : vendasMasterList) {
-                                            if ( vendasMaster.getCodigo() == cReceber.getFk_venda() && cReceber.getFpg_venda() == formaPagamento.getCodigo() && empresas.getCodigo() == cReceber.getFkempresa() && cReceber.getFkcliente() == pessoas.getCodigo() && !cReceber.getSituacao().equals("T")) {
-                                                valorTotalContasReceber += cReceber.getVl_restante();
+                        for (String dataSemana : stringsData) {
+                            if (dataSemana.equals(cReceber.getData())) {
+                                for (Pessoas pessoas : pessoasList) {
+                                    for (FormaPagamento formaPagamento : formaPagamentoList) {
+                                        for (Empresas empresas : empresasList) {
+                                            for (VendasMaster vendasMaster : vendasMasterList) {
+                                                if (vendasMaster.getCodigo() == cReceber.getFk_venda() && cReceber.getFpg_venda() == formaPagamento.getCodigo() && empresas.getCodigo() == cReceber.getFkempresa() && cReceber.getFkcliente() == pessoas.getCodigo() && !cReceber.getSituacao().equals("T")) {
+                                                    valorTotalContasReceber += cReceber.getVl_restante();
 
-                                                vendasMaster.setNomeEmpresaCReceber(empresas.getRazao());
-                                                vendasMaster.setNomePessoasContaCReceber(pessoas.getFantasia());
-                                                vendasMaster.setFormapagamentoCRecerber(formaPagamento.getDescricao());
-                                                vendasMaster.setHistoricoCReceber(cReceber.getHistorico());
-                                                vendasMaster.setCodigoCreber(cReceber.getCodigo());
-                                                vendasMaster.setDocCReber(cReceber.getDoc());
-                                                vendasMaster.setDataCRecerber(cReceber.getData());
+                                                    vendasMaster.setNomeEmpresaCReceber(empresas.getRazao());
+                                                    vendasMaster.setNomePessoasContaCReceber(pessoas.getFantasia());
+                                                    vendasMaster.setFormapagamentoCRecerber(formaPagamento.getDescricao());
+                                                    vendasMaster.setHistoricoCReceber(cReceber.getHistorico());
+                                                    vendasMaster.setCodigoCreber(cReceber.getCodigo());
+                                                    vendasMaster.setDocCReber(cReceber.getDoc());
+                                                    vendasMaster.setDataCRecerber(cReceber.getData());
 
-                                                cRecebersList.add(cReceber);
-                                                updateVendasMasterList.add(vendasMaster);
+                                                    cRecebersList.add(cReceber);
+                                                    updateVendasMasterList.add(vendasMaster);
+                                                }
                                             }
                                         }
                                     }
                                 }
-                            }
-                        } else {
-                            progressBar2.setVisibility(View.GONE);
-                            textInfo.setText("Nenhuma conta a receber");
+                            }else{
+                                progressBar2.setVisibility(View.GONE);
+                                textInfo.setText("Nenhuma conta a receber");
 
-                            totalContasAbertoTextView.setText(" 0 contas");
-                            valorTotalContasAbertasTextView.setText("R$ " + GetMask.getValor(0.0));
+                                totalContasAbertoTextView.setText(" 0 contas");
+                                valorTotalContasAbertasTextView.setText("R$ " + GetMask.getValor(0.0));
+                            }
                         }
                     }
 

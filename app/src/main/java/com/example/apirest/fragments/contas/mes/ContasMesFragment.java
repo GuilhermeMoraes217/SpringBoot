@@ -13,7 +13,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.apirest.R;
-import com.example.apirest.activity.contas.RelatorioContasDiaActivity;
+import com.example.apirest.activity.contas.dia.RelatorioContasDiaActivity;
 import com.example.apirest.interfaces.CPagarService;
 import com.example.apirest.interfaces.CReceberService;
 import com.example.apirest.model.contas.CPagar;

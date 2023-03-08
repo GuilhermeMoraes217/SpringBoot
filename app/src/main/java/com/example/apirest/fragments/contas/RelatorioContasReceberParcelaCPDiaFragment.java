@@ -1,6 +1,5 @@
-package com.example.apirest.fragments.contas.dia;
+package com.example.apirest.fragments.contas;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -11,12 +10,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.apirest.R;
-import com.example.apirest.activity.contas.dia.ContasPagarInformacoesDiaActivity;
-import com.example.apirest.adapter.contas.AdapterRelatorioContasPagarDia;
+import com.example.apirest.adapter.contas.AdapterInformacaoContaParcelasCP;
 import com.example.apirest.interfaces.CCompraService;
 import com.example.apirest.interfaces.CPagarService;
 import com.example.apirest.interfaces.EmpresasService;
@@ -41,7 +38,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class RelatorioContasPagarDiaFragment extends Fragment implements AdapterRelatorioContasPagarDia.ItemClickListener {
+public class RelatorioContasReceberParcelaCPDiaFragment extends Fragment implements AdapterInformacaoContaParcelasCP.ItemClickListener {
     /**
      * Atributos que irao receber o popular as classes Forma de Pagamento
      */
@@ -75,23 +72,28 @@ public class RelatorioContasPagarDiaFragment extends Fragment implements Adapter
     List<Pessoas> pessoasList = new ArrayList<>();
 
     /**
-     * ATRIBUTOS ALEATORIOS DO LAYOUT
+     * Atributos variados do layout
      */
-    private TextView totalContasAbertoTextView, valorTotalContasAbertasTextView, textInfo;
-    private RecyclerView recyclerViewContasAbertas;
-    private ProgressBar progressBar2;
-    AdapterRelatorioContasPagarDia adapterRelatorioContasPagarDia;
+    CCompra receberSelecionado;
+    private RecyclerView recyclerViewListParcelas;
+    private TextView parcelasNaContaTextView, valorTotalAcrescimoTextView, valorTotalProdutoTextView, valorTotalNominalTextView,
+            valorTotalPagoTextView,valorTotalDescontoTextView, valorTotalmultaTextView, valorTotalJurosTextView, valorTotalTaxaFinanceiraTextView, textViewValorTotalTextView ;
 
+    AdapterInformacaoContaParcelasCP adapterInformacaoContaParcelasCP;
+    Double valorTotalContasReceber = 0.0;
     Date date1 = null;
     Date date2 = null;
     String formattedDateAtual;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_relatorio_contas_pagar, container, false);
+        View view = inflater.inflate(R.layout.fragment_relatorio_contas_receber_parcela_c_p, container, false);
 
+        Bundle bundle = getActivity().getIntent().getExtras();
+        receberSelecionado = (CCompra) bundle.getSerializable("RelatorioContasReceberSelecionado");
         inicializaComponentes(view);
         listCCompra();
         inicializaRecyclerView();
@@ -100,13 +102,13 @@ public class RelatorioContasPagarDiaFragment extends Fragment implements Adapter
     }
 
     /**
-     * Método que inicializa o recycler view do relatorio de vendas e Creceber
+     * Método que inicializa o recycler view do relatorio de Cpagar e CCompra
      */
     private void inicializaRecyclerView() {
-        recyclerViewContasAbertas.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerViewContasAbertas.setHasFixedSize(true);
-        adapterRelatorioContasPagarDia = new AdapterRelatorioContasPagarDia(updatecCompraList2, cPagarList, getContext(), this);
-        recyclerViewContasAbertas.setAdapter(adapterRelatorioContasPagarDia);
+        recyclerViewListParcelas.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerViewListParcelas.setHasFixedSize(true);
+        adapterInformacaoContaParcelasCP = new AdapterInformacaoContaParcelasCP(cPagarList, getContext(), this);
+        recyclerViewListParcelas.setAdapter(adapterInformacaoContaParcelasCP);
     }
 
     public void listCCompra() {
@@ -230,7 +232,7 @@ public class RelatorioContasPagarDiaFragment extends Fragment implements Adapter
             public void onResponse(Call<List<CPagar>> call, Response<List<CPagar>> response) {
                 cPagarList.clear();
                 if (response.isSuccessful()) {
-                    Double valorTotalContasReceber = 0.0;
+                    Double valorTotalContasPagar = 0.0;
                     List<CPagar> cPagars = response.body();
 
                     for (CPagar cPagar : cPagars) {
@@ -239,12 +241,11 @@ public class RelatorioContasPagarDiaFragment extends Fragment implements Adapter
                             for (Empresas empresas : empresasList) {
                                 for (CCompra cCompra : cCompraList) {
                                     if (cCompra.getId() == cPagar.getFk_compra() &&
-                                            empresas.getCodigo() == cPagar.getFkempresa() &&
-                                            !cPagar.getSituacao().equals("T")) {
+                                            empresas.getCodigo() == cPagar.getFkempresa()) {
 
                                         // && cPagar.getFpg_venda() == formaPagamento.getCodigo()
                                         //cCompra.setFormapagamentoCRecerber(formaPagamento.getDescricao());
-                                        valorTotalContasReceber += cPagar.getVl_restante();
+                                        valorTotalContasPagar += cPagar.getVl_restante();
 
                                         cCompra.setCodigoCPagar(cCompra.getId());
                                         cCompra.setNomeEmpresaCPagar(empresas.getRazao());
@@ -260,29 +261,16 @@ public class RelatorioContasPagarDiaFragment extends Fragment implements Adapter
                                 }
                             }
                         } else {
-                            progressBar2.setVisibility(View.GONE);
-                            textInfo.setText("Nenhuma conta a receber");
-
-                            totalContasAbertoTextView.setText(" 0 contas");
-                            valorTotalContasAbertasTextView.setText("R$ " + GetMask.getValor(0.0));
+                            textViewValorTotalTextView.setText("R$ 0,00");
+                            parcelasNaContaTextView.setText("0 parcelas na conta");
                         }
                     }
-
-                    for (CCompra cCompra : updatecCompraList1) {
-                        if (!updatecCompraList2.contains(cCompra)) {
-                            updatecCompraList2.add(cCompra);
-                        }
+                    if (cPagarList.size() > 0) {
+                        textViewValorTotalTextView.setText("R$ " + GetMask.getValor(valorTotalContasPagar));
+                        parcelasNaContaTextView.setText(cPagarList.size() + " parcelas na conta");
                     }
 
-                    if (updatecCompraList2.size() > 0) {
-                        progressBar2.setVisibility(View.GONE);
-                        textInfo.setText(null);
-
-                        totalContasAbertoTextView.setText(Integer.toString(updatecCompraList2.size()) + " contas");
-                        valorTotalContasAbertasTextView.setText("R$ " + GetMask.getValor(valorTotalContasReceber));
-                    }
-
-                    adapterRelatorioContasPagarDia.notifyDataSetChanged();
+                    adapterInformacaoContaParcelasCP.notifyDataSetChanged();
                 }
             }
 
@@ -296,17 +284,21 @@ public class RelatorioContasPagarDiaFragment extends Fragment implements Adapter
     }
 
     public void inicializaComponentes(View view) {
-        totalContasAbertoTextView = view.findViewById(R.id.totalContasTextView);
-        valorTotalContasAbertasTextView = view.findViewById(R.id.textView15);
-        recyclerViewContasAbertas = view.findViewById(R.id.recyclerViewContasPagar);
-        textInfo = view.findViewById(R.id.textInfo);
-        progressBar2 = view.findViewById(R.id.progressBar2);
+        recyclerViewListParcelas = view.findViewById(R.id.recyclerView);
+        parcelasNaContaTextView = view.findViewById(R.id.textView44);
+        valorTotalProdutoTextView = view.findViewById(R.id.textView37);
+        valorTotalNominalTextView = view.findViewById(R.id.textView38);
+        valorTotalPagoTextView = view.findViewById(R.id.textView39);
+        valorTotalAcrescimoTextView = view.findViewById(R.id.textView40);
+        valorTotalDescontoTextView = view.findViewById(R.id.textView41);
+        valorTotalmultaTextView = view.findViewById(R.id.textView42);
+        valorTotalJurosTextView = view.findViewById(R.id.textView43);
+        valorTotalTaxaFinanceiraTextView = view.findViewById(R.id.textViewValorTotalFcp);
+        textViewValorTotalTextView = view.findViewById(R.id.textViewValorTotal);
     }
 
     @Override
-    public void onClick(CCompra cCompra) {
-        Intent intent = new Intent(getActivity(), ContasPagarInformacoesDiaActivity.class);
-        intent.putExtra("RelatorioContasReceberSelecionado", cCompra);
-        startActivity(intent);
+    public void onClick(CPagar relatorioVendas) {
+
     }
 }

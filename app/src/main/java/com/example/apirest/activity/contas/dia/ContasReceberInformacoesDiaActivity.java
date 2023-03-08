@@ -1,4 +1,4 @@
-package com.example.apirest.activity.contas;
+package com.example.apirest.activity.contas.dia;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
@@ -8,25 +8,22 @@ import android.os.Bundle;
 
 import com.example.apirest.R;
 import com.example.apirest.adapter.ViewPagerAdapter;
-import com.example.apirest.fragments.contas.dia.RelatorioContasPagarDiaFragment;
-import com.example.apirest.fragments.contas.dia.RelatorioContasReceberDiaFragment;
+import com.example.apirest.fragments.contas.RelatorioContasReceberInformacoesVMDiaFragment;
+import com.example.apirest.fragments.contas.RelatorioContasReceberParcelaVMDiaFragment;
 import com.google.android.material.tabs.TabLayout;
 
-public class RelatorioContasDiaActivity extends AppCompatActivity {
-
+public class ContasReceberInformacoesDiaActivity extends AppCompatActivity {
     private TabLayout tab_Layout;
     private ViewPager view_Pager;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_relatorio_contas_dia);
+        setContentView(R.layout.activity_contas_receber_informacoes);
 
         initializerComponent();
         configTabsLayout();
         configCliques();
     }
-
 
     private void configCliques(){
         //view.findViewById(R.id.ib_Voltar).setOnClickListener(view1 ->startActivity(new Intent(getContext(), HomeActivity.class)));
@@ -35,8 +32,8 @@ public class RelatorioContasDiaActivity extends AppCompatActivity {
 
     private void configTabsLayout(){
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
-        viewPagerAdapter.addFragment(new RelatorioContasReceberDiaFragment(), "A receber");
-        viewPagerAdapter.addFragment(new RelatorioContasPagarDiaFragment(), "A Pagar");
+        viewPagerAdapter.addFragment(new RelatorioContasReceberInformacoesVMDiaFragment(), "Informações");
+        viewPagerAdapter.addFragment(new RelatorioContasReceberParcelaVMDiaFragment(), "Parcelas");
 
         view_Pager.setAdapter(viewPagerAdapter);
         view_Pager.setSaveEnabled(false);

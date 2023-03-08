@@ -13,7 +13,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.apirest.R;
-import com.example.apirest.activity.contas.RelatorioContasDiaActivity;
+import com.example.apirest.activity.contas.dia.RelatorioContasDiaActivity;
+import com.example.apirest.activity.contas.semana.RelatorioContasSemanaActivity;
 import com.example.apirest.interfaces.CPagarService;
 import com.example.apirest.interfaces.CReceberService;
 import com.example.apirest.model.contas.CPagar;
@@ -310,7 +311,7 @@ public class ContasSemanaFragment extends Fragment {
     private void iniciaCliques(View view) {
 
         textRelatorioContas.setOnClickListener(view1 -> {
-            Intent intent = new Intent(getActivity(), RelatorioContasDiaActivity.class);
+            Intent intent = new Intent(getActivity(), RelatorioContasSemanaActivity.class);
             startActivity(intent);
         });
     }

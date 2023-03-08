@@ -1,4 +1,4 @@
-package com.example.apirest.activity.contas;
+package com.example.apirest.activity.contas.semana;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
@@ -8,23 +8,23 @@ import android.os.Bundle;
 
 import com.example.apirest.R;
 import com.example.apirest.adapter.ViewPagerAdapter;
-import com.example.apirest.fragments.contas.RelatorioContasReceberInformacoesCPFragment;
-import com.example.apirest.fragments.contas.RelatorioContasReceberInformacoesVMFragment;
-import com.example.apirest.fragments.contas.RelatorioContasReceberParcelaCPFragment;
-import com.example.apirest.fragments.contas.RelatorioContasReceberParcelaVMFragment;
+import com.example.apirest.fragments.contas.RelatorioContasReceberParcelaCPDiaFragment;
+import com.example.apirest.fragments.contas.semana.RelatorioContasReceberInformacoesCPSemanaFragment;
+import com.example.apirest.fragments.contas.semana.RelatorioContasReceberParcelaCPSemanaFragment;
 import com.google.android.material.tabs.TabLayout;
 
-public class ContasPagarInformacoesActivity extends AppCompatActivity {
+public class ContasPagarInformacoesSemanaActivity extends AppCompatActivity {
     private TabLayout tab_Layout;
     private ViewPager view_Pager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_contas_pagar_informacoes);
+        setContentView(R.layout.activity_contas_pagar_informacoes_semana);
         initializerComponent();
         configTabsLayout();
         configCliques();
     }
+
     private void configCliques(){
         //view.findViewById(R.id.ib_Voltar).setOnClickListener(view1 ->startActivity(new Intent(getContext(), HomeActivity.class)));
     }
@@ -32,8 +32,8 @@ public class ContasPagarInformacoesActivity extends AppCompatActivity {
 
     private void configTabsLayout(){
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
-        viewPagerAdapter.addFragment(new RelatorioContasReceberInformacoesCPFragment(), "Informações");
-        viewPagerAdapter.addFragment(new RelatorioContasReceberParcelaCPFragment(), "Parcelas");
+        viewPagerAdapter.addFragment(new RelatorioContasReceberInformacoesCPSemanaFragment(), "Informações");
+        viewPagerAdapter.addFragment(new RelatorioContasReceberParcelaCPSemanaFragment(), "Parcelas");
 
         view_Pager.setAdapter(viewPagerAdapter);
         view_Pager.setSaveEnabled(false);

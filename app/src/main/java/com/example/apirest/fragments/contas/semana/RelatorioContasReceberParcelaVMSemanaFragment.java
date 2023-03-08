@@ -1,4 +1,4 @@
-package com.example.apirest.fragments.contas;
+package com.example.apirest.fragments.contas.semana;
 
 import android.os.Bundle;
 
@@ -28,7 +28,10 @@ import com.example.apirest.utils.GetMask;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -37,7 +40,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class RelatorioContasReceberParcelaVMFragment extends Fragment implements AdapterInformacaoContaParcelas.ItemClickListener {
+public class RelatorioContasReceberParcelaVMSemanaFragment extends Fragment implements AdapterInformacaoContaParcelas.ItemClickListener {
+
     /**
      * Atributos que irao receber o popular as classes Forma de Pagamento
      */
@@ -65,10 +69,12 @@ public class RelatorioContasReceberParcelaVMFragment extends Fragment implements
     /**
      * Atributos variados do layout
      */
+    static List<String> stringsData = new ArrayList<>();
+
     VendasMaster receberSelecionado;
     private RecyclerView recyclerViewListParcelas;
     private TextView parcelasNaContaTextView, valorTotalAcrescimoTextView, valorTotalProdutoTextView, valorTotalNominalTextView,
-            valorTotalPagoTextView,valorTotalDescontoTextView, valorTotalmultaTextView, valorTotalJurosTextView, valorTotalTaxaFinanceiraTextView, textViewValorTotalTextView ;
+            valorTotalPagoTextView, valorTotalDescontoTextView, valorTotalmultaTextView, valorTotalJurosTextView, valorTotalTaxaFinanceiraTextView, textViewValorTotalTextView;
 
     AdapterInformacaoContaParcelas adapterInformacaoContaParcelas;
     Double valorTotalContasReceber = 0.0;
@@ -76,14 +82,17 @@ public class RelatorioContasReceberParcelaVMFragment extends Fragment implements
     Date date2 = null;
     String formattedDateAtual;
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_relatorio_contas_receber_parcela, container, false);
+        View view = inflater.inflate(R.layout.fragment_relatorio_contas_receber_parcela_v_m_semana, container, false);
+
         Bundle bundle = getActivity().getIntent().getExtras();
         receberSelecionado = (VendasMaster) bundle.getSerializable("RelatorioContasReceberSelecionado");
         inicializaComponentes(view);
+        recuperaDataSemana();
         listFormaPagamento();
         inicializaRecyclerView();
 
@@ -167,6 +176,54 @@ public class RelatorioContasReceberParcelaVMFragment extends Fragment implements
 
     }
 
+    public static void printDatesInMonth(int year, int month, int day) {
+        stringsData.clear();
+        SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar cal = Calendar.getInstance();
+        cal.clear();
+        int daysInMonth = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
+        if (day > 7) {
+            cal.set(year, month - 1, day - 7);
+            for (int i = day - 7; i < day; i++) {
+                //System.out.println(fmt.format(cal.getTime()));
+                cal.add(Calendar.DAY_OF_MONTH, 1);
+                stringsData.add(fmt.format(cal.getTime()));
+            }
+        } else {
+            cal.set(year, month - 1, 0);
+            for (int i = 0; i < day; i++) {
+                //System.out.println(fmt.format(cal.getTime()));
+                cal.add(Calendar.DAY_OF_MONTH, 1);
+                stringsData.add(fmt.format(cal.getTime()));
+            }
+        }
+        Log.i("", "" + stringsData);
+
+    }
+
+    private void recuperaDataSemana() {
+        int year = 0;
+        int month = 0;
+        int day = 0;
+
+        Date date = new Date();
+        LocalDate date1 = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            date1 = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        }
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            year = date1.getYear();
+        }
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            month = date1.getMonthValue();
+        }
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            day = date1.getDayOfMonth();
+        }
+
+        printDatesInMonth(year, month, day);
+    }
+
     public void convertendoStringInDate(String dataVecimento) {
         // FUNCAO QUE RECUPERA A DATA ATUAL E DATA DE VENCIMENTO DO BANCO E CONVERTE DE STRING PARA DATE
 
@@ -204,18 +261,20 @@ public class RelatorioContasReceberParcelaVMFragment extends Fragment implements
 
                     for (CReceber cReceber : cRecebers1) {
                         convertendoStringInDate(cReceber.getDtvencimento()); // RECEBENDOS AS DATAS EM FORMATO DATE
-                        if (formattedDateAtual.equals(cReceber.getData())) {
-                            for (Pessoas pessoas : pessoasList) {
-                                for (FormaPagamento formaPagamento : formaPagamentoList) {
-                                    for (Empresas empresas : empresasList) {
-                                        if (cReceber.getFpg_venda() == formaPagamento.getCodigo() && empresas.getCodigo() == cReceber.getFkempresa() && cReceber.getFkcliente() == pessoas.getCodigo()) {
-                                            valorTotalContasReceber += cReceber.getVl_restante();
+                        for (String dataSemana : stringsData) {
+                            if (dataSemana.equals(cReceber.getData())) {
+                                for (Pessoas pessoas : pessoasList) {
+                                    for (FormaPagamento formaPagamento : formaPagamentoList) {
+                                        for (Empresas empresas : empresasList) {
+                                            if (cReceber.getFpg_venda() == formaPagamento.getCodigo() && empresas.getCodigo() == cReceber.getFkempresa() && cReceber.getFkcliente() == pessoas.getCodigo()) {
+                                                valorTotalContasReceber += cReceber.getVl_restante();
 
-                                            cReceber.setNomeEmpresa(empresas.getRazao());
-                                            cReceber.setNomePessaReceber(pessoas.getFantasia());
-                                            cReceber.setFormaPagamento(formaPagamento.getDescricao());
+                                                cReceber.setNomeEmpresa(empresas.getRazao());
+                                                cReceber.setNomePessaReceber(pessoas.getFantasia());
+                                                cReceber.setFormaPagamento(formaPagamento.getDescricao());
 
-                                            cRecebersList.add(cReceber);
+                                                cRecebersList.add(cReceber);
+                                            }
                                         }
                                     }
                                 }

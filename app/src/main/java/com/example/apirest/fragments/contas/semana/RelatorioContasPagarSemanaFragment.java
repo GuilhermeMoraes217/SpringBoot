@@ -1,4 +1,4 @@
-package com.example.apirest.fragments.contas.dia;
+package com.example.apirest.fragments.contas.semana;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.example.apirest.R;
 import com.example.apirest.activity.contas.dia.ContasPagarInformacoesDiaActivity;
+import com.example.apirest.activity.contas.semana.ContasPagarInformacoesSemanaActivity;
 import com.example.apirest.adapter.contas.AdapterRelatorioContasPagarDia;
 import com.example.apirest.interfaces.CCompraService;
 import com.example.apirest.interfaces.CPagarService;
@@ -32,7 +33,10 @@ import com.example.apirest.utils.GetMask;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -41,7 +45,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class RelatorioContasPagarDiaFragment extends Fragment implements AdapterRelatorioContasPagarDia.ItemClickListener {
+public class RelatorioContasPagarSemanaFragment extends Fragment implements AdapterRelatorioContasPagarDia.ItemClickListener {
+
     /**
      * Atributos que irao receber o popular as classes Forma de Pagamento
      */
@@ -77,6 +82,7 @@ public class RelatorioContasPagarDiaFragment extends Fragment implements Adapter
     /**
      * ATRIBUTOS ALEATORIOS DO LAYOUT
      */
+    static List<String> stringsData = new ArrayList<>();
     private TextView totalContasAbertoTextView, valorTotalContasAbertasTextView, textInfo;
     private RecyclerView recyclerViewContasAbertas;
     private ProgressBar progressBar2;
@@ -90,9 +96,10 @@ public class RelatorioContasPagarDiaFragment extends Fragment implements Adapter
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_relatorio_contas_pagar, container, false);
+        View view = inflater.inflate(R.layout.fragment_relatorio_contas_pagar_semana, container, false);
 
         inicializaComponentes(view);
+        recuperaDataSemana();
         listCCompra();
         inicializaRecyclerView();
 
@@ -198,6 +205,54 @@ public class RelatorioContasPagarDiaFragment extends Fragment implements Adapter
 
     }
 
+    public static void printDatesInMonth(int year, int month, int day) {
+        stringsData.clear();
+        SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar cal = Calendar.getInstance();
+        cal.clear();
+        int daysInMonth = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
+        if (day > 7) {
+            cal.set(year, month - 1, day - 7);
+            for (int i = day - 7; i < day; i++) {
+                //System.out.println(fmt.format(cal.getTime()));
+                cal.add(Calendar.DAY_OF_MONTH, 1);
+                stringsData.add(fmt.format(cal.getTime()));
+            }
+        } else {
+            cal.set(year, month - 1, 0);
+            for (int i = 0; i < day; i++) {
+                //System.out.println(fmt.format(cal.getTime()));
+                cal.add(Calendar.DAY_OF_MONTH, 1);
+                stringsData.add(fmt.format(cal.getTime()));
+            }
+        }
+        Log.i("", "" + stringsData);
+
+    }
+
+    private void recuperaDataSemana() {
+        int year = 0;
+        int month = 0;
+        int day = 0;
+
+        Date date = new Date();
+        LocalDate date1 = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            date1 = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        }
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            year = date1.getYear();
+        }
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            month = date1.getMonthValue();
+        }
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            day = date1.getDayOfMonth();
+        }
+
+        printDatesInMonth(year, month, day);
+    }
+
     public void convertendoStringInDate(String dataVecimento) {
         // FUNCAO QUE RECUPERA A DATA ATUAL E DATA DE VENCIMENTO DO BANCO E CONVERTE DE STRING PARA DATE
 
@@ -235,36 +290,38 @@ public class RelatorioContasPagarDiaFragment extends Fragment implements Adapter
 
                     for (CPagar cPagar : cPagars) {
                         convertendoStringInDate(cPagar.getDtvencimento()); // RECEBENDOS AS DATAS EM FORMATO DATE
-                        if (formattedDateAtual.equals(cPagar.getData())) {
-                            for (Empresas empresas : empresasList) {
-                                for (CCompra cCompra : cCompraList) {
-                                    if (cCompra.getId() == cPagar.getFk_compra() &&
-                                            empresas.getCodigo() == cPagar.getFkempresa() &&
-                                            !cPagar.getSituacao().equals("T")) {
+                        for (String dataSemana : stringsData) {
+                            if (dataSemana.equals(cPagar.getData())) {
+                                for (Empresas empresas : empresasList) {
+                                    for (CCompra cCompra : cCompraList) {
+                                        if (cCompra.getId() == cPagar.getFk_compra() &&
+                                                empresas.getCodigo() == cPagar.getFkempresa() &&
+                                                !cPagar.getSituacao().equals("T")) {
 
-                                        // && cPagar.getFpg_venda() == formaPagamento.getCodigo()
-                                        //cCompra.setFormapagamentoCRecerber(formaPagamento.getDescricao());
-                                        valorTotalContasReceber += cPagar.getVl_restante();
+                                            // && cPagar.getFpg_venda() == formaPagamento.getCodigo()
+                                            //cCompra.setFormapagamentoCRecerber(formaPagamento.getDescricao());
+                                            valorTotalContasReceber += cPagar.getVl_restante();
 
-                                        cCompra.setCodigoCPagar(cCompra.getId());
-                                        cCompra.setNomeEmpresaCPagar(empresas.getRazao());
-                                        cCompra.setNomeEmpresaDevendoCPagar(cCompra.getNome());
-                                        cCompra.setHistoricoCPagar(cPagar.getHistorico());
-                                        cCompra.setDocCPagar(cPagar.getDoc());
-                                        cCompra.setDataCPagar(cPagar.getData());
+                                            cCompra.setCodigoCPagar(cCompra.getId());
+                                            cCompra.setNomeEmpresaCPagar(empresas.getRazao());
+                                            cCompra.setNomeEmpresaDevendoCPagar(cCompra.getNome());
+                                            cCompra.setHistoricoCPagar(cPagar.getHistorico());
+                                            cCompra.setDocCPagar(cPagar.getDoc());
+                                            cCompra.setDataCPagar(cPagar.getData());
 
-                                        cPagarList.add(cPagar);
-                                        updatecCompraList1.add(cCompra);
+                                            cPagarList.add(cPagar);
+                                            updatecCompraList1.add(cCompra);
 
+                                        }
                                     }
                                 }
-                            }
-                        } else {
-                            progressBar2.setVisibility(View.GONE);
-                            textInfo.setText("Nenhuma conta a receber");
+                            }else{
+                                progressBar2.setVisibility(View.GONE);
+                                textInfo.setText("Nenhuma conta a receber");
 
-                            totalContasAbertoTextView.setText(" 0 contas");
-                            valorTotalContasAbertasTextView.setText("R$ " + GetMask.getValor(0.0));
+                                totalContasAbertoTextView.setText(" 0 contas");
+                                valorTotalContasAbertasTextView.setText("R$ " + GetMask.getValor(0.0));
+                            }
                         }
                     }
 
@@ -305,7 +362,7 @@ public class RelatorioContasPagarDiaFragment extends Fragment implements Adapter
 
     @Override
     public void onClick(CCompra cCompra) {
-        Intent intent = new Intent(getActivity(), ContasPagarInformacoesDiaActivity.class);
+        Intent intent = new Intent(getActivity(), ContasPagarInformacoesSemanaActivity.class);
         intent.putExtra("RelatorioContasReceberSelecionado", cCompra);
         startActivity(intent);
     }

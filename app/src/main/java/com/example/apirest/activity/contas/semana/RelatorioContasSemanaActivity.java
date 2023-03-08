@@ -1,4 +1,4 @@
-package com.example.apirest.activity.contas;
+package com.example.apirest.activity.contas.semana;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
@@ -8,17 +8,21 @@ import android.os.Bundle;
 
 import com.example.apirest.R;
 import com.example.apirest.adapter.ViewPagerAdapter;
-import com.example.apirest.fragments.contas.RelatorioContasReceberInformacoesVMFragment;
-import com.example.apirest.fragments.contas.RelatorioContasReceberParcelaVMFragment;
+import com.example.apirest.fragments.contas.dia.RelatorioContasPagarDiaFragment;
+import com.example.apirest.fragments.contas.dia.RelatorioContasReceberDiaFragment;
+import com.example.apirest.fragments.contas.semana.RelatorioContasPagarSemanaFragment;
+import com.example.apirest.fragments.contas.semana.RelatorioContasReceberSemanaFragment;
 import com.google.android.material.tabs.TabLayout;
 
-public class ContasReceberInformacoesActivity extends AppCompatActivity {
+public class RelatorioContasSemanaActivity extends AppCompatActivity {
+
     private TabLayout tab_Layout;
     private ViewPager view_Pager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_contas_receber_informacoes);
+        setContentView(R.layout.activity_relatorio_contas_semana);
 
         initializerComponent();
         configTabsLayout();
@@ -32,8 +36,8 @@ public class ContasReceberInformacoesActivity extends AppCompatActivity {
 
     private void configTabsLayout(){
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
-        viewPagerAdapter.addFragment(new RelatorioContasReceberInformacoesVMFragment(), "Informações");
-        viewPagerAdapter.addFragment(new RelatorioContasReceberParcelaVMFragment(), "Parcelas");
+        viewPagerAdapter.addFragment(new RelatorioContasReceberSemanaFragment(), "A receber");
+        viewPagerAdapter.addFragment(new RelatorioContasPagarSemanaFragment(), "A Pagar");
 
         view_Pager.setAdapter(viewPagerAdapter);
         view_Pager.setSaveEnabled(false);

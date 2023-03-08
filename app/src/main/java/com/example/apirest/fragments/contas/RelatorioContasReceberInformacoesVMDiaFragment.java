@@ -10,37 +10,38 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.apirest.R;
-import com.example.apirest.model.contas.CCompra;
-import com.example.apirest.model.contas.CPagar;
 import com.example.apirest.model.vendas.VendasMaster;
 
 
-public class RelatorioContasReceberInformacoesCPFragment extends Fragment {
+public class RelatorioContasReceberInformacoesVMDiaFragment extends Fragment {
+
     /**
      * Atributos Variados do Layout
      */
     private TextView codigoNomePessoaReceberTextView, nomeEmpresaTextView, idStatusTextView, idDocumento, idDataEmissao, idFormaPagamento, idHistorico;
-    CCompra receberSelecionado;
+    VendasMaster receberSelecionado;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_relatorio_contas_receber_informacoes_c_p, container, false);
+        View view = inflater.inflate(R.layout.fragment_relatorio_contas_receber_informacoes_dia, container, false);
         Bundle bundle = getActivity().getIntent().getExtras();
-        receberSelecionado = (CCompra) bundle.getSerializable("RelatorioContasReceberSelecionado");
+        receberSelecionado = (VendasMaster) bundle.getSerializable("RelatorioContasReceberSelecionado");
         inicializaComponentes(view);
         exibiComponentes();
         return view;
     }
+
     public void exibiComponentes () {
-        codigoNomePessoaReceberTextView.setText("#" + receberSelecionado.getCodigoCPagar() + " - " + receberSelecionado.getNomeEmpresaCPagar());
-        nomeEmpresaTextView.setText(receberSelecionado.getNomeEmpresaDevendoCPagar());
+        codigoNomePessoaReceberTextView.setText("#" + receberSelecionado.getCodigo() + " - " + receberSelecionado.getNomePessoasContaCReceber());
+        nomeEmpresaTextView.setText(receberSelecionado.getNomeEmpresaCReceber());
         idStatusTextView.setText("Status - Em aberto");
 
-        idDocumento.setText(receberSelecionado.getDocCPagar());
-        idDataEmissao.setText(receberSelecionado.getDataCPagar());
-        idFormaPagamento.setText("*****");
-        idHistorico.setText(receberSelecionado.getHistoricoCPagar());
+        idDocumento.setText(receberSelecionado.getDocCReber());
+        idDataEmissao.setText(receberSelecionado.getDataCRecerber());
+        idFormaPagamento.setText(receberSelecionado.getFormapagamentoCRecerber());
+        idHistorico.setText(receberSelecionado.getHistoricoCReceber());
     }
 
     public void inicializaComponentes(View view) {
