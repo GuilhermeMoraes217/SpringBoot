@@ -261,6 +261,7 @@ public class VendasAnoFragment extends Fragment {
         totalFaturado.setText("Faturado " + "R$ " + GetMask.getValor(valorFaturadoAno));
         ticketMedio.setText("R$ " + GetMask.getValor(valorVendasDiaAno / pedidosFaturadosBaixados));
 
+        /*
         double d = valorVendasDiaAno;
         float f = (float) d;
         barChartsDate.add(new BarEntry(dataAUX, f));
@@ -281,6 +282,8 @@ public class VendasAnoFragment extends Fragment {
         barChart.setData(barData);
         barChart.getDescription().setEnabled(false);
         barChart.animateY(1000);
+
+         */
 
     }
 
@@ -423,7 +426,7 @@ public class VendasAnoFragment extends Fragment {
         listView = view.findViewById(R.id.listView);
         textListaVazia = view.findViewById(R.id.textListaVazia);
         fab = view.findViewById(R.id.fabe);
-        barChart = view.findViewById(R.id.barChat);
+        //barChart = view.findViewById(R.id.barChat);
 
         //CONSTRANTS
         totalDePedisoConstrant = view.findViewById(R.id.constraintLayout2);

@@ -94,8 +94,7 @@ public class ProdutosDiaFragment extends Fragment {
     ListView listView;
     TextView textListaVazia;
     ProgressBar progressBar;
-    ConstraintLayout totalitemProdutosVendido;
-    CardView totalPedido;
+    ConstraintLayout totalitemProdutosVendido, totalPedido;
     FloatingActionButton fab;
 
 

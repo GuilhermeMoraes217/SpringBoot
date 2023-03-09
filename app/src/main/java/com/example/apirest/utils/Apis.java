@@ -6,12 +6,16 @@ import com.example.apirest.interfaces.CPagarService;
 import com.example.apirest.interfaces.CReceberService;
 import com.example.apirest.interfaces.CRecebimentoLoteService;
 import com.example.apirest.interfaces.CRecebimentoService;
+import com.example.apirest.interfaces.CaixaService;
+import com.example.apirest.interfaces.ContasMovimentoService;
+import com.example.apirest.interfaces.ContasService;
 import com.example.apirest.interfaces.EmpresasService;
 import com.example.apirest.interfaces.FormaPagamentoService;
 import com.example.apirest.interfaces.GruposService;
 import com.example.apirest.interfaces.PersonaService;
 import com.example.apirest.interfaces.PessoasService;
 import com.example.apirest.interfaces.ProdutosService;
+import com.example.apirest.interfaces.ResumoCaixaService;
 import com.example.apirest.interfaces.VendasDetalhesService;
 import com.example.apirest.interfaces.VendasMasterService;
 import com.example.apirest.interfaces.VendasfpgService;
@@ -37,6 +41,10 @@ public class Apis {
     public static final String URL_013="http://192.168.1.107:8080/crecebimentolote/";
     public static final String URL_014="http://192.168.1.107:8080/pessoas/";
     public static final String URL_015="http://192.168.1.107:8080/ccompra/";
+    public static final String URL_016="http://192.168.1.107:8080/caixa/";
+    public static final String URL_017="http://192.168.1.107:8080/contas/";
+    public static final String URL_018="http://192.168.1.107:8080/contasmovimento/";
+    public static final String URL_019="http://192.168.1.107:8080/resumocaixa/";
 
     public static PersonaService getPersonaService(){
         return  Gestao.getClient(URL_001).create(PersonaService.class);
@@ -95,5 +103,17 @@ public class Apis {
     }
     public static CCompraService getCCompraService(){
         return  Gestao.getClient(URL_015).create(CCompraService.class);
+    }
+    public static CaixaService getCaixaService(){
+        return  Gestao.getClient(URL_016).create(CaixaService.class);
+    }
+    public static ContasService getContasService(){
+        return  Gestao.getClient(URL_017).create(ContasService.class);
+    }
+    public static ContasMovimentoService getContasMovimentoService(){
+        return  Gestao.getClient(URL_018).create(ContasMovimentoService.class);
+    }
+    public static ResumoCaixaService getResumoCaixaService(){
+        return  Gestao.getClient(URL_019).create(ResumoCaixaService.class);
     }
 }

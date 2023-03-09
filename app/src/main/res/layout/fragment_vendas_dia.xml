@@ -8,24 +8,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.vendas.VendasDiaFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <View
         android:id="@+id/viewGrafico"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="125dp"
+        android:background="@color/toobarNavegationRoxoforte"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appbar">
-
-        <com.github.mikephil.charting.charts.BarChart
-            android:id="@+id/barChat"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="70dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
@@ -125,13 +115,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/efeito_onda_view"
+                    android:layout_marginTop="8dp"
                     android:text="Ver produtos"
                     android:textColor="@color/toobarNavegation"
                     android:textSize="14dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:ignore="TextSizeCheck" />
+                    app:layout_constraintTop_toBottomOf="@+id/textView3"
+                    tools:ignore="NotSibling,TextSizeCheck" />
 
                 <ImageView
                     android:layout_width="15dp"

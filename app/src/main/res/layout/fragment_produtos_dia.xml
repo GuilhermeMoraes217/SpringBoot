@@ -59,7 +59,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 tools:text="2023"
-                android:textColor="@color/toobarNavegationRoxoforte"
+                android:textColor="@color/black"
                 android:textSize="30dp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -101,12 +101,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/efeito_onda_view"
+                    android:layout_marginTop="8dp"
                     android:text="Ver produtos"
                     android:textColor="@color/toobarNavegation"
                     android:textSize="14dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView3"
                     tools:ignore="TextSizeCheck" />
 
                 <ImageView
@@ -129,7 +130,7 @@
         android:id="@+id/constraintLayout3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardView">
@@ -137,204 +138,122 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="start"
-            android:orientation="vertical"
+            android:gravity="center"
+            android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-
-            <androidx.cardview.widget.CardView
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/constraintLayout2"
-                android:layout_width="match_parent"
-                android:layout_height="65dp"
-                android:layout_margin="8dp"
-                app:cardElevation="5dp"
-                app:cardCornerRadius="5dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/efeito_onda_view"
-                    android:orientation="horizontal">
-
-                    <LinearLayout
-                        android:layout_width="80dp"
-                        android:layout_height="65dp"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <androidx.cardview.widget.CardView
-                            android:layout_width="45dp"
-                            android:layout_height="45dp"
-                            app:cardCornerRadius="5dp">
-
-                            <ImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:scaleType="centerCrop"
-                                android:src="@drawable/carrinho"/>
-
-                        </androidx.cardview.widget.CardView>
-
-                    </LinearLayout>
-
-                    <ImageView
-                        android:layout_width="1dp"
-                        android:layout_height="match_parent"
-                        android:background="?attr/actionBarDivider"/>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginEnd="16dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginBottom="8dp"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/black"
-                            android:textSize="16sp"
-                            android:textStyle="bold"
-                            android:text="Total de pedidos" />
-
-                        <ImageView
-                            android:layout_marginTop="4dp"
-                            android:layout_marginBottom="4dp"
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:background="?attr/actionBarDivider"/>
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="start"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:id="@+id/textView4"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:textSize="20dp"
-                                android:textStyle="bold"
-                                android:textColor="@color/toobarNavegationRoxoforte"
-                                tools:text="2230" />
-
-                            <ProgressBar
-                                android:id="@+id/progressBarTotalPedido"
-                                android:layout_width="20dp"
-                                android:layout_height="20dp"
-                                android:theme="@style/nubank" />
-
-                        </LinearLayout>
-
-
-
-                    </LinearLayout>
-
-
-                </LinearLayout>
-
-
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="65dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:background="@drawable/efeito_onda_view"
-                android:layout_margin="8dp"
-                app:cardElevation="5dp"
-                app:cardCornerRadius="5dp">
+                android:layout_marginEnd="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="40dp"
+                    android:src="@drawable/carrinho"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                    <LinearLayout
-                        android:layout_width="80dp"
-                        android:layout_height="65dp"
-                        android:gravity="center"
-                        android:orientation="vertical">
+                <TextView
+                    android:id="@+id/textView4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    tools:text="2023"
+                    android:textColor="@color/black"
+                    android:textSize="16dp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="@+id/imageView"
+                    app:layout_constraintStart_toStartOf="@+id/imageView"
+                    app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
-                        <androidx.cardview.widget.CardView
-                            android:layout_width="45dp"
-                            android:layout_height="45dp"
-                            app:cardCornerRadius="5dp">
+                <ProgressBar
+                    android:id="@+id/progressBarTotalPedido"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginTop="4dp"
+                    android:theme="@style/progressBarBlue"
+                    app:layout_constraintEnd_toEndOf="@+id/imageView"
+                    app:layout_constraintStart_toStartOf="@+id/imageView"
+                    app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
-                            <ImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:scaleType="centerCrop"
-                                android:src="@drawable/grafico"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:gravity="center"
+                    android:text="Total de pedidos"
+                    android:textSize="14dp"
+                    app:layout_constraintEnd_toEndOf="@+id/textView4"
+                    app:layout_constraintStart_toStartOf="@+id/textView4"
+                    app:layout_constraintTop_toBottomOf="@+id/textView4"
+                    tools:ignore="TextSizeCheck" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-                        </androidx.cardview.widget.CardView>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-                    </LinearLayout>
+                <ImageView
+                    android:id="@+id/imageView2"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/grafico"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                    <ImageView
-                        android:layout_width="1dp"
-                        android:layout_height="match_parent"
-                        android:background="?attr/actionBarDivider"/>
+                <TextView
+                    android:id="@+id/textView5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    tools:text="R$ 23,00"
+                    android:textColor="@color/black"
+                    android:textSize="16dp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="@+id/imageView2"
+                    app:layout_constraintStart_toStartOf="@+id/imageView2"
+                    app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginEnd="16dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginBottom="8dp"
-                        android:orientation="vertical">
+                <ProgressBar
+                    android:id="@+id/progressBarMediaItens"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginTop="4dp"
+                    android:theme="@style/progressBarBlue"
+                    app:layout_constraintEnd_toEndOf="@+id/imageView2"
+                    app:layout_constraintStart_toStartOf="@+id/imageView2"
+                    app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/black"
-                            android:textSize="16sp"
-                            android:textStyle="bold"
-                            android:text="Média de itens por pedido"/>
-
-                        <ImageView
-                            android:layout_marginTop="4dp"
-                            android:layout_marginBottom="4dp"
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:background="?attr/actionBarDivider"/>
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="start"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:id="@+id/textView5"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:textSize="20dp"
-                                android:textStyle="bold"
-                                android:textColor="@color/toobarNavegationRoxoforte"
-                                tools:text="5700" />
-
-                            <ProgressBar
-                                android:id="@+id/progressBarMediaItens"
-                                android:layout_width="20dp"
-                                android:layout_height="20dp"
-                                android:theme="@style/nubank"/>
-
-                        </LinearLayout>
-
-                    </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:gravity="center"
+                    android:text="Média de itens por pedido"
+                    android:textSize="14dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView5"
+                    tools:ignore="TextSizeCheck" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-                </LinearLayout>
-
-
-            </androidx.cardview.widget.CardView>
 
         </LinearLayout>
 
@@ -403,7 +322,6 @@
         </LinearLayout>
 
     </LinearLayout>
-
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

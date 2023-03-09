@@ -347,29 +347,7 @@ public class VendasDiaFragment extends Fragment {
         listView = view.findViewById(R.id.listView);
         textListaVazia = view.findViewById(R.id.textListaVazia);
         fab = view.findViewById(R.id.fabe);
-        barChart = view.findViewById(R.id.barChat);
-
-        barChartsDate.add(new BarEntry(2014, 420));
-        barChartsDate.add(new BarEntry(2015, 520));
-        barChartsDate.add(new BarEntry(2016, 620));
-        barChartsDate.add(new BarEntry(2017, 720));
-        barChartsDate.add(new BarEntry(2018, 820));
-
-        BarDataSet barDataSet = new BarDataSet(barChartsDate, "Datas");
-        barDataSet.setColors(ColorTemplate.MATERIAL_COLORS);
-        barDataSet.setValueTextColor(android.R.color.black);
-        barDataSet.setValueTextSize(16f);
-
-        BarData barData = new BarData(barDataSet);
-
-        barChart.getXAxis().setDrawGridLines(false);
-        barChart.getAxisLeft().setDrawGridLines(false);
-        barChart.getAxisRight().setDrawGridLines(false);
-
-        barChart.setFitBars(true);
-        barChart.setData(barData);
-        barChart.getDescription().setEnabled(false);
-        barChart.animateY(1000);
+        //barChart = view.findViewById(R.id.barChat);
 
         //CONSTRANTS
         totalDePedisoConstrant = view.findViewById(R.id.constraintLayout2);
