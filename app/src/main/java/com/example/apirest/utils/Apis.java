@@ -16,6 +16,7 @@ import com.example.apirest.interfaces.PersonaService;
 import com.example.apirest.interfaces.PessoasService;
 import com.example.apirest.interfaces.ProdutosService;
 import com.example.apirest.interfaces.ResumoCaixaService;
+import com.example.apirest.interfaces.UsuariosService;
 import com.example.apirest.interfaces.VendasDetalhesService;
 import com.example.apirest.interfaces.VendasMasterService;
 import com.example.apirest.interfaces.VendasfpgService;
@@ -45,6 +46,7 @@ public class Apis {
     public static final String URL_017="http://192.168.1.107:8080/contas/";
     public static final String URL_018="http://192.168.1.107:8080/contasmovimento/";
     public static final String URL_019="http://192.168.1.107:8080/resumocaixa/";
+    public static final String URL_020="http://192.168.1.107:8080/usuarios/";
 
     public static PersonaService getPersonaService(){
         return  Gestao.getClient(URL_001).create(PersonaService.class);
@@ -115,5 +117,8 @@ public class Apis {
     }
     public static ResumoCaixaService getResumoCaixaService(){
         return  Gestao.getClient(URL_019).create(ResumoCaixaService.class);
+    }
+    public static UsuariosService getUsuariosService(){
+        return  Gestao.getClient(URL_020).create(UsuariosService.class);
     }
 }

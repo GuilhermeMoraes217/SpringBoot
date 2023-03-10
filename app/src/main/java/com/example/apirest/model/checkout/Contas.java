@@ -34,6 +34,9 @@ public class Contas implements Serializable {
     @Expose
     private String ativo;
 
+    private String nomeUsuarioCaixa, nomeEmpresaCaixa, dataHoraCaixa, flagCaixa, TipoCaixa;
+    private Double valorTotalCaixa, valorTotalCaixaSaida;
+
     public Contas() {
     }
 
@@ -47,6 +50,63 @@ public class Contas implements Serializable {
         this.lote = lote;
         this.situacao = situacao;
         this.ativo = ativo;
+    }
+
+
+    public String getFlagCaixa() {
+        return flagCaixa;
+    }
+
+    public void setFlagCaixa(String flagCaixa) {
+        this.flagCaixa = flagCaixa;
+    }
+
+    public String getTipoCaixa() {
+        return TipoCaixa;
+    }
+
+    public void setTipoCaixa(String tipoCaixa) {
+        TipoCaixa = tipoCaixa;
+    }
+
+    public Double getValorTotalCaixaSaida() {
+        return valorTotalCaixaSaida;
+    }
+
+    public void setValorTotalCaixaSaida(Double valorTotalCaixaSaida) {
+        this.valorTotalCaixaSaida = valorTotalCaixaSaida;
+    }
+
+    public String getNomeUsuarioCaixa() {
+        return nomeUsuarioCaixa;
+    }
+
+    public void setNomeUsuarioCaixa(String nomeUsuarioCaixa) {
+        this.nomeUsuarioCaixa = nomeUsuarioCaixa;
+    }
+
+    public String getNomeEmpresaCaixa() {
+        return nomeEmpresaCaixa;
+    }
+
+    public void setNomeEmpresaCaixa(String nomeEmpresaCaixa) {
+        this.nomeEmpresaCaixa = nomeEmpresaCaixa;
+    }
+
+    public String getDataHoraCaixa() {
+        return dataHoraCaixa;
+    }
+
+    public void setDataHoraCaixa(String dataHoraCaixa) {
+        this.dataHoraCaixa = dataHoraCaixa;
+    }
+
+    public Double getValorTotalCaixa() {
+        return valorTotalCaixa;
+    }
+
+    public void setValorTotalCaixa(Double valorTotalCaixa) {
+        this.valorTotalCaixa = valorTotalCaixa;
     }
 
     public int getCodigo() {

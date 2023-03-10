@@ -6,13 +6,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.checkout.CheckoutDiaFragment">
 
-
     <View
         android:id="@+id/viewGrafico"
         android:layout_width="match_parent"
         android:layout_height="125dp"
         android:background="@color/toobarNavegationRoxoforte"
-        app:layout_constraintTop_toBottomOf="@+id/appbar" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
@@ -59,7 +58,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="R$ 2.023,00"
+                tools:text="R$ 2.023,00"
                 android:textColor="@color/black"
                 android:textSize="30dp"
                 android:textStyle="bold"

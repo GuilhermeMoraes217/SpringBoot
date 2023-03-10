@@ -35,11 +35,12 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:id="@+id/totalCaixasTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="10dp"
             android:layout_marginEnd="8dp"
-            android:text="3 caixas"
+            tools:text="3 caixas"
             android:textSize="14dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/textView15"
@@ -51,7 +52,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:paddingVertical="10dp"
-            android:text="R$ 500.000.00"
+            tools:text="R$ 500.000.00"
             android:textSize="14dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -61,6 +62,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewCaixa"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
